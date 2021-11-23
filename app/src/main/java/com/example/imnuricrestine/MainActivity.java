@@ -36,7 +36,15 @@ public class MainActivity extends AppCompatActivity {
             HymnsDao hymnsDao = db.hymnsDao();
             hymnsList = hymnsDao.getAll();
             CustomAdapter customAdapter = new CustomAdapter(hymnsList);
-            recyclerView.setAdapter(customAdapter);
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    recyclerView.setAdapter(customAdapter);
+
+                }
+            });
         });
 
         thread.start();
