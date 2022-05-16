@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.liuguangqiang.swipeback.SwipeBackLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeBackLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="90dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="50dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="22sp"
+        android:textAlignment="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lyricsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.liuguangqiang.swipeback.SwipeBackLayout>
