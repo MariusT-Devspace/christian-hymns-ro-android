@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "2c1db315a35580b2d6b25a30c600dbcf",
+    "entities": [
+      {
+        "tableName": "Hymn",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER NOT NULL, `title` TEXT NOT NULL, `lyrics` TEXT NOT NULL, PRIMARY KEY(`index`))",
+        "fields": [
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lyrics",
+            "columnName": "lyrics",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "index"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Hymn_index",
+            "unique": false,
+            "columnNames": [
+              "index"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymn_index` ON `${TABLE_NAME}` (`index`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2c1db315a35580b2d6b25a30c600dbcf')"
+    ]
+  }
+}
