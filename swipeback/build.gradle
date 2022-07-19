@@ -3,9 +3,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 32
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         minSdkVersion 14
@@ -16,6 +13,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lint {
+        abortOnError false
     }
 }
 

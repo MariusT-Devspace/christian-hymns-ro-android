@@ -10,15 +10,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.imnuricrestine.databinding.ActivityMainBinding;
+import com.example.imnuricrestine.entities.Hymn;
+import com.example.imnuricrestine.entities.HymnWithLyrics;
+import com.example.imnuricrestine.entities.Lyrics;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnItemListener{
     ActivityMainBinding binding;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager linearLayoutManager;
-    List<Hymns> hymnsList;
+    Map<Hymn, List<HymnWithLyrics>> hymnsMap;
     public static final String TITLE = "com.example.imnuricrestine.TITLE";
     public static final String LYRICS = "com.example.imnuricrestine.LYRICS";
 
@@ -34,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
                     .fallbackToDestructiveMigration()
                     .build();
             HymnsDao hymnsDao = db.hymnsDao();
-            hymnsList = hymnsDao.getAll();
-            CustomAdapter customAdapter = new CustomAdapter(hymnsList, this);
+            hymnsMap = hymnsDao.getAll();
+            CustomAdapter customAdapter = new CustomAdapter(List.copyOf(hymnsMap.keySet()), this);
             runOnUiThread(() -> recyclerView.setAdapter(customAdapter));
             db.close();
         });
@@ -56,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, HymnActivity.class);
-        intent.putExtra(TITLE, String.valueOf(hymnsList.get(position).title));
-        intent.putExtra(LYRICS, String.valueOf(hymnsList.get(position).lyrics));
+        intent.putExtra(TITLE, String.valueOf(hymnsMap.get("Hymn")));
+        //intent.putExtra(LYRICS, String.valueOf(hymnsList.get(position).lyrics));
         startActivity(intent);
     }
 }

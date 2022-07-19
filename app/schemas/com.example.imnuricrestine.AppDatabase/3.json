@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "2c1db315a35580b2d6b25a30c600dbcf",
+    "identityHash": "7ab05c9adc92c6e8626da958b0520a75",
     "entities": [
       {
         "tableName": "Hymn",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER NOT NULL, `title` TEXT NOT NULL, `lyrics` TEXT NOT NULL, PRIMARY KEY(`index`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hymn_index` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`hymn_index`))",
         "fields": [
           {
-            "fieldPath": "index",
-            "columnName": "index",
+            "fieldPath": "hymn_index",
+            "columnName": "hymn_index",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -19,38 +19,83 @@
             "columnName": "title",
             "affinity": "TEXT",
             "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "hymn_index"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Hymn_hymn_index",
+            "unique": false,
+            "columnNames": [
+              "hymn_index"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymn_hymn_index` ON `${TABLE_NAME}` (`hymn_index`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Lyrics",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`verse_number` INTEGER NOT NULL, `hymn_index` INTEGER NOT NULL, `verse_text` TEXT NOT NULL, `is_chorus` INTEGER NOT NULL, PRIMARY KEY(`hymn_index`, `verse_number`), FOREIGN KEY(`hymn_index`) REFERENCES `Hymn`(`hymn_index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "verse_number",
+            "columnName": "verse_number",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
-            "fieldPath": "lyrics",
-            "columnName": "lyrics",
+            "fieldPath": "hymn_index",
+            "columnName": "hymn_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verse_text",
+            "columnName": "verse_text",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_chorus",
+            "columnName": "is_chorus",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "index"
+            "hymn_index",
+            "verse_number"
           ]
         },
-        "indices": [
+        "indices": [],
+        "foreignKeys": [
           {
-            "name": "index_Hymn_index",
-            "unique": false,
-            "columnNames": [
-              "index"
+            "table": "Hymn",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "hymn_index"
             ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymn_index` ON `${TABLE_NAME}` (`index`)"
+            "referencedColumns": [
+              "hymn_index"
+            ]
           }
-        ],
-        "foreignKeys": []
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2c1db315a35580b2d6b25a30c600dbcf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ab05c9adc92c6e8626da958b0520a75')"
     ]
   }
 }
