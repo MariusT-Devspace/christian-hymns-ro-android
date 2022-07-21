@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.imnuricrestine.entities.Hymn;
+import com.example.imnuricrestine.db.entities.Hymn;
 
 import java.util.List;
 

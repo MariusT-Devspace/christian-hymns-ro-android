@@ -10,18 +10,21 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.imnuricrestine.databinding.ActivityMainBinding;
-import com.example.imnuricrestine.entities.Hymn;
-import com.example.imnuricrestine.entities.HymnWithLyrics;
-import com.example.imnuricrestine.entities.Lyrics;
+import com.example.imnuricrestine.db.AppDatabase;
+import com.example.imnuricrestine.db.entities.Hymn;
+import com.example.imnuricrestine.db.entities.HymnWithLyrics;
+import com.example.imnuricrestine.db.HymnsDao;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnItemListener{
     ActivityMainBinding binding;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager linearLayoutManager;
-    Map<Hymn, List<HymnWithLyrics>> hymnsMap;
+    Map<Hymn, HymnWithLyrics> hymnsMap;
     public static final String TITLE = "com.example.imnuricrestine.TITLE";
     public static final String LYRICS = "com.example.imnuricrestine.LYRICS";
 
@@ -63,4 +66,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
         //intent.putExtra(LYRICS, String.valueOf(hymnsList.get(position).lyrics));
         startActivity(intent);
     }
+
+
 }
