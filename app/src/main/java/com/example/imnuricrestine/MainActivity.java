@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
 
         thread.start();
 
+
+
+        
     }
 
     protected void loadUI(){
