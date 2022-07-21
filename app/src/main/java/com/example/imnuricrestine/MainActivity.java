@@ -15,10 +15,8 @@ import com.example.imnuricrestine.db.entities.Hymn;
 import com.example.imnuricrestine.db.entities.HymnWithLyrics;
 import com.example.imnuricrestine.db.HymnsDao;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnItemListener{
     ActivityMainBinding binding;
