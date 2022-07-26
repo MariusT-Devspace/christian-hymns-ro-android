@@ -12,10 +12,10 @@ import androidx.room.ForeignKey;
 
 public class Lyrics{
     @NonNull
-    public int verse_number;
+    public short verse_number;
 
     @NonNull
-    public int hymn_index;
+    public short hymn_index;
 
     @NonNull
     public String verse_text;

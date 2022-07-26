@@ -1,4 +1,4 @@
-package com.example.imnuricrestine;
+package com.example.imnuricrestine.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,22 +9,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.imnuricrestine.adapters.RVMainCustomAdapter;
 import com.example.imnuricrestine.databinding.ActivityMainBinding;
 import com.example.imnuricrestine.db.AppDatabase;
-import com.example.imnuricrestine.db.entities.Hymn;
 import com.example.imnuricrestine.db.entities.HymnWithLyrics;
 import com.example.imnuricrestine.db.HymnsDao;
+import com.example.imnuricrestine.objects.Hymn;
+import com.example.imnuricrestine.objects.Verse;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements CustomAdapter.OnItemListener{
+public class MainActivity extends AppCompatActivity implements RVMainCustomAdapter.OnItemListener{
     ActivityMainBinding binding;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager linearLayoutManager;
-    Map<Hymn, HymnWithLyrics> hymnsMap;
-    public static final String TITLE = "com.example.imnuricrestine.TITLE";
-    public static final String LYRICS = "com.example.imnuricrestine.LYRICS";
+    public static List<HymnWithLyrics> hymnsWithLyricsList;
+    public ArrayList<Hymn> hymns;
+    public static final String HYMN = "com.example.imnuricrestine.HYMN";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +41,31 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
                     .fallbackToDestructiveMigration()
                     .build();
             HymnsDao hymnsDao = db.hymnsDao();
-            hymnsMap = hymnsDao.getAll();
-            CustomAdapter customAdapter = new CustomAdapter(List.copyOf(hymnsMap.keySet()), this);
+            //hymnsMap = hymnsDao.getAll();
+            hymnsWithLyricsList = hymnsDao.getAll();
+            populateHymns();
+            //RVMainCustomAdapter customAdapter = new RVMainCustomAdapter(List.copyOf(hymnsMap.keySet()), this);
+            RVMainCustomAdapter customAdapter = new RVMainCustomAdapter(hymns,this);
             runOnUiThread(() -> recyclerView.setAdapter(customAdapter));
             db.close();
         });
 
         thread.start();
 
+    }
 
-
-        
+    private void populateHymns() {
+        hymns = new ArrayList<>();
+        for(var hymnWithLyrics : hymnsWithLyricsList){
+            ArrayList<Verse> verses = new ArrayList<>();
+            for(var verse : hymnWithLyrics.lyrics){
+              /*  boolean isChorus = false;
+                if(verse.is_chorus == 1)
+                    isChorus = true;*/
+                verses.add(new Verse(verse.verse_text, verse.is_chorus));
+            }
+            hymns.add(new Hymn(hymnWithLyrics.hymn.hymn_index, hymnWithLyrics.hymn.title, verses));
+        }
     }
 
     protected void loadUI(){
@@ -63,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnI
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, HymnActivity.class);
-        intent.putExtra(TITLE, String.valueOf(hymnsMap.get("Hymn")));
+        intent.putExtra(HYMN, hymns.get(position));
         //intent.putExtra(LYRICS, String.valueOf(hymnsList.get(position).lyrics));
         startActivity(intent);
     }

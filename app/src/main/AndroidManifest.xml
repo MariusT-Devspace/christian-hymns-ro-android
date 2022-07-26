@@ -9,10 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImnuriCrestine">
         <activity
-            android:name=".HymnActivity"
+            android:name=".activities.HymnActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
