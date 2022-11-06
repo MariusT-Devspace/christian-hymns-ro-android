@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "a12ea54e5cb5423754299e10277a9592",
+    "identityHash": "93d1582f04f864ddcef26055fece3c6d",
     "entities": [
       {
-        "tableName": "Hymns",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER NOT NULL, `title` TEXT NOT NULL, `lyrics` TEXT NOT NULL, PRIMARY KEY(`index`))",
+        "tableName": "Hymn",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`index`))",
         "fields": [
           {
             "fieldPath": "index",
@@ -19,12 +19,6 @@
             "columnName": "title",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "lyrics",
-            "columnName": "lyrics",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -35,13 +29,13 @@
         },
         "indices": [
           {
-            "name": "index_Hymns_index",
+            "name": "index_Hymn_index",
             "unique": false,
             "columnNames": [
               "index"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymns_index` ON `${TABLE_NAME}` (`index`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymn_index` ON `${TABLE_NAME}` (`index`)"
           }
         ],
         "foreignKeys": []
@@ -50,7 +44,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a12ea54e5cb5423754299e10277a9592')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '93d1582f04f864ddcef26055fece3c6d')"
     ]
   }
 }

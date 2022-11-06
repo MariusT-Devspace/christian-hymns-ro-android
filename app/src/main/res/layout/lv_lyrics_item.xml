@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginBottom="40dp"
+    >
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/verseTagTV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:textSize="23sp"
+        android:paddingEnd="20dp"
+        android:textAlignment="textEnd"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/verseTextTV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:autoSizeTextType="uniform"
+        android:textSize="23sp"
+        android:layout_marginBottom="40dp"
+        android:lineHeight="40dp"
+        android:paddingStart="30dp"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

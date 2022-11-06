@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -30,7 +30,9 @@
                 android:elevation="0dp"
                 app:navigationIcon="@drawable/ic_baseline_menu_24"
                 app:layout_collapseMode="pin"
+                app:menu="@menu/top_appbar_menu"
                 />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,9 +40,10 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="16dp"
+            android:paddingLeft="36dp"
             android:paddingRight="16dp"
             android:paddingTop="90dp"
+            android:paddingBottom="90dp"
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />

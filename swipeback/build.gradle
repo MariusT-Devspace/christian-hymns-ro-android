@@ -3,9 +3,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 32
-    lintOptions {
-        abortOnError false
-    }
 
     defaultConfig {
         minSdkVersion 14
@@ -17,6 +14,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lint {
+        abortOnError false
+    }
+    namespace 'com.liuguangqiang.swipeback'
 }
 
 dependencies {
