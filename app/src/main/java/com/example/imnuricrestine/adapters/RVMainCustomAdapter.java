@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.imnuricrestine.activities.MainActivity;
 import com.example.imnuricrestine.R;
-import com.example.imnuricrestine.objects.Hymn;
+import com.example.imnuricrestine.models.Hymn;
 
 import java.util.ArrayList;
 import java.util.List;

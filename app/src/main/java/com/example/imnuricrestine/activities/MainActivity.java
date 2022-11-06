@@ -14,8 +14,8 @@ import com.example.imnuricrestine.databinding.ActivityMainBinding;
 import com.example.imnuricrestine.db.AppDatabase;
 import com.example.imnuricrestine.db.entities.HymnWithLyrics;
 import com.example.imnuricrestine.db.HymnsDao;
-import com.example.imnuricrestine.objects.Hymn;
-import com.example.imnuricrestine.objects.Verse;
+import com.example.imnuricrestine.models.Hymn;
+import com.example.imnuricrestine.models.Verse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements RVMainCustomAdapt
 
     }
 
+    protected void onCreateOptionsMenu(){
+
+    }
     private void populateHymns() {
         hymns = new ArrayList<>();
         for(var hymnWithLyrics : hymnsWithLyricsList){

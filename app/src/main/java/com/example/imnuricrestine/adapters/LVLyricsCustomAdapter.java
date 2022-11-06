@@ -6,14 +6,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.example.imnuricrestine.R;
 import com.example.imnuricrestine.activities.HymnActivity;
-import com.example.imnuricrestine.objects.Verse;
+import com.example.imnuricrestine.models.Verse;
 import com.google.android.material.textview.MaterialTextView;
 import java.util.ArrayList;
 
 public class LVLyricsCustomAdapter extends BaseAdapter {
 
     ArrayList<Verse> lyrics;
-    public static int verseCount = 0;
+
 
     public LVLyricsCustomAdapter(ArrayList<Verse> lyrics){
         this.lyrics = lyrics;
@@ -46,13 +46,13 @@ public class LVLyricsCustomAdapter extends BaseAdapter {
         MaterialTextView verseTextView = (MaterialTextView) convertView.findViewById(R.id.verseTextTV);
 
         if(!verse.isChorus()){
-            verseCount++;
-            tagTextView.setText(String.valueOf(verseCount));
+            HymnActivity.verseCount++;
+            tagTextView.setText(String.valueOf(HymnActivity.verseCount));
         }else{
             tagTextView.setText("Ref: ");
         }
 
-        if (verse.get)
+
 
         verseTextView.setText(lyrics.get(position).getLyrics());
         return convertView;

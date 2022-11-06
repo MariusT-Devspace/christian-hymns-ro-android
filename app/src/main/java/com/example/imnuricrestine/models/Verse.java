@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.objects;
+package com.example.imnuricrestine.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
