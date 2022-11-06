@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements RVMainCustomAdapt
     public static List<HymnWithLyrics> hymnsWithLyricsList;
     public ArrayList<Hymn> hymns;
     public static final String HYMN = "com.example.imnuricrestine.HYMN";
-
+    private String CHORUS_TAG = "Ref:";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +54,18 @@ public class MainActivity extends AppCompatActivity implements RVMainCustomAdapt
 
     }
 
-    protected void onCreateOptionsMenu(){
-
-    }
     private void populateHymns() {
         hymns = new ArrayList<>();
         for(var hymnWithLyrics : hymnsWithLyricsList){
             ArrayList<Verse> verses = new ArrayList<>();
+            int verseTagCount = 0;
             for(var verse : hymnWithLyrics.lyrics){
-              /*  boolean isChorus = false;
-                if(verse.is_chorus == 1)
-                    isChorus = true;*/
-                verses.add(new Verse(verse.verse_text, verse.is_chorus));
+                String tag = "";
+                if (verse.is_chorus)
+                    tag = CHORUS_TAG;
+                else
+                    tag = String.valueOf(++verseTagCount);
+                verses.add(new Verse(verse.verse_text, tag));
             }
             hymns.add(new Hymn(hymnWithLyrics.hymn.hymn_index, hymnWithLyrics.hymn.title, verses));
         }

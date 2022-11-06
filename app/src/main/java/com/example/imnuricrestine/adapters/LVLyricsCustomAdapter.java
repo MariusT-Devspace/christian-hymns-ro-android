@@ -14,7 +14,6 @@ public class LVLyricsCustomAdapter extends BaseAdapter {
 
     ArrayList<Verse> lyrics;
 
-
     public LVLyricsCustomAdapter(ArrayList<Verse> lyrics){
         this.lyrics = lyrics;
     }
@@ -44,17 +43,9 @@ public class LVLyricsCustomAdapter extends BaseAdapter {
 
         MaterialTextView tagTextView = (MaterialTextView) convertView.findViewById(R.id.verseTagTV);
         MaterialTextView verseTextView = (MaterialTextView) convertView.findViewById(R.id.verseTextTV);
-
-        if(!verse.isChorus()){
-            HymnActivity.verseCount++;
-            tagTextView.setText(String.valueOf(HymnActivity.verseCount));
-        }else{
-            tagTextView.setText("Ref: ");
-        }
-
-
-
+        tagTextView.setText(lyrics.get(position).getTag());
         verseTextView.setText(lyrics.get(position).getLyrics());
+
         return convertView;
     }
 }

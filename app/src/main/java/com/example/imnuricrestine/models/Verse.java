@@ -7,16 +7,16 @@ import androidx.annotation.NonNull;
 
 public class Verse implements Parcelable {
     private String lyrics;
-    private boolean isChorus;
+    private String tag;
 
-    public Verse(String lyrics, boolean isChorus){
+    public Verse(String lyrics, String tag){
         this.lyrics = lyrics;
-        this.isChorus = isChorus;
+        this.tag = tag;
     }
 
     protected Verse(Parcel in) {
         lyrics = in.readString();
-        isChorus = in.readByte() != 0;
+        tag = in.readString();
     }
 
     public static final Creator<Verse> CREATOR = new Creator<Verse>() {
@@ -35,9 +35,7 @@ public class Verse implements Parcelable {
         return this.lyrics;
     }
 
-    public boolean isChorus(){
-        return this.isChorus;
-    }
+    public String getTag(){ return this.tag; }
 
     @Override
     public int describeContents() {
@@ -47,6 +45,6 @@ public class Verse implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(lyrics);
-        parcel.writeByte((byte) (isChorus ? 1 : 0));
+        parcel.writeString(tag);
     }
 }

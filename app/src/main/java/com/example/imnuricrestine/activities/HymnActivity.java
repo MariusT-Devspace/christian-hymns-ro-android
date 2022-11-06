@@ -14,7 +14,6 @@ import com.liuguangqiang.swipeback.SwipeBackLayout;
 
 public class HymnActivity extends SwipeBackActivity {
     ActivityHymnBinding binding;
-    public static int verseCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,6 @@ public class HymnActivity extends SwipeBackActivity {
         MaterialTextView titleTextView = (MaterialTextView) findViewById(R.id.titleTextView);
         titleTextView.setText(hymn.getTitle());
 
-        verseCount = 0;
         LVLyricsCustomAdapter customAdapter = new LVLyricsCustomAdapter(hymn.getLyrics());
         binding = ActivityHymnBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -34,6 +32,4 @@ public class HymnActivity extends SwipeBackActivity {
         ListView listView = binding.lyricsLV;
         listView.setAdapter(customAdapter);
     }
-
-
 }
