@@ -22,7 +22,7 @@
             app:expandedTitleGravity="bottom|center_horizontal"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:title="@string/app_name"
-            app:titleTextColor="@color/md_theme_light_onPrimary"
+            app:titleTextColor="?colorOnPrimary"
             >
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -51,7 +51,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 <!--
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

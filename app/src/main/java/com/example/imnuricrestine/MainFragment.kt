@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Divider
@@ -13,8 +15,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.imnuricrestine.databinding.FragmentMainBinding
 import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.services.HymnsViewModel
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +51,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -62,35 +66,33 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val view = binding.root
         hymnsModel = ViewModelProvider(this)[HymnsViewModel::class.java]
-        var hymns = hymnsModel!!.hymns as MutableLiveData<ArrayList<Hymn>>
+        //var hymns: MutableLiveData<ArrayList<Hymn>> = hymnsModel!!.hymns as MutableLiveData<ArrayList<Hymn>>
 
         return ComposeView(requireContext()).apply {
             setContent {
-                HymnList(hymns)
+                HymnList(hymnsModel!!)
             }
         }
     }
     
     @Composable
-    fun HymnList(hymns: MutableLiveData<ArrayList<Hymn>>){
-        LazyColumn {
-            hymns.observe(viewLifecycleOwner, Observer {
-                items(it.size) { index ->
-                    ListItem(
-                        headlineText = { Text(it[index].title)},
-                        leadingContent = {
-                            Icon(
-                                Icons.Filled.Favorite,
-                                contentDescription = "Localized description",
-                            )
-                        }
-                    )
-                    Divider()
-                }
-            })
+    fun HymnList(hymnsModel: HymnsViewModel){
+        LazyColumn (){
+            hymnsModel.hymns.observe(viewLifecycleOwner, Observer {
+                    items(it.size) { index ->
+                        ListItem(
+                            headlineText = { Text(it[index].title)},
+                            leadingContent = {
+                                Icon(
+                                    Icons.Filled.Favorite,
+                                    contentDescription = "Localized description",
+                                )
+                            }
+                        )
+                        Divider()
 
-
-
+                    }
+                })
         }
     }
 
