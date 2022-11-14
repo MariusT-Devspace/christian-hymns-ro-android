@@ -1,9 +1,12 @@
+
 INSERT INTO Lyrics 
-VALUES(3, 40, "Ridicaţi-vă privirea:
-Sfântă-i Maiestatea Sa, 
-Galaxii de îngeri cântă,
-Noi cu ei Îi vom cânta!
-Înspre ceruri tot aleargă
-Voci şi strigăte de dor:
-Te-aşteptăm, o, Domn al slavei,
-Vino, Domn al domnilor!", 0)
+VALUES(4, 60, "În Tine-i plinătatea 
+De om şi Dumnezeu,
+De-aceea, cu tot cerul,
+Genunchii-mi plec şi eu!", 0)
+
+
+/*
+INSERT INTO Hymn 
+VALUES(60, "O, vino, scump Isuse!")
+*/

@@ -2,10 +2,8 @@ package com.example.imnuricrestine.services;
 
 import android.app.Application;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.example.imnuricrestine.adapters.RVMainCustomAdapter;
 import com.example.imnuricrestine.db.AppDatabase;
 import com.example.imnuricrestine.db.HymnsDao;
 import com.example.imnuricrestine.db.entities.HymnWithLyrics;
@@ -52,7 +50,6 @@ public class HymnRepository {
                     .fallbackToDestructiveMigration()
                     .build();
             HymnsDao hymnsDao = db.hymnsDao();
-            //hymnsMap = hymnsDao.getAll();
             hymnsWithLyricsList = hymnsDao.getAll();
             db.close();
     }
@@ -60,8 +57,6 @@ public class HymnRepository {
     public ArrayList<Hymn> getHymns(Application application) throws ExecutionException, InterruptedException {
         loadDataBase.get();
         populateHymns();
-        //RVMainCustomAdapter customAdapter = new RVMainCustomAdapter(List.copyOf(hymnsMap.keySet()), this);
-        //RVMainCustomAdapter customAdapter = new RVMainCustomAdapter(hymns,this);//runOnUiThread(() -> recyclerView.setAdapter(customAdapter));
         return hymns;
 
     }
