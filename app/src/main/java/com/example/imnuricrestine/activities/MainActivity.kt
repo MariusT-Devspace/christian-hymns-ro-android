@@ -6,10 +6,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.*
@@ -123,17 +122,18 @@ class MainActivity : ComponentActivity() {
         }
 
         LazyColumn(
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            modifier = Modifier.padding(top = 30.dp)
         ) {
                 items(
                     items = state.value
                 ) { item ->
                     ListItem(
-                        headlineText = {
+                        headlineContent = {
                             Text(
                                 item.title,
                                 fontSize = 20.sp,
-                                modifier = Modifier.padding(20.dp, 0.dp, 0.dp, 0.dp)
+                                modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp)
                             )
                         },
                         leadingContent = {
@@ -144,7 +144,8 @@ class MainActivity : ComponentActivity() {
                                 ).padding(7.dp).width(30.dp),
                                 fontSize = 20.sp
                             )
-                        }
+                        },
+                        tonalElevation = Dp(2.0f)
                     )
                     //Divider()
 
