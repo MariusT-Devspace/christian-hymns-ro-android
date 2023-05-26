@@ -5,29 +5,19 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.*
-import androidx.navigation.NavHostController
 import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
 import com.example.imnuricrestine.services.HymnsViewModel
@@ -39,6 +29,8 @@ class MainActivity : ComponentActivity() {
     lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
     companion object {
         lateinit var hymnsList: MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
+        lateinit var topAppBarState: TopAppBarState
+        lateinit var topBarTitle: MutableLiveData<String>
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -67,7 +59,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             // Scaffold
-            val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+            topAppBarState = rememberTopAppBarState()
+            topBarTitle = MutableLiveData(stringResource(R.string.top_bar_title))
+            // TopBar title state
+            val title = topBarTitle.observeAsState("")
+
+            val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             ChristianHymnsTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
@@ -76,7 +73,8 @@ class MainActivity : ComponentActivity() {
                         LargeTopAppBar(
                             title = {
                                 Text(
-                                    stringResource(R.string.top_bar_title),
+                                    //stringResource(R.string.top_bar_title),
+                                    title.value,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )},
