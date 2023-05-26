@@ -1,5 +1,7 @@
 package com.example.imnuricrestine.routes
 
+import android.content.res.Resources
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,17 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.R
 import com.example.imnuricrestine.navigation.Route
 import com.google.gson.Gson
 
 @Composable
 fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController) {
     //val hymnsList by hymnsModel.hymns.observeAsState(initial = emptyList())
+    MainActivity.topBarTitle.value = stringResource(R.string.top_bar_title)
     val state = remember {
         mutableStateOf(indexTitleList)
     }
@@ -48,9 +53,13 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                 leadingContent = {
                     Text(
                         item.index.toString(),
-                        modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer,
-                            shape = RoundedCornerShape(25.dp)
-                        ).padding(7.dp).width(30.dp),
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = RoundedCornerShape(25.dp)
+                            )
+                            .padding(7.dp)
+                            .width(30.dp),
                         fontSize = 20.sp
                     )
                 },
