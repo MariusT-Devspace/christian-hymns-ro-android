@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
     companion object {
         lateinit var hymnsList : MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
         lateinit var topAppBarState : TopAppBarState
-        lateinit var titleState : MutableState<String>
+        lateinit var topBarTitleState : MutableState<String>
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         hymnsModel = ViewModelProvider(this)[HymnsViewModel::class.java]
-        //val model by viewModels<HymnsViewModel>()
         hymnsList = hymnsModel.hymns
 
 
@@ -64,8 +63,8 @@ class MainActivity : ComponentActivity() {
             topAppBarState = rememberTopAppBarState()
             // TopBar title state
 
-            titleState = remember { mutableStateOf("") }
-            titleState.value = stringResource(R.string.top_bar_title)
+            topBarTitleState = remember { mutableStateOf("") }
+            topBarTitleState.value = stringResource(R.string.top_bar_title)
             //val title: String by topBarViewModel.title.observeAsState("")
 
             val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
@@ -78,7 +77,7 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(
                                     //stringResource(R.string.top_bar_title),
-                                    titleState.value,
+                                    topBarTitleState.value,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )},
@@ -113,8 +112,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
 
+    }
 
 
     @Preview(showBackground = true)
