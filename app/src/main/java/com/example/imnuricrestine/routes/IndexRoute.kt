@@ -30,8 +30,6 @@ import com.google.gson.Gson
 
 @Composable
 fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController) {
-    //val hymnsList by hymnsModel.hymns.observeAsState(initial = emptyList())
-    MainActivity.topBarTitle.value = stringResource(R.string.top_bar_title)
     val state = remember {
         mutableStateOf(indexTitleList)
     }

@@ -2,7 +2,6 @@ package com.example.imnuricrestine
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,7 +11,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -25,13 +24,15 @@ import com.example.imnuricrestine.services.HymnsViewModel
 import com.example.imnuricrestine.ui.theme.ChristianHymnsTheme
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
     companion object {
-        lateinit var hymnsList: MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
-        lateinit var topAppBarState: TopAppBarState
-        lateinit var topBarTitle: MutableLiveData<String>
+        lateinit var hymnsList : MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
+        lateinit var topAppBarState : TopAppBarState
+        lateinit var titleState : MutableState<String>
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -61,9 +62,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             // Scaffold
             topAppBarState = rememberTopAppBarState()
-            topBarTitle = MutableLiveData(stringResource(R.string.top_bar_title))
             // TopBar title state
-            val title = topBarTitle.observeAsState("")
+
+            titleState = remember { mutableStateOf("") }
+            titleState.value = stringResource(R.string.top_bar_title)
+            //val title: String by topBarViewModel.title.observeAsState("")
 
             val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             ChristianHymnsTheme {
@@ -75,7 +78,7 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(
                                     //stringResource(R.string.top_bar_title),
-                                    title.value,
+                                    titleState.value,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )},
