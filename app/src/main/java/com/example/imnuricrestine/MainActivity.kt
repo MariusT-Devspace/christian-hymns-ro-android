@@ -26,6 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.ImageVector
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
         lateinit var hymnsList : MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
         lateinit var topAppBarState : TopAppBarState
         lateinit var topBarTitleState : MutableState<String>
+        lateinit var navigationIconState : MutableState<ImageVector>
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -59,13 +61,11 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            // Scaffold
+            // TopBar state
             topAppBarState = rememberTopAppBarState()
-            // TopBar title state
-
             topBarTitleState = remember { mutableStateOf("") }
+            navigationIconState = remember { mutableStateOf(Icons.Filled.Menu) }
             topBarTitleState.value = stringResource(R.string.top_bar_title)
-            //val title: String by topBarViewModel.title.observeAsState("")
 
             val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             ChristianHymnsTheme {
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                             navigationIcon = {
                                 IconButton(onClick = { /* doSomething() */ }) {
                                     Icon(
-                                        imageVector = Icons.Filled.Menu,
+                                        imageVector = navigationIconState.value,
                                         contentDescription = "Localized description"
                                     )
                                 }

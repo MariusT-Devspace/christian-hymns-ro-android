@@ -2,6 +2,9 @@ package com.example.imnuricrestine.navigation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
@@ -26,6 +29,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         navController.popBackStack()
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
             MainActivity.topBarTitleState.value = topBarTitleIndex
+            MainActivity.navigationIconState.value = Icons.Filled.Menu
         }
 
     }
