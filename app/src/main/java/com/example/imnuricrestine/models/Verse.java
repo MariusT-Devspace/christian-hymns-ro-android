@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class Verse implements Parcelable {
+public class Verse{
     private String lyrics;
     private String tag;
 
     public Verse(String lyrics, String tag){
-        this.lyrics = lyrics;
+        this.lyrics = escape(lyrics);
         this.tag = tag;
     }
 
-    protected Verse(Parcel in) {
+    /*protected Verse(Parcel in) {
         lyrics = in.readString();
         tag = in.readString();
     }
@@ -29,7 +29,7 @@ public class Verse implements Parcelable {
         public Verse[] newArray(int size) {
             return new Verse[size];
         }
-    };
+    };*/
 
     public String getLyrics(){
         return this.lyrics;
@@ -37,7 +37,7 @@ public class Verse implements Parcelable {
 
     public String getTag(){ return this.tag; }
 
-    @Override
+   /* @Override
     public int describeContents() {
         return 0;
     }
@@ -46,5 +46,10 @@ public class Verse implements Parcelable {
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeString(lyrics);
         parcel.writeString(tag);
+    }*/
+
+    private String escape(String lyrics) {
+        // Escape special characters in the string.
+        return lyrics.replace("'", "\\'");
     }
 }

@@ -22,15 +22,14 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
     NavHost(navController = navController, startDestination = Route.IndexRoute.route) {
         composable(Route.IndexRoute.route) { HymnsIndex(indexTitleList, contentPadding, navController) }
         composable(
-            Route.HymnDetailsRoute.route + "/{hymn}",
+            Route.HymnDetailsRoute.route + "/{hymnId}",
             listOf(
-                navArgument("hymn"){
-                    type = NavType.StringType
+                navArgument("hymnId"){
+                    type = NavType.IntType
                 }
             )
-        ) { entry ->
-            val gson = Gson()
-            val hymn = gson.fromJson(entry.arguments!!.getString("hymn"), Hymn::class.java)
-            HymnDetails(hymn = hymn, navController = navController) }
+        ) { navBackStackEntry ->
+            val argument = navBackStackEntry.arguments!!.getInt("hymnId")
+            HymnDetails(hymnId = argument, navController = navController) }
     }
 }

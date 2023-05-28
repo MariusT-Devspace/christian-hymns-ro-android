@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-
 android {
     compileSdk 33
 
@@ -64,7 +63,6 @@ android {
         ]
     }
 
-
 }
 
 dependencies {
@@ -87,7 +85,7 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.room:room-runtime:2.6.0-alpha01'
     implementation project(':swipeback')
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    //implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     annotationProcessor 'androidx.room:room-compiler:2.6.0-alpha01'
     testImplementation 'junit:junit:4.13.2'
@@ -97,8 +95,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_viewmodel_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel_version"
 
+    /*
     implementation 'androidx.fragment:fragment:1.6.0-rc01'
-    runtimeOnly 'androidx.fragment:fragment-ktx:1.6.0-rc01'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0-rc01'
+    */
 
     implementation "androidx.core:core-ktx:1.10.1"
     implementation 'com.google.android.material:compose-theme-adapter-3:1.1.1'

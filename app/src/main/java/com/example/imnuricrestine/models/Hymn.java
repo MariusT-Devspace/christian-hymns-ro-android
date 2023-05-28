@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public class Hymn implements Parcelable {
+public class Hymn{
     private short index;
     private String title;
     private ArrayList<Verse> lyrics;
@@ -18,11 +18,11 @@ public class Hymn implements Parcelable {
         this.lyrics = lyrics;
     }
 
-    protected Hymn(Parcel in) {
+    /*protected Hymn(Parcel in) {
         index = (short) in.readInt();
         title = in.readString();
         lyrics = in.readArrayList(getClass().getClassLoader());
-    }
+    }*/
 
     public short getIndex(){
         return this.index;
@@ -36,7 +36,7 @@ public class Hymn implements Parcelable {
         return this.lyrics;
     }
 
-    public static final Creator<Hymn> CREATOR = new Creator<Hymn>() {
+    /*public static final Creator<Hymn> CREATOR = new Creator<Hymn>() {
         @Override
         public Hymn createFromParcel(Parcel in) {
             return new Hymn(in);
@@ -58,5 +58,5 @@ public class Hymn implements Parcelable {
         parcel.writeInt(index);
         parcel.writeString(title);
         parcel.writeArray(lyrics.toArray());
-    }
+    }*/
 }

@@ -66,8 +66,8 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                 tonalElevation = Dp(2.0f),
                 modifier = Modifier.clickable {
                     val gson = Gson()
-                    val hymnJson = gson.toJson(MainActivity.hymnsList.value!![item.index.toInt()-1])
-                    navController.navigate(Route.HymnDetailsRoute.route+"/$hymnJson")
+                    val hymnId = item.index.toInt()-1
+                    navController.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
                 }
 
             )

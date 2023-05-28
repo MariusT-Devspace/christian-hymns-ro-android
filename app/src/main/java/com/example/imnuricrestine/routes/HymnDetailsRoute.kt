@@ -11,18 +11,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.models.Hymn
+import com.google.gson.Gson
 
 @Composable
-fun HymnDetails(hymn: Hymn, navController: NavController) {
+fun HymnDetails(hymnId: Int, navController: NavController) {
+    val gson = Gson()
+    val hymn = MainActivity.hymnsList.value!![hymnId]
     MainActivity.topBarTitle.value = hymn.title
     MainActivity.topAppBarState.heightOffset = 20f
     Column(
         modifier = Modifier.padding(top = 170.dp)
     ) {
-        Text(
-            text = hymn.title,
-            fontSize = 20.sp
-        )
         for (verse in hymn.lyrics) {
             Row {
                 Text(text = verse.tag)
