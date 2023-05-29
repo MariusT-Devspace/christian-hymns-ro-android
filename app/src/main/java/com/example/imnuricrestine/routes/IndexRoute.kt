@@ -61,7 +61,7 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                         fontSize = 20.sp
                     )
                 },
-                tonalElevation = Dp(2.0f),
+                //tonalElevation = Dp(2.0f),
                 modifier = Modifier.clickable {
                     val gson = Gson()
                     val hymnId = item.index.toInt()-1
