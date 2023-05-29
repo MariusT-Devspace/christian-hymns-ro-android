@@ -3,8 +3,10 @@ package com.example.imnuricrestine
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -27,6 +29,7 @@ import com.google.gson.reflect.TypeToken
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
@@ -37,6 +40,9 @@ class MainActivity : ComponentActivity() {
         lateinit var navigationIconState : MutableState<ImageVector>
         lateinit var scrollBehavior : MutableState<TopAppBarScrollBehavior>
         lateinit var exitUntilCollapsedScrollBehavior : TopAppBarScrollBehavior
+        lateinit var navigationAction : MutableState<() -> Unit>
+        lateinit var openMenu : () -> Unit
+        lateinit var goBack : (NavController) -> Unit
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -47,6 +53,13 @@ class MainActivity : ComponentActivity() {
         hymnsModel = ViewModelProvider(this)[HymnsViewModel::class.java]
         hymnsList = hymnsModel.hymns
 
+        openMenu = {
+            Log.d("OPENMENU", "Opening menu")
+        }
+
+        goBack = { navController ->
+            navController.popBackStack()
+        }
 
         val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
         if (!sharedPreferences.contains("hymnsIndexAndTitle")){
@@ -70,6 +83,9 @@ class MainActivity : ComponentActivity() {
             topBarTitleState.value = stringResource(R.string.top_bar_title)
             exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             scrollBehavior = remember { mutableStateOf(exitUntilCollapsedScrollBehavior)}
+            navigationAction = remember { mutableStateOf( openMenu ) }
+            navigationAction.value = openMenu
+
             ChristianHymnsTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
@@ -84,7 +100,7 @@ class MainActivity : ComponentActivity() {
                                     overflow = TextOverflow.Ellipsis,
                                 )},
                             navigationIcon = {
-                                IconButton(onClick = { /* doSomething() */ }) {
+                                IconButton(onClick =  navigationAction.value ) {
                                     Icon(
                                         imageVector = navigationIconState.value,
                                         contentDescription = "Localized description"
@@ -95,7 +111,8 @@ class MainActivity : ComponentActivity() {
                                 IconButton(onClick = { /* doSomething() */ }) {
                                     Icon(
                                         imageVector = Icons.Filled.Settings,
-                                        contentDescription = "Localized description"
+                                        contentDescription = "Localized description",
+                                        modifier = Modifier.clickable { navigationAction }
                                     )
                                 }
                             },
@@ -135,4 +152,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
+
+
+
 }

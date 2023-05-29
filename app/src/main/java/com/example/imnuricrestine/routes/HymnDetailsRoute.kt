@@ -24,7 +24,7 @@ fun HymnDetails(hymnId: Int, navController: NavController) {
     MainActivity.topAppBarState.heightOffset = 20f
     MainActivity.navigationIconState.value = Icons.Filled.ArrowBack
     MainActivity.scrollBehavior.value = TopAppBarDefaults.pinnedScrollBehavior()
-
+    MainActivity.navigationAction.value = { MainActivity.goBack(navController) }
     Column(
         modifier = Modifier
             .padding(start = 10.dp, top = 170.dp, end = 10.dp, bottom = 10.dp)
