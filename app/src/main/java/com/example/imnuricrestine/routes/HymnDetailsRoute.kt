@@ -27,7 +27,7 @@ fun HymnDetails(hymnId: Int, navController: NavController) {
 
     Column(
         modifier = Modifier
-            .padding(start = 10.dp, top = 170.dp, end = 40.dp, bottom = 80.dp)
+            .padding(start = 10.dp, top = 170.dp, end = 10.dp, bottom = 10.dp)
             .verticalScroll(rememberScrollState())
     ) {
         for (verse in hymn.lyrics) {
