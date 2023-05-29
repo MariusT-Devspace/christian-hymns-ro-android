@@ -29,6 +29,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
             MainActivity.topBarTitleState.value = topBarTitleIndex
             MainActivity.navigationIconState.value = Icons.Filled.Menu
+            MainActivity.scrollBehavior.value = MainActivity.exitUntilCollapsedScrollBehavior
         }
 
     }

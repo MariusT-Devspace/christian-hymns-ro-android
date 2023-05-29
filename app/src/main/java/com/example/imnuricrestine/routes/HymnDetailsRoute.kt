@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -22,6 +23,7 @@ fun HymnDetails(hymnId: Int, navController: NavController) {
     MainActivity.topBarTitleState.value = hymn.title
     MainActivity.topAppBarState.heightOffset = 20f
     MainActivity.navigationIconState.value = Icons.Filled.ArrowBack
+    MainActivity.scrollBehavior.value = TopAppBarDefaults.pinnedScrollBehavior()
 
     Column(
         modifier = Modifier

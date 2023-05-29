@@ -35,6 +35,8 @@ class MainActivity : ComponentActivity() {
         lateinit var topAppBarState : TopAppBarState
         lateinit var topBarTitleState : MutableState<String>
         lateinit var navigationIconState : MutableState<ImageVector>
+        lateinit var scrollBehavior : MutableState<TopAppBarScrollBehavior>
+        lateinit var exitUntilCollapsedScrollBehavior : TopAppBarScrollBehavior
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -66,12 +68,12 @@ class MainActivity : ComponentActivity() {
             topBarTitleState = remember { mutableStateOf("") }
             navigationIconState = remember { mutableStateOf(Icons.Filled.Menu) }
             topBarTitleState.value = stringResource(R.string.top_bar_title)
-
-            val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
+            exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
+            scrollBehavior = remember { mutableStateOf(exitUntilCollapsedScrollBehavior)}
             ChristianHymnsTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
-                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                    modifier = Modifier.nestedScroll(scrollBehavior.value.nestedScrollConnection),
                     topBar = {
                         LargeTopAppBar(
                             title = {
@@ -97,7 +99,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             },
-                            scrollBehavior = scrollBehavior
+                            scrollBehavior = scrollBehavior.value
                         )
                     }
                 ) { padding ->
