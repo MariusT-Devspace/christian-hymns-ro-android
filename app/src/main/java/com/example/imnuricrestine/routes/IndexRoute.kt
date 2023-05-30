@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,8 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.navigation.Route
+import com.example.imnuricrestine.navigation.goBackCallback
+import com.example.imnuricrestine.navigation.updateTopAppBar
 
 @Composable
 fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController) {
@@ -60,6 +66,9 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
                     navController.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
+                    val hymn = MainActivity.hymnsList.value!![hymnId]
+                    Navigation.updateTopAppBar(hymn.title, Icons.Filled.ArrowBack,
+                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController) })
                 }
 
             )

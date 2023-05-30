@@ -40,9 +40,9 @@ class MainActivity : ComponentActivity() {
         lateinit var navigationIconState : MutableState<ImageVector>
         lateinit var scrollBehavior : MutableState<TopAppBarScrollBehavior>
         lateinit var exitUntilCollapsedScrollBehavior : TopAppBarScrollBehavior
+        lateinit var pinnedScrollBehavior : TopAppBarScrollBehavior
         lateinit var navigationAction : MutableState<() -> Unit>
         lateinit var openMenu : () -> Unit
-        lateinit var goBack : (NavController) -> Unit
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -55,10 +55,6 @@ class MainActivity : ComponentActivity() {
 
         openMenu = {
             Log.d("OPENMENU", "Opening menu")
-        }
-
-        goBack = { navController ->
-            navController.popBackStack()
         }
 
         val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
@@ -82,6 +78,7 @@ class MainActivity : ComponentActivity() {
             navigationIconState = remember { mutableStateOf(Icons.Filled.Menu) }
             topBarTitleState.value = stringResource(R.string.top_bar_title)
             exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
+            pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
             scrollBehavior = remember { mutableStateOf(exitUntilCollapsedScrollBehavior)}
             navigationAction = remember { mutableStateOf( openMenu ) }
             navigationAction.value = openMenu
@@ -111,8 +108,7 @@ class MainActivity : ComponentActivity() {
                                 IconButton(onClick = { /* doSomething() */ }) {
                                     Icon(
                                         imageVector = Icons.Filled.Settings,
-                                        contentDescription = "Localized description",
-                                        modifier = Modifier.clickable { navigationAction }
+                                        contentDescription = "Localized description"
                                     )
                                 }
                             },

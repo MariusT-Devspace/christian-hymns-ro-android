@@ -1,5 +1,6 @@
 package com.example.imnuricrestine.routes
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -15,16 +16,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.navigation.goBackCallback
+import com.example.imnuricrestine.navigation.updateTopAppBar
+
+//import com.example.imnuricrestine.navigation.goBackCallback
 
 @Composable
 fun HymnDetails(hymnId: Int, navController: NavController) {
     val hymn = MainActivity.hymnsList.value!![hymnId]
-    MainActivity.topBarTitleState.value = hymn.title
+
+    // Update TopApp
     MainActivity.topAppBarState.heightOffset = 20f
-    MainActivity.navigationIconState.value = Icons.Filled.ArrowBack
-    MainActivity.scrollBehavior.value = TopAppBarDefaults.pinnedScrollBehavior()
-    MainActivity.navigationAction.value = { MainActivity.goBack(navController) }
+
+
     Column(
         modifier = Modifier
             .padding(start = 10.dp, top = 170.dp, end = 10.dp, bottom = 10.dp)
