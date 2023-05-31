@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -14,6 +13,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -29,7 +29,14 @@ import com.google.gson.reflect.TypeToken
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+
+enum class SurfaceTopPadding(val padding : Dp) {
+   SURFACE_TOP_PADDING_INDEX(0.dp),
+    SURFACE_TOP_PADDING_HYMN_DETAILS(64.dp)
+}
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
@@ -42,6 +49,10 @@ class MainActivity : ComponentActivity() {
         lateinit var exitUntilCollapsedScrollBehavior : TopAppBarScrollBehavior
         lateinit var pinnedScrollBehavior : TopAppBarScrollBehavior
         lateinit var navigationAction : MutableState<() -> Unit>
+        lateinit var surfaceTopPaddingState : MutableState<Dp>
+        lateinit var topAppBarHeightState : MutableState<Dp>
+        lateinit var topAppBarZIndexState : MutableState<Float>
+        lateinit var surfaceZIndexState : MutableState<Float>
         lateinit var openMenu : () -> Unit
     }
     data class IndexTitle (val index: Short, val title: String)
@@ -80,7 +91,11 @@ class MainActivity : ComponentActivity() {
             exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
             scrollBehavior = remember { mutableStateOf(exitUntilCollapsedScrollBehavior)}
-            navigationAction = remember { mutableStateOf( openMenu ) }
+            navigationAction = remember { mutableStateOf(openMenu) }
+            surfaceTopPaddingState = remember { mutableStateOf(SurfaceTopPadding.SURFACE_TOP_PADDING_INDEX.padding) }
+            topAppBarHeightState = remember { mutableStateOf(64.dp) }
+            topAppBarZIndexState = remember { mutableFloatStateOf(2f) }
+            surfaceZIndexState = remember { mutableFloatStateOf(1f) }
             navigationAction.value = openMenu
 
             ChristianHymnsTheme {
@@ -90,12 +105,12 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         LargeTopAppBar(
                             title = {
-                                Text(
-                                    //stringResource(R.string.top_bar_title),
+                                    Text(
                                     topBarTitleState.value,
                                     maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )},
+                                    overflow = TextOverflow.Ellipsis
+                                    )
+                                },
                             navigationIcon = {
                                 IconButton(onClick =  navigationAction.value ) {
                                     Icon(
@@ -112,12 +127,14 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             },
-                            scrollBehavior = scrollBehavior.value
+                            scrollBehavior = scrollBehavior.value,
+                            modifier = Modifier.zIndex(topAppBarZIndexState.value)
                         )
                     }
                 ) { padding ->
                     Surface(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().padding(top = surfaceTopPaddingState.value).zIndex(
+                            surfaceZIndexState.value),
                         color = MaterialTheme.colorScheme.background
                     ) {
                         // Navigation composable
@@ -148,7 +165,5 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-
-
 
 }

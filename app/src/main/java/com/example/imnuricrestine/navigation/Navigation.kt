@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.R
+import com.example.imnuricrestine.SurfaceTopPadding
 import com.example.imnuricrestine.routes.HymnDetails
 import com.example.imnuricrestine.routes.HymnsIndex
 
@@ -49,6 +50,9 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
     goBackCallback.goBack = { navController
         navController.popBackStack()
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
+            MainActivity.surfaceTopPaddingState.value = SurfaceTopPadding.SURFACE_TOP_PADDING_INDEX.padding
+            MainActivity.topAppBarZIndexState.value = 2f
+            MainActivity.surfaceZIndexState.value = 1f
             Navigation.updateTopAppBar(topBarTitleIndex, Icons.Filled.Menu,
                 MainActivity.exitUntilCollapsedScrollBehavior, MainActivity.openMenu)
         }
@@ -60,6 +64,9 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         navController.popBackStack()
         Log.d("BACKHANDLER", "BackHandler")
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
+            MainActivity.surfaceTopPaddingState.value = SurfaceTopPadding.SURFACE_TOP_PADDING_INDEX.padding
+            MainActivity.topAppBarZIndexState.value = 2f
+            MainActivity.surfaceZIndexState.value = 1f
             Navigation.updateTopAppBar(topBarTitleIndex, Icons.Filled.Menu,
                 MainActivity.exitUntilCollapsedScrollBehavior, MainActivity.openMenu)
         }
@@ -67,9 +74,9 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
 }
 
 fun Navigation.updateTopAppBar(topBarTitle : String, topBarActionIcon : ImageVector,
-                               topAppBarScrollBehavior: TopAppBarScrollBehavior, navigationAction : () -> Unit) {
+                               topAppBarScrollBehavior: TopAppBarScrollBehavior?, navigationAction : () -> Unit) {
     MainActivity.topBarTitleState.value = topBarTitle
     MainActivity.navigationIconState.value = topBarActionIcon
-    MainActivity.scrollBehavior.value = topAppBarScrollBehavior
+    MainActivity.scrollBehavior.value = topAppBarScrollBehavior!!
     MainActivity.navigationAction.value = navigationAction
 }

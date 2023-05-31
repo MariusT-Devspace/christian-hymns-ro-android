@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.Navigation
 import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.SurfaceTopPadding
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.goBackCallback
 import com.example.imnuricrestine.navigation.updateTopAppBar
@@ -32,7 +32,6 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
     val state = remember {
         mutableStateOf(indexTitleList)
     }
-
 
     LazyColumn(
         contentPadding = contentPadding,
@@ -66,9 +65,11 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
                     navController.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
-                    val hymn = MainActivity.hymnsList.value!![hymnId]
-                    Navigation.updateTopAppBar(hymn.title, Icons.Filled.ArrowBack,
-                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController) })
+                    MainActivity.surfaceTopPaddingState.value = SurfaceTopPadding.SURFACE_TOP_PADDING_HYMN_DETAILS.padding
+                    MainActivity.topAppBarZIndexState.value = 1f
+                    MainActivity.surfaceZIndexState.value = 2f
+                    Navigation.updateTopAppBar("", Icons.Filled.ArrowBack,
+                        MainActivity.exitUntilCollapsedScrollBehavior, { goBackCallback.goBack(navController) })
                 }
 
             )
