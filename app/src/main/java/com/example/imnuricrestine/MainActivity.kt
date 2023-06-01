@@ -28,6 +28,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -85,7 +86,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             // TopBar state
             topAppBarState = rememberTopAppBarState()
-            topBarTitleState = remember { mutableStateOf("") }
+            topBarTitleState = rememberSaveable { mutableStateOf("") }
             navigationIconState = remember { mutableStateOf(Icons.Filled.Menu) }
             topBarTitleState.value = stringResource(R.string.top_bar_title)
             exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)

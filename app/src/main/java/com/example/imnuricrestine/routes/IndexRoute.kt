@@ -69,7 +69,7 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                     MainActivity.topAppBarZIndexState.value = 1f
                     MainActivity.surfaceZIndexState.value = 2f
                     Navigation.updateTopAppBar("", Icons.Filled.ArrowBack,
-                        MainActivity.exitUntilCollapsedScrollBehavior, { goBackCallback.goBack(navController) })
+                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController) })
                 }
 
             )

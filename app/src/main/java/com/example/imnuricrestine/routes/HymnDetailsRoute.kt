@@ -23,31 +23,35 @@ fun HymnDetails(hymnId: Int, navController: NavController) {
     //MainActivity.scrollBehavior.value = MainActivity.pinnedScrollBehavior
 
     Column(
-        modifier = Modifier
-            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
-            .verticalScroll(rememberScrollState())
+        modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
     ) {
         Text(
             hymn.title,
             fontSize = 30.sp,
-            modifier = Modifier.padding(start = 30.dp),
+            modifier = Modifier.padding(start = 30.dp, bottom = 40.dp),
             style = TextStyle(lineHeight = 35.sp)
         )
-        for (verse in hymn.lyrics) {
-            ListItem(
-                leadingContent = { Text(
-                    text = verse.tag+".",
-                    fontSize = 26.sp
-                )},
-                headlineContent = { Text(
-                    text = verse.lyrics,
-                    fontSize = 24.sp,
-                    style = TextStyle(lineHeight = 35.sp)
-                )},
-                supportingContent = { },
-                overlineContent = {  }
-            )
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+
+            for (verse in hymn.lyrics) {
+                ListItem(
+                    leadingContent = { Text(
+                        text = verse.tag+".",
+                        fontSize = 26.sp
+                    )},
+                    headlineContent = { Text(
+                        text = verse.lyrics,
+                        fontSize = 24.sp,
+                        style = TextStyle(lineHeight = 35.sp)
+                    )},
+                    supportingContent = { },
+                    overlineContent = {  }
+                )
+            }
         }
     }
+
 
 }

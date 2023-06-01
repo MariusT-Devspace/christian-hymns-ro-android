@@ -1,10 +1,5 @@
 package com.example.imnuricrestine.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 
 public class Hymn{
@@ -18,12 +13,6 @@ public class Hymn{
         this.lyrics = lyrics;
     }
 
-    /*protected Hymn(Parcel in) {
-        index = (short) in.readInt();
-        title = in.readString();
-        lyrics = in.readArrayList(getClass().getClassLoader());
-    }*/
-
     public short getIndex(){
         return this.index;
     }
@@ -36,27 +25,4 @@ public class Hymn{
         return this.lyrics;
     }
 
-    /*public static final Creator<Hymn> CREATOR = new Creator<Hymn>() {
-        @Override
-        public Hymn createFromParcel(Parcel in) {
-            return new Hymn(in);
-        }
-
-        @Override
-        public Hymn[] newArray(int size) {
-            return new Hymn[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeInt(index);
-        parcel.writeString(title);
-        parcel.writeArray(lyrics.toArray());
-    }*/
 }
