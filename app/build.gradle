@@ -72,7 +72,6 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    //implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-compose:2.7.0-alpha01'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
@@ -84,8 +83,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     implementation 'androidx.room:room-runtime:2.6.0-alpha01'
-    implementation project(':swipeback')
-    //implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     annotationProcessor 'androidx.room:room-compiler:2.6.0-alpha01'
     testImplementation 'junit:junit:4.13.2'
@@ -94,11 +91,6 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_viewmodel_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel_version"
-
-    /*
-    implementation 'androidx.fragment:fragment:1.6.0-rc01'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0-rc01'
-    */
 
     implementation "androidx.core:core-ktx:1.10.1"
     implementation 'com.google.android.material:compose-theme-adapter-3:1.1.1'
