@@ -1,0 +1,101 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "7ab05c9adc92c6e8626da958b0520a75",
+    "entities": [
+      {
+        "tableName": "Hymn",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hymn_index` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`hymn_index`))",
+        "fields": [
+          {
+            "fieldPath": "hymn_index",
+            "columnName": "hymn_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "hymn_index"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Hymn_hymn_index",
+            "unique": false,
+            "columnNames": [
+              "hymn_index"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Hymn_hymn_index` ON `${TABLE_NAME}` (`hymn_index`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Lyrics",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`verse_number` INTEGER NOT NULL, `hymn_index` INTEGER NOT NULL, `verse_text` TEXT NOT NULL, `is_chorus` INTEGER NOT NULL, PRIMARY KEY(`hymn_index`, `verse_number`), FOREIGN KEY(`hymn_index`) REFERENCES `Hymn`(`hymn_index`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "verse_number",
+            "columnName": "verse_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hymn_index",
+            "columnName": "hymn_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verse_text",
+            "columnName": "verse_text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_chorus",
+            "columnName": "is_chorus",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "hymn_index",
+            "verse_number"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Hymn",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "hymn_index"
+            ],
+            "referencedColumns": [
+              "hymn_index"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ab05c9adc92c6e8626da958b0520a75')"
+    ]
+  }
+}
