@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,8 +59,9 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                                 shape = RoundedCornerShape(25.dp)
                             )
                             .padding(7.dp)
-                            .width(30.dp),
-                        fontSize = 20.sp
+                            .width(45.dp),
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center
                     )
                 },
                 //tonalElevation = Dp(2.0f),
