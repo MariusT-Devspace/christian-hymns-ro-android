@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -28,7 +29,7 @@ import com.example.imnuricrestine.navigation.goBackCallback
 import com.example.imnuricrestine.navigation.updateTopAppBar
 
 @Composable
-fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController) {
+fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController?) {
     val state = remember {
         mutableStateOf(indexTitleList)
     }
@@ -64,12 +65,12 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                 //tonalElevation = Dp(2.0f),
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
-                    navController.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
+                    navController!!.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
                     MainActivity.surfaceTopPaddingState.value = SurfaceTopPadding.SURFACE_TOP_PADDING_HYMN_DETAILS.padding
                     MainActivity.topAppBarZIndexState.value = 1f
                     MainActivity.surfaceZIndexState.value = 2f
                     Navigation.updateTopAppBar("", Icons.Filled.ArrowBack,
-                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController) })
+                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController!!) })
                 }
 
             )
@@ -77,4 +78,16 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
 
         }
     }
+}
+
+@Preview
+@Composable
+fun HymnsIndexPreview() {
+    val list = listOf(
+        MainActivity.IndexTitle(index = 7, title = "Ţi-nalţ, Iehova-n veci cântare!"),
+        MainActivity.IndexTitle(index = 13, title = "Domnul e bun"),
+        MainActivity.IndexTitle(index = 110, title = "O, ce veste minunată!")
+    )
+
+    HymnsIndex(indexTitleList = list, contentPadding = PaddingValues(20.dp), navController = null)
 }
