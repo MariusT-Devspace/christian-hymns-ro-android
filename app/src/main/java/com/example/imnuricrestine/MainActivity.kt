@@ -3,58 +3,35 @@ package com.example.imnuricrestine
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
-import com.example.imnuricrestine.models.Hymn
+import com.example.imnuricrestine.data.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
-import com.example.imnuricrestine.services.HymnsViewModel
+import com.example.imnuricrestine.data.HymnsViewModel
 import com.example.imnuricrestine.ui.theme.ChristianHymnsTheme
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-
-enum class SurfaceTopPadding(val padding : Dp) {
-   SURFACE_TOP_PADDING_INDEX(0.dp),
-    SURFACE_TOP_PADDING_HYMN_DETAILS(64.dp)
-}
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.imnuricrestine.components.MyTopAppBar
+import com.example.imnuricrestine.state.MainViewModel
 
 class MainActivity : ComponentActivity() {
-    lateinit var hymnsModel: HymnsViewModel //= ViewModelProvider(this)[HymnsViewModel::class.java]
+    lateinit var hymnsModel: HymnsViewModel
     companion object {
-        lateinit var hymnsList : MutableLiveData<ArrayList<Hymn>> //= hymnsModel.hymns
+        lateinit var hymnsList : LiveData<ArrayList<Hymn>>
         lateinit var topAppBarState : TopAppBarState
-        lateinit var topBarTitleState : MutableState<String>
-        lateinit var navigationIconState : MutableState<ImageVector>
-        lateinit var scrollBehavior : MutableState<TopAppBarScrollBehavior>
-        lateinit var exitUntilCollapsedScrollBehavior : TopAppBarScrollBehavior
-        lateinit var pinnedScrollBehavior : TopAppBarScrollBehavior
-        lateinit var navigationAction : MutableState<() -> Unit>
-        lateinit var surfaceTopPaddingState : MutableState<Dp>
-        lateinit var topAppBarHeightState : MutableState<Dp>
-        lateinit var topAppBarZIndexState : MutableState<Float>
-        lateinit var surfaceZIndexState : MutableState<Float>
-        lateinit var openMenu : () -> Unit
     }
     data class IndexTitle (val index: Short, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
@@ -65,13 +42,8 @@ class MainActivity : ComponentActivity() {
         hymnsModel = ViewModelProvider(this)[HymnsViewModel::class.java]
         hymnsList = hymnsModel.hymns
 
-        openMenu = {
-            Log.d("OPENMENU", "Opening menu")
-        }
-
         val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
         if (!sharedPreferences.contains("hymnsIndexAndTitle")){
-
             indexTitleList = hymnsList.value!!.map { hymn ->
                 IndexTitle(index = hymn.index, title = hymn.title)
             }
@@ -79,43 +51,32 @@ class MainActivity : ComponentActivity() {
                 val gson = Gson()
                 val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
                 indexTitleList = gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
-
-
         }
 
         setContent {
             // TopBar state
             topAppBarState = rememberTopAppBarState()
-            topBarTitleState = rememberSaveable { mutableStateOf("") }
-            navigationIconState = remember { mutableStateOf(Icons.Filled.Menu) }
-            topBarTitleState.value = stringResource(R.string.top_bar_title)
-            exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
-            pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-            scrollBehavior = remember { mutableStateOf(exitUntilCollapsedScrollBehavior)}
-            navigationAction = remember { mutableStateOf(openMenu) }
-            surfaceTopPaddingState = remember { mutableStateOf(SurfaceTopPadding.SURFACE_TOP_PADDING_INDEX.padding) }
-            topAppBarHeightState = remember { mutableStateOf(64.dp) }
-            topAppBarZIndexState = remember { mutableFloatStateOf(2f) }
-            surfaceZIndexState = remember { mutableFloatStateOf(1f) }
-            navigationAction.value = openMenu
-
+            val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
+            val mainViewModel : MainViewModel = viewModel()
+            val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
             ChristianHymnsTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
-                    modifier = Modifier.nestedScroll(scrollBehavior.value.nestedScrollConnection),
+                    modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
                     topBar = {
-                        LargeTopAppBar(
+                        MyTopAppBar(
+                            topAppBar = topAppBarUiState.topAppBar,
                             title = {
                                     Text(
-                                    topBarTitleState.value,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                        topAppBarUiState.title,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 },
                             navigationIcon = {
-                                IconButton(onClick =  navigationAction.value ) {
+                                IconButton(onClick =  topAppBarUiState.onNavigationAction ) {
                                     Icon(
-                                        imageVector = navigationIconState.value,
+                                        imageVector = topAppBarUiState.navigationIcon,
                                         contentDescription = "Localized description"
                                     )
                                 }
@@ -128,18 +89,16 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             },
-                            scrollBehavior = scrollBehavior.value,
-                            modifier = Modifier.zIndex(topAppBarZIndexState.value)
+                            scrollBehavior = exitUntilCollapsedScrollBehavior
                         )
                     }
                 ) { padding ->
                     Surface(
-                        modifier = Modifier.fillMaxSize().padding(top = surfaceTopPaddingState.value).zIndex(
-                            surfaceZIndexState.value),
+                        modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
                         // Navigation composable
-                        Navigation(indexTitleList, contentPadding = padding)
+                        Navigation(indexTitleList, padding, mainViewModel)
                     }
 
                 }

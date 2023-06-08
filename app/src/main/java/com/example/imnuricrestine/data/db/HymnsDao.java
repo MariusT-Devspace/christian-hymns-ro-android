@@ -1,14 +1,12 @@
-package com.example.imnuricrestine.db;
+package com.example.imnuricrestine.data.db;
 
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.example.imnuricrestine.db.entities.Hymn;
-import com.example.imnuricrestine.db.entities.HymnWithLyrics;
+import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
 
 import java.util.List;
-import java.util.Map;
 
 @Dao
 public interface HymnsDao {

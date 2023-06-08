@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.db.entities;
+package com.example.imnuricrestine.data.db.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

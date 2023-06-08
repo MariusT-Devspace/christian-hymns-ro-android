@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.models;
+package com.example.imnuricrestine.data.models;
 
 public class Verse{
     private String lyrics;

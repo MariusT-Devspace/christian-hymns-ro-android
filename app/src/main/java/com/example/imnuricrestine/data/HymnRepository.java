@@ -1,14 +1,14 @@
-package com.example.imnuricrestine.services;
+package com.example.imnuricrestine.data;
 
 import android.app.Application;
 
 import androidx.room.Room;
 
-import com.example.imnuricrestine.db.AppDatabase;
-import com.example.imnuricrestine.db.HymnsDao;
-import com.example.imnuricrestine.db.entities.HymnWithLyrics;
-import com.example.imnuricrestine.models.Hymn;
-import com.example.imnuricrestine.models.Verse;
+import com.example.imnuricrestine.data.db.AppDatabase;
+import com.example.imnuricrestine.data.db.HymnsDao;
+import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
+import com.example.imnuricrestine.data.models.Hymn;
+import com.example.imnuricrestine.data.models.Verse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class HymnRepository {
     private static List<HymnWithLyrics> hymnsWithLyricsList;
     private ArrayList<Hymn> hymns;
     private static final String HYMN = "com.example.imnuricrestine.HYMN";
-    private String CHORUS_TAG = "Ref:";
+    private String CHORUS_TAG = "Ref";
 
     Application application;
     HymnRepository(Application application){

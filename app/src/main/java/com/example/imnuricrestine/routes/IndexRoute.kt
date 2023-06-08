@@ -22,15 +22,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
 import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.SurfaceTopPadding
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.goBackCallback
-import com.example.imnuricrestine.navigation.updateTopAppBar
+import com.example.imnuricrestine.navigation.onGoBackCompanion
+import com.example.imnuricrestine.state.MainViewModel
+import com.example.imnuricrestine.state.TopAppBar
+import com.example.imnuricrestine.state.TopAppBarTitle
 
 @Composable
-fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues, navController: NavHostController?) {
+fun HymnsIndex(
+    indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues,
+    navController: NavHostController?,
+    mainViewModel: MainViewModel?
+) {
     val state = remember {
         mutableStateOf(indexTitleList)
     }
@@ -64,15 +68,12 @@ fun HymnsIndex(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
                         textAlign = TextAlign.Center
                     )
                 },
-                //tonalElevation = Dp(2.0f),
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
                     navController!!.navigate(Route.HymnDetailsRoute.route+"/$hymnId")
-                    MainActivity.surfaceTopPaddingState.value = SurfaceTopPadding.SURFACE_TOP_PADDING_HYMN_DETAILS.padding
-                    MainActivity.topAppBarZIndexState.value = 1f
-                    MainActivity.surfaceZIndexState.value = 2f
-                    Navigation.updateTopAppBar("", Icons.Filled.ArrowBack,
-                        MainActivity.pinnedScrollBehavior, { goBackCallback.goBack(navController!!) })
+                    mainViewModel!!.updateTopAppBar(
+                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title, Icons.Filled.ArrowBack, { onGoBackCompanion.onGoBack() }
+                    )
                 }
 
             )
@@ -91,5 +92,5 @@ fun HymnsIndexPreview() {
         MainActivity.IndexTitle(index = 110, title = "O, ce veste minunată!")
     )
 
-    HymnsIndex(indexTitleList = list, contentPadding = PaddingValues(20.dp), navController = null)
+    HymnsIndex(list, PaddingValues(20.dp),  null,  null)
 }

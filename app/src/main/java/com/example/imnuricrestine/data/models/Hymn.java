@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.models;
+package com.example.imnuricrestine.data.models;
 
 import java.util.ArrayList;
 
