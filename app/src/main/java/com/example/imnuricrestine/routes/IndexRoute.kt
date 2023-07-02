@@ -87,9 +87,9 @@ fun HymnsIndex(
 @Composable
 fun HymnsIndexPreview() {
     val list = listOf(
-        MainActivity.IndexTitle(index = 7, title = "Ţi-nalţ, Iehova-n veci cântare!"),
-        MainActivity.IndexTitle(index = 13, title = "Domnul e bun"),
-        MainActivity.IndexTitle(index = 110, title = "O, ce veste minunată!")
+        MainActivity.IndexTitle(index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
+        MainActivity.IndexTitle(index = "13", title = "Domnul e bun"),
+        MainActivity.IndexTitle(index = "110", title = "O, ce veste minunată!")
     )
 
     HymnsIndex(list, PaddingValues(20.dp),  null,  null)

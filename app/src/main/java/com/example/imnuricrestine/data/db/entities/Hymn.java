@@ -12,7 +12,12 @@ public class Hymn {
     public short hymn_index;
 
     @NonNull
+    public String index_display;
+
+    @NonNull
     public String title;
+
+
 
     @Override
     public int hashCode(){

@@ -39,7 +39,7 @@ public class HymnRepository {
                     tag = String.valueOf(++verseTagCount);
                 verses.add(new Verse(verse.verse_text, tag));
             }
-            hymns.add(new Hymn(hymnWithLyrics.hymn.hymn_index, hymnWithLyrics.hymn.title, verses));
+            hymns.add(new Hymn(hymnWithLyrics.hymn.index_display, hymnWithLyrics.hymn.title, verses));
         }
     }
 

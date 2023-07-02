@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         lateinit var hymnsList : LiveData<ArrayList<Hymn>>
         lateinit var topAppBarState : TopAppBarState
     }
-    data class IndexTitle (val index: Short, val title: String)
+    data class IndexTitle (val index: String, val title: String)
     lateinit var indexTitleList: List<IndexTitle>
 
     override fun onCreate(savedInstanceState: Bundle?) {

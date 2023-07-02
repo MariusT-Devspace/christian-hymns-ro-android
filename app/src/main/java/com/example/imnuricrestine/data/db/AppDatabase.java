@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 import com.example.imnuricrestine.data.db.entities.Hymn;
 import com.example.imnuricrestine.data.db.entities.Lyrics;
 
-@Database(entities = {Hymn.class, Lyrics.class}, version = 5)
+@Database(entities = {Hymn.class, Lyrics.class}, version = 6)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract HymnsDao hymnsDao();
 }
