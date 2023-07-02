@@ -50,23 +50,23 @@ fun HymnsIndex(
                 headlineContent = {
                     Text(
                         item.title,
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp)
+                        fontSize = 20.sp
                     )
                 },
                 leadingContent = {
                     Text(
-                        item.index.toString(),
+                        item.index,
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = RoundedCornerShape(25.dp)
                             )
-                            .padding(7.dp)
-                            .width(45.dp),
+                            .width(70.dp)
+                            .padding(7.dp),
                         fontSize = 20.sp,
                         textAlign = TextAlign.Center
                     )
+
                 },
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
@@ -89,7 +89,8 @@ fun HymnsIndexPreview() {
     val list = listOf(
         MainActivity.IndexTitle(index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
         MainActivity.IndexTitle(index = "13", title = "Domnul e bun"),
-        MainActivity.IndexTitle(index = "110", title = "O, ce veste minunată!")
+        MainActivity.IndexTitle(index = "110", title = "O, ce veste minunată!"),
+        MainActivity.IndexTitle(index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
     )
 
     HymnsIndex(list, PaddingValues(20.dp),  null,  null)
