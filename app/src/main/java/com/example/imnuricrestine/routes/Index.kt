@@ -28,6 +28,7 @@ import com.example.imnuricrestine.navigation.onGoBackCompanion
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
+import com.google.android.material.shape.MaterialShapeDrawable
 
 @Composable
 fun HymnsIndex(
@@ -59,7 +60,7 @@ fun HymnsIndex(
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primaryContainer,
-                                shape = RoundedCornerShape(25.dp)
+                                shape = MaterialTheme.shapes.extraLarge
                             )
                             .width(70.dp)
                             .padding(7.dp),
