@@ -28,10 +28,10 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
 // Navigation routes
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Route.IndexRoute.route) {
-        composable(Route.IndexRoute.route) { HymnsIndex(indexTitleList, contentPadding, navController, mainViewModel) }
+    NavHost(navController = navController, startDestination = Route.Index.route) {
+        composable(Route.Index.route) { HymnsIndex(indexTitleList, contentPadding, navController, mainViewModel) }
         composable(
-            Route.HymnDetailsRoute.route + "/{hymnId}",
+            Route.HymnDetails.route + "/{hymnId}",
             listOf(
                 navArgument("hymnId"){
                     type = NavType.IntType
@@ -44,7 +44,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
 
     onGoBackCompanion.onGoBack = {
         navController.popBackStack()
-        if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
+        if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
             mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { MainViewModel::onOpenMenu })
         }
@@ -55,7 +55,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
     ) {
         navController.popBackStack()
         Log.d("BACKHANDLER", "BackHandler")
-        if (navController.currentBackStackEntry!!.destination.route.equals(Route.IndexRoute.route) ) {
+        if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
             mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { MainViewModel::onOpenMenu })
         }
