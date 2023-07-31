@@ -56,9 +56,12 @@ fun HymnsIndex(
         ) { item ->
             ListItem(
                 headlineContent = {
+
+                },
+                supportingContent = {
                     Text(
                         item.title,
-                        fontSize = 20.sp
+                        fontSize = 18.sp
                     )
                 },
                 leadingContent = {
@@ -69,9 +72,9 @@ fun HymnsIndex(
                                 color = MaterialTheme.colorScheme.primaryContainer,
                                 shape = MaterialTheme.shapes.extraLarge
                             )
-                            .width(70.dp)
-                            .padding(7.dp),
-                        fontSize = 20.sp,
+                            .width(53.dp)
+                            .padding(horizontal = 5.dp, vertical = 10.dp),
+                        fontSize = 15.sp,
                         textAlign = TextAlign.Center
                     )
 
@@ -92,7 +95,6 @@ fun HymnsIndex(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title, Icons.Filled.ArrowBack, { onGoBackCompanion.onGoBack() }
                     )
                 },
-
             )
             //Divider()
 
