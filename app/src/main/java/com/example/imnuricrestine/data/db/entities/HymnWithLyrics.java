@@ -8,8 +8,8 @@ import java.util.List;
 public class HymnWithLyrics {
     @Embedded public Hymn hymn;
     @Relation(
-        parentColumn = "hymn_index",
-        entityColumn = "hymn_index"
+        parentColumn = "id",
+        entityColumn = "hymn_id"
     )
     public List<Lyrics> lyrics;
 }

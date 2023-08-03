@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
-@Entity(primaryKeys = {"hymn_index", "verse_number"}, foreignKeys = @ForeignKey(
+@Entity(primaryKeys = {"hymn_id", "verse_number"}, foreignKeys = @ForeignKey(
         entity = Hymn.class,
-        parentColumns = "hymn_index",
-        childColumns = "hymn_index"
+        parentColumns = "id",
+        childColumns = "hymn_id"
 ))
 
 public class Lyrics{
@@ -15,7 +15,7 @@ public class Lyrics{
     public short verse_number;
 
     @NonNull
-    public short hymn_index;
+    public short hymn_id;
 
     @NonNull
     public String verse_text;

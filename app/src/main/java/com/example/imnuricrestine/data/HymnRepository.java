@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.example.imnuricrestine.data.db.AppDatabase;
 import com.example.imnuricrestine.data.db.HymnsDao;
+import com.example.imnuricrestine.data.db.entities.Favorites;
 import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
 import com.example.imnuricrestine.data.models.Hymn;
 import com.example.imnuricrestine.data.models.Verse;
@@ -16,10 +17,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class HymnRepository {
-    private static List<HymnWithLyrics> hymnsWithLyricsList;
-    private ArrayList<Hymn> hymns;
-    private static final String HYMN = "com.example.imnuricrestine.HYMN";
-    private String CHORUS_TAG = "Ref";
+    private static List<HymnWithLyrics> _hymnsWithLyricsList;
+    private static List<Favorites> _favorites;
+
+    private ArrayList<Hymn> _hymns;
 
     Application application;
     HymnRepository(Application application){
@@ -27,21 +28,26 @@ public class HymnRepository {
     }
 
     private void populateHymns() {
-        hymns = new ArrayList<>();
-        for(var hymnWithLyrics : hymnsWithLyricsList){
+        _hymns = new ArrayList<>();
+        _favorites = new ArrayList<>();
+
+        for(var hymnWithLyrics : _hymnsWithLyricsList) {
             ArrayList<Verse> verses = new ArrayList<>();
             int verseTagCount = 0;
             for(var verse : hymnWithLyrics.lyrics){
                 String tag = "";
+                String CHORUS_TAG = "Ref";
                 if (verse.is_chorus)
                     tag = CHORUS_TAG;
                 else
                     tag = String.valueOf(++verseTagCount);
                 verses.add(new Verse(verse.verse_text, tag));
             }
-            hymns.add(new Hymn(hymnWithLyrics.hymn.index_display, hymnWithLyrics.hymn.title, verses));
+            _hymns.add(new Hymn(hymnWithLyrics.hymn.hymn_index, hymnWithLyrics.hymn.title, verses));
         }
     }
+
+
 
     private CompletableFuture<Void> loadDataBase = CompletableFuture.runAsync(() -> {
         // Load database and recyclerview
@@ -50,14 +56,18 @@ public class HymnRepository {
                     .fallbackToDestructiveMigration()
                     .build();
             HymnsDao hymnsDao = db.hymnsDao();
-            hymnsWithLyricsList = hymnsDao.getAll();
+            _hymnsWithLyricsList = hymnsDao.getAll();
+            _favorites = hymnsDao.getFavorites();
             db.close();
     }
     );
     public ArrayList<Hymn> getHymns(Application application) throws ExecutionException, InterruptedException {
         loadDataBase.get();
         populateHymns();
-        return hymns;
+        return _hymns;
+    }
 
+    public List<Favorites> getFavorites(Application application) throws ExecutionException, InterruptedException {
+        return _favorites;
     }
 }

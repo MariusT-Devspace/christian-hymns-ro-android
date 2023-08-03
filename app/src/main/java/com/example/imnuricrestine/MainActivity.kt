@@ -25,12 +25,14 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.imnuricrestine.components.MyTopAppBar
+import com.example.imnuricrestine.data.db.entities.Favorites
 import com.example.imnuricrestine.state.MainViewModel
 
 class MainActivity : ComponentActivity() {
-    lateinit var hymnsModel: HymnsViewModel
+    lateinit var hymnsViewModel: HymnsViewModel
     companion object {
-        lateinit var hymnsList : LiveData<ArrayList<Hymn>>
+        lateinit var hymns : LiveData<ArrayList<Hymn>>
+        lateinit var favorites: LiveData<List<Favorites>>
         lateinit var topAppBarState : TopAppBarState
     }
     data class IndexTitle (val index: String, val title: String)
@@ -39,12 +41,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        hymnsModel = ViewModelProvider(this)[HymnsViewModel::class.java]
-        hymnsList = hymnsModel.hymns
+        hymnsViewModel = ViewModelProvider(this)[HymnsViewModel::class.java]
+        hymns = hymnsViewModel.hymns
+        favorites = hymnsViewModel.favorites
 
         val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
         if (!sharedPreferences.contains("hymnsIndexAndTitle")){
-            indexTitleList = hymnsList.value!!.map { hymn ->
+            indexTitleList = hymns.value!!.map { hymn ->
                 IndexTitle(index = hymn.index, title = hymn.title)
             }
         }else{

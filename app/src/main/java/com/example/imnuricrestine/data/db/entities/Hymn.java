@@ -5,29 +5,27 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "Hymns")
 public class Hymn {
     @PrimaryKey
     @ColumnInfo(index = true)
-    public short hymn_index;
+    public short id;
 
     @NonNull
-    public String index_display;
+    public String hymn_index;
 
     @NonNull
     public String title;
 
-
-
     @Override
     public int hashCode(){
-        return hymn_index;
+        return id;
     }
 
     @Override
     public boolean equals(Object obj){
         Hymn h = (Hymn) obj;
-        if(this.hymn_index == h.hymn_index){
+        if(this.id == h.id){
             return true;
         }else{
             return false;

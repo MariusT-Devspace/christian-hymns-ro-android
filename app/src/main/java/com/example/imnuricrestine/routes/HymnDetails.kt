@@ -16,7 +16,7 @@ import com.example.imnuricrestine.MainActivity
 
 @Composable
 fun HymnDetails(hymnId: Int) {
-    val hymn = MainActivity.hymnsList.value!![hymnId]
+    val hymn = MainActivity.hymns.value!![hymnId]
 
     Column(
         modifier = Modifier.padding(top = 80.dp, bottom = 10.dp)
