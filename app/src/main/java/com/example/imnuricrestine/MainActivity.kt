@@ -3,17 +3,21 @@ package com.example.imnuricrestine
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
@@ -26,7 +30,11 @@ import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.db.entities.Favorites
+import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
+import com.example.imnuricrestine.state.TopAppBarUiState
+import kotlinx.coroutines.launch
+import com.example.imnuricrestine.state.TopAppBar
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsViewModel: HymnsViewModel
@@ -63,47 +71,70 @@ class MainActivity : ComponentActivity() {
             val mainViewModel : MainViewModel = viewModel()
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
             ChristianHymnsTheme {
-                // A surface container using the 'background' color from the theme
-                Scaffold(
-                    modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
-                    topBar = {
-                        MyTopAppBar(
-                            topAppBar = topAppBarUiState.topAppBar,
-                            title = {
+                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+                val scope = rememberCoroutineScope()
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        ModalDrawerSheet { /* Drawer content */ }
+                    },
+                ) {
+                    navigationActions.onOpenMenu = {
+                        scope.launch {
+                            drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
+                        }
+                        Log.d("OPENMENU", "OPENING MENU")
+                    }
+                    mainViewModel.updateTopAppBar(
+                        TopAppBar.LARGETOPAPPBAR,
+                        stringResource(R.string.top_bar_title),
+                        Icons.Filled.Menu,
+                        navigationActions.onOpenMenu
+                    )
+                    // A surface container using the 'background' color from the theme
+                    Scaffold(
+                        modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
+                        topBar = {
+                            MyTopAppBar(
+                                topAppBar = topAppBarUiState.topAppBar,
+                                title = {
                                     Text(
                                         topAppBarUiState.title,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
                                     )
                                 },
-                            navigationIcon = {
-                                IconButton(onClick =  topAppBarUiState.onNavigationAction ) {
-                                    Icon(
-                                        imageVector = topAppBarUiState.navigationIcon,
-                                        contentDescription = "Localized description"
-                                    )
-                                }
-                            },
-                            actions = {
-                                IconButton(onClick = { /* doSomething() */ }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Settings,
-                                        contentDescription = "Localized description"
-                                    )
-                                }
-                            },
-                            scrollBehavior = exitUntilCollapsedScrollBehavior
-                        )
-                    }
-                ) { padding ->
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        // Navigation composable
-                        Navigation(indexTitleList, padding, mainViewModel)
-                    }
+                                navigationIcon = {
+                                    IconButton(onClick = topAppBarUiState.onNavigationAction) {
+                                        Icon(
+                                            imageVector = topAppBarUiState.navigationIcon,
+                                            contentDescription = "Localized description"
+                                        )
+                                    }
+                                },
+                                actions = {
+                                    IconButton(onClick = { /* doSomething() */ }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Settings,
+                                            contentDescription = "Localized description"
+                                        )
+                                    }
+                                },
+                                scrollBehavior = exitUntilCollapsedScrollBehavior
+                            )
+                        },
+                    ) { padding ->
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            // Navigation composable
+                            Navigation(indexTitleList, padding, mainViewModel)
+                        }
 
+                    }
                 }
             }
         }

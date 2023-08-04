@@ -1,6 +1,5 @@
 package com.example.imnuricrestine.state
 
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -11,9 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel() {
-    val onOpenMenu : () -> Unit = {
-        Log.d("OPENMENU", "Opening menu")
-    }
+
 
     val _topAppBarUiState = MutableStateFlow(TopAppBarUiState(
         topAppBar = TopAppBar.LARGETOPAPPBAR,

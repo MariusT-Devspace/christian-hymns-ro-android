@@ -31,7 +31,7 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.R
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.onGoBackCompanion
+import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
@@ -39,7 +39,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 
 @Composable
 fun HymnsIndex(
-    indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues,
+    indexTitleList: List<MainActivity.IndexTitle>,
+    contentPadding: PaddingValues,
     navController: NavHostController?,
     mainViewModel: MainViewModel?
 ) {
@@ -92,7 +93,7 @@ fun HymnsIndex(
                     val hymnId = item.index.toInt()-1
                     navController!!.navigate(Route.HymnDetails.route+"/$hymnId")
                     mainViewModel!!.updateTopAppBar(
-                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title, Icons.Filled.ArrowBack, { onGoBackCompanion.onGoBack() }
+                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title, Icons.Filled.ArrowBack, { navigationActions.onGoBack() }
                     )
                 },
             )

@@ -18,8 +18,9 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 
-object onGoBackCompanion {
+object navigationActions {
     lateinit var onGoBack : () -> Unit
+    lateinit var onOpenMenu : () -> Unit
 }
 
 @Composable
@@ -42,11 +43,11 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
             HymnDetails(hymnId = argument) }
     }
 
-    onGoBackCompanion.onGoBack = {
+    navigationActions.onGoBack = {
         navController.popBackStack()
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
-            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { MainViewModel::onOpenMenu })
+            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { navigationActions.onOpenMenu() })
         }
         Log.d("GOBACKCALLBACK", "GOING BACK!!!")
     }
@@ -57,7 +58,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         Log.d("BACKHANDLER", "BackHandler")
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
-            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { MainViewModel::onOpenMenu })
+            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { navigationActions.onOpenMenu() })
         }
     }
 }
