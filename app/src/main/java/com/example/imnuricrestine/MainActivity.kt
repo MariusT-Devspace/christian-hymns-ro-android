@@ -124,31 +124,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
                         topBar = {
                             MyTopAppBar(
-                                topAppBar = topAppBarUiState.topAppBar,
-                                title = {
-                                    Text(
-                                        topAppBarUiState.title,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                },
-                                navigationIcon = {
-                                    IconButton(onClick = topAppBarUiState.onNavigationAction) {
-                                        Icon(
-                                            imageVector = topAppBarUiState.navigationIcon,
-                                            contentDescription = "Localized description"
-                                        )
-                                    }
-                                },
-                                actions = {
-                                    IconButton(onClick = { /* doSomething() */ }) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Settings,
-                                            contentDescription = "Localized description"
-                                        )
-                                    }
-                                },
-                                scrollBehavior = exitUntilCollapsedScrollBehavior
+                                topAppBarUiState,
+                                exitUntilCollapsedScrollBehavior
                             )
                         },
                     ) { padding ->
