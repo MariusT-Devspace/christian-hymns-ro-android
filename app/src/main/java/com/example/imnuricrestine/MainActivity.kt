@@ -9,20 +9,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.*
 import com.example.imnuricrestine.data.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
@@ -35,7 +30,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.db.entities.Favorites
-import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
 import kotlinx.coroutines.launch
@@ -59,14 +53,14 @@ class MainActivity : ComponentActivity() {
         favorites = hymnsViewModel.favorites
 
         val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
-        if (!sharedPreferences.contains("hymnsIndexAndTitle")){
-            indexTitleList = hymns.value!!.map { hymn ->
+        indexTitleList = if (!sharedPreferences.contains("hymnsIndexAndTitle")){
+            hymns.value!!.map { hymn ->
                 IndexTitle(index = hymn.index, title = hymn.title)
             }
         } else {
-                val gson = Gson()
-                val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
-                indexTitleList = gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
+            val gson = Gson()
+            val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
+            gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
         }
 
         setContent {

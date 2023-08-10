@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -36,6 +37,10 @@ fun DrawerSheet(
 
         for (item in destinations) {
             NavigationDrawerItem(
+                icon = { Icon(
+                    imageVector = item.icon,
+                    contentDescription = item.title
+                ) },
                 label = { Text(text = item.title) },
                 selected = selectedItem.value == item,
                 onClick = {
