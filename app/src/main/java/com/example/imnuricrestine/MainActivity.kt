@@ -32,6 +32,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.db.entities.Favorites
 import com.example.imnuricrestine.navigation.Route
@@ -74,6 +75,7 @@ class MainActivity : ComponentActivity() {
             val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             val mainViewModel : MainViewModel = viewModel()
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
+
             ChristianHymnsTheme {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
@@ -82,27 +84,7 @@ class MainActivity : ComponentActivity() {
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
-                        ModalDrawerSheet {
-                            val destinations = listOf(
-                                Route.Index,
-                                Route.Favorites
-                            )
-
-                            val selectedItem = remember { mutableStateOf(destinations[0]) }
-                            Spacer(Modifier.height(12.dp))
-                            for (item in destinations) {
-                                NavigationDrawerItem(
-                                    label = { Text(text = item.title) },
-                                    selected = selectedItem.value == item,
-                                    onClick = {
-                                        selectedItem.value = item
-                                        scope.launch { drawerState.close() }
-                                        navController.navigate(item.route)
-                                    },
-                                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                                )
-                            }
-                        }
+                        DrawerSheet(drawerState, scope, navController)
                     },
                 ) {
                     navigationActions.onOpenMenu = {
