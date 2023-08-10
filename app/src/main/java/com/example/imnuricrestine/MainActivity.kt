@@ -14,12 +14,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.*
 import com.example.imnuricrestine.data.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
@@ -28,11 +31,12 @@ import com.example.imnuricrestine.ui.theme.ChristianHymnsTheme
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.db.entities.Favorites
+import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
-import com.example.imnuricrestine.state.TopAppBarUiState
 import kotlinx.coroutines.launch
 import com.example.imnuricrestine.state.TopAppBar
 
@@ -58,7 +62,7 @@ class MainActivity : ComponentActivity() {
             indexTitleList = hymns.value!!.map { hymn ->
                 IndexTitle(index = hymn.index, title = hymn.title)
             }
-        }else{
+        } else {
                 val gson = Gson()
                 val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
                 indexTitleList = gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
@@ -73,10 +77,32 @@ class MainActivity : ComponentActivity() {
             ChristianHymnsTheme {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
+                val navController = rememberNavController()
+
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
-                        ModalDrawerSheet { /* Drawer content */ }
+                        ModalDrawerSheet {
+                            val destinations = listOf(
+                                Route.Index,
+                                Route.Favorites
+                            )
+
+                            val selectedItem = remember { mutableStateOf(destinations[0]) }
+                            Spacer(Modifier.height(12.dp))
+                            for (item in destinations) {
+                                NavigationDrawerItem(
+                                    label = { Text(text = item.title) },
+                                    selected = selectedItem.value == item,
+                                    onClick = {
+                                        selectedItem.value = item
+                                        scope.launch { drawerState.close() }
+                                        navController.navigate(item.route)
+                                    },
+                                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                                )
+                            }
+                        }
                     },
                 ) {
                     navigationActions.onOpenMenu = {
@@ -131,7 +157,7 @@ class MainActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             // Navigation composable
-                            Navigation(indexTitleList, padding, mainViewModel)
+                            Navigation(indexTitleList, padding, mainViewModel, navController)
                         }
 
                     }
