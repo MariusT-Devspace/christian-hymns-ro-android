@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
-                        DrawerSheet(drawerState, scope, navController)
+                        DrawerSheet(drawerState, scope, navController, mainViewModel)
                     },
                 ) {
                     navigationActions.onOpenMenu = {
@@ -89,12 +89,7 @@ class MainActivity : ComponentActivity() {
                         }
                         Log.d("OPENMENU", "OPENING MENU")
                     }
-                    mainViewModel.updateTopAppBar(
-                        TopAppBar.LARGETOPAPPBAR,
-                        stringResource(R.string.top_bar_title),
-                        Icons.Filled.Menu,
-                        navigationActions.onOpenMenu
-                    )
+                    mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
                     // A surface container using the 'background' color from the theme
                     Scaffold(
                         modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),

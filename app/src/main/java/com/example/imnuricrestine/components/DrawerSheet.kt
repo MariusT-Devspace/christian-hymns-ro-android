@@ -9,14 +9,17 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
 import com.example.imnuricrestine.navigation.Route
+import com.example.imnuricrestine.state.MainViewModel
+import com.example.imnuricrestine.state.TopAppBar
+import com.example.imnuricrestine.state.TopAppBarTitle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -24,7 +27,8 @@ import kotlinx.coroutines.launch
 fun DrawerSheet(
     drawerState: DrawerState,
     scope: CoroutineScope,
-    navController: NavHostController
+    navController: NavHostController,
+    mainViewModel: MainViewModel
     ) {
     ModalDrawerSheet {
         val destinations = listOf(
@@ -32,15 +36,14 @@ fun DrawerSheet(
             Route.Favorites
         )
 
-        val selectedItem = remember { mutableStateOf(destinations[0]) }
+        val navigationDrawerUiState by mainViewModel.navigationDrawerUiState.collectAsState()
 
         Text(
             stringResource(R.string.navigation_drawer_header),
             fontSize = MaterialTheme.typography.titleMedium.fontSize,
             fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
             color = MaterialTheme.typography.titleMedium.color,
-            modifier = Modifier
-                .padding(25.dp)
+            modifier = Modifier.padding(25.dp)
         )
 
         for (item in destinations) {
@@ -50,11 +53,16 @@ fun DrawerSheet(
                     contentDescription = item.title
                 ) },
                 label = { Text(text = item.title) },
-                selected = selectedItem.value == item,
+                selected = navigationDrawerUiState.selectedItem == item,
                 onClick = {
-                    selectedItem.value = item
                     scope.launch { drawerState.close() }
                     navController.navigate(item.route)
+                    mainViewModel.updateNavigationDrawer(item)
+                    when (item) {
+                        Route.Index -> mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title)
+                        Route.Favorites -> mainViewModel.updateTopAppBar(TopAppBar.SMALLTOPAPPBAR, Route.Favorites.title)
+                        else -> {}
+                    }
                 },
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
             )

@@ -41,7 +41,7 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
             HymnDetails(hymnId = argument)
         }
-        composable(Route.Favorites.route) { Favorites() }
+        composable(Route.Favorites.route) { Favorites(contentPadding) }
     }
 
 
