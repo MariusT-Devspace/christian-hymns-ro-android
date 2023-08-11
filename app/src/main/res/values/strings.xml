@@ -52,4 +52,5 @@
     <string name="activity_main">Imnuri crestine</string>
     <string name="top_bar_title">920 Imnuri Crestine</string>
     <string name="favorites_description">Salveaza la favorite</string>
+    <string name="navigation_drawer_header">Imnuri Crestine</string>
 </resources>

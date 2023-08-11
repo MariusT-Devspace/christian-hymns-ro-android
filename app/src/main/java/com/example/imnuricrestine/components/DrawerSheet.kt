@@ -1,10 +1,9 @@
 package com.example.imnuricrestine.components
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -13,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.imnuricrestine.R
 import com.example.imnuricrestine.navigation.Route
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -33,7 +34,14 @@ fun DrawerSheet(
 
         val selectedItem = remember { mutableStateOf(destinations[0]) }
 
-        Spacer(Modifier.height(12.dp))
+        Text(
+            stringResource(R.string.navigation_drawer_header),
+            fontSize = MaterialTheme.typography.titleMedium.fontSize,
+            fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+            color = MaterialTheme.typography.titleMedium.color,
+            modifier = Modifier
+                .padding(25.dp)
+        )
 
         for (item in destinations) {
             NavigationDrawerItem(
