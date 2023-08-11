@@ -1,23 +1,20 @@
 package com.example.imnuricrestine.data;
 
 import android.app.Application;
-
 import androidx.room.Room;
-
 import com.example.imnuricrestine.data.db.AppDatabase;
 import com.example.imnuricrestine.data.db.HymnsDao;
 import com.example.imnuricrestine.data.db.entities.Favorites;
 import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
 import com.example.imnuricrestine.data.models.Hymn;
 import com.example.imnuricrestine.data.models.Verse;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class HymnRepository {
-    private static List<HymnWithLyrics> _hymnsWithLyricsList;
+    private static List<HymnWithLyrics> _hymnsWithLyrics;
     private static List<Favorites> _favorites;
 
     private ArrayList<Hymn> _hymns;
@@ -29,9 +26,8 @@ public class HymnRepository {
 
     private void populateHymns() {
         _hymns = new ArrayList<>();
-        _favorites = new ArrayList<>();
 
-        for(var hymnWithLyrics : _hymnsWithLyricsList) {
+        for(var hymnWithLyrics : _hymnsWithLyrics) {
             ArrayList<Verse> verses = new ArrayList<>();
             int verseTagCount = 0;
             for(var verse : hymnWithLyrics.lyrics){
@@ -56,7 +52,7 @@ public class HymnRepository {
                     .fallbackToDestructiveMigration()
                     .build();
             HymnsDao hymnsDao = db.hymnsDao();
-            _hymnsWithLyricsList = hymnsDao.getAll();
+            _hymnsWithLyrics = hymnsDao.getAll();
             _favorites = hymnsDao.getFavorites();
             db.close();
     }

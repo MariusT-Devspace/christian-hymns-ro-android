@@ -10,7 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.MainActivity.IndexTitle
 import com.example.imnuricrestine.routes.Favorites
 import com.example.imnuricrestine.routes.HymnDetails
 import com.example.imnuricrestine.routes.HymnsIndex
@@ -24,12 +24,21 @@ object navigationActions {
 }
 
 @Composable
-fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: PaddingValues,
-               mainViewModel: MainViewModel, navController: NavHostController
+fun Navigation(
+    indexTitleList: List<IndexTitle>,
+    favoritesIndexTitle: List<IndexTitle>,
+    contentPadding: PaddingValues,
+    mainViewModel: MainViewModel,
+    navController: NavHostController
 ) {
     // Navigation routes
     NavHost(navController = navController, startDestination = Route.Index.route) {
-        composable(Route.Index.route) { HymnsIndex(indexTitleList, contentPadding, navController, mainViewModel) }
+        composable(Route.Index.route) {
+            HymnsIndex(
+                indexTitleList, contentPadding,
+                navController, mainViewModel
+            )
+        }
         composable(
             Route.HymnDetails.route + "/{hymnId}",
             listOf(
@@ -41,7 +50,9 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
             HymnDetails(hymnId = argument)
         }
-        composable(Route.Favorites.route) { Favorites(contentPadding) }
+        composable(Route.Favorites.route) {
+            Favorites(favoritesIndexTitle, contentPadding, navController, mainViewModel)
+        }
     }
 
 
@@ -50,7 +61,10 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         navController.popBackStack()
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
-            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { navigationActions.onOpenMenu() })
+            mainViewModel.updateTopAppBar(
+                TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title,
+                Icons.Filled.Menu, { navigationActions.onOpenMenu() }
+            )
         }
     }
 
@@ -59,7 +73,10 @@ fun Navigation(indexTitleList: List<MainActivity.IndexTitle>, contentPadding: Pa
         navController.popBackStack()
         if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
             //MainActivity.surfaceZIndexState.value = 1f
-            mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title, Icons.Filled.Menu, { navigationActions.onOpenMenu() })
+            mainViewModel.updateTopAppBar(
+                TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title,
+                Icons.Filled.Menu, { navigationActions.onOpenMenu() }
+            )
         }
     }
 }

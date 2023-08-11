@@ -2,7 +2,6 @@ package com.example.imnuricrestine.data.db;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-
 import com.example.imnuricrestine.data.db.entities.Favorites;
 import com.example.imnuricrestine.data.db.entities.Hymn;
 import com.example.imnuricrestine.data.db.entities.Lyrics;

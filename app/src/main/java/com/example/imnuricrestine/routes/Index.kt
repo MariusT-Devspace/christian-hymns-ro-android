@@ -35,13 +35,13 @@ import com.example.imnuricrestine.state.TopAppBarTitle
 
 @Composable
 fun HymnsIndex(
-    indexTitleList: List<MainActivity.IndexTitle>,
+    hymnsIndexTitle: List<MainActivity.IndexTitle>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
     mainViewModel: MainViewModel?
 ) {
     val state = remember {
-        mutableStateOf(indexTitleList)
+        mutableStateOf(hymnsIndexTitle)
     }
 
     LazyColumn(
@@ -82,14 +82,15 @@ fun HymnsIndex(
 
                     }
                   ) {
-                      Icon(Icons.Outlined.FavoriteBorder, contentDescription = stringResource(R.string.favorites_description))
+                      Icon(Icons.Outlined.FavoriteBorder, contentDescription = stringResource(R.string.add_to_favorites_description))
                   }
                 },
                 modifier = Modifier.clickable {
                     val hymnId = item.index.toInt()-1
                     navController!!.navigate(Route.HymnDetails.route+"/$hymnId")
                     mainViewModel!!.updateTopAppBar(
-                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title, Icons.Filled.ArrowBack, { navigationActions.onGoBack() }
+                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title,
+                        Icons.Filled.ArrowBack, { navigationActions.onGoBack() }
                     )
                 },
             )

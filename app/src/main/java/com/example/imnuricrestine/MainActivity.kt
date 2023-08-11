@@ -7,8 +7,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
 import com.example.imnuricrestine.data.models.Hymn
@@ -33,7 +30,6 @@ import com.example.imnuricrestine.data.db.entities.Favorites
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
 import kotlinx.coroutines.launch
-import com.example.imnuricrestine.state.TopAppBar
 
 class MainActivity : ComponentActivity() {
     lateinit var hymnsViewModel: HymnsViewModel
@@ -43,7 +39,9 @@ class MainActivity : ComponentActivity() {
         lateinit var topAppBarState : TopAppBarState
     }
     data class IndexTitle (val index: String, val title: String)
-    lateinit var indexTitleList: List<IndexTitle>
+    lateinit var hynmsIndexTitle: List<IndexTitle>
+    lateinit var favoritesIndexTitle: List<IndexTitle>
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,16 +50,30 @@ class MainActivity : ComponentActivity() {
         hymns = hymnsViewModel.hymns
         favorites = hymnsViewModel.favorites
 
-        val sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
-        indexTitleList = if (!sharedPreferences.contains("hymnsIndexAndTitle")){
+        sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
+        hynmsIndexTitle = if (!sharedPreferences.contains("hymnsIndexTitle")) {
             hymns.value!!.map { hymn ->
                 IndexTitle(index = hymn.index, title = hymn.title)
             }
         } else {
             val gson = Gson()
             val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
+            gson.fromJson(sharedPreferences.getString("hymnsIndexTitle", null), arrayIndexTitleType)
+        }
+
+        favoritesIndexTitle = if (!sharedPreferences.contains("favoritesIndexTitle")) {
+            favorites.value!!.map { item ->
+                IndexTitle(
+                    index = hymns.value!![item.hymn_id.toInt()].index,
+                    title = hymns.value!![item.hymn_id.toInt()].title
+                )
+            }
+        } else {
+            val gson = Gson()
+            val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
             gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
         }
+
 
         setContent {
             // TopBar state
@@ -105,7 +117,10 @@ class MainActivity : ComponentActivity() {
                             color = MaterialTheme.colorScheme.background
                         ) {
                             // Navigation composable
-                            Navigation(indexTitleList, padding, mainViewModel, navController)
+                            Navigation(
+                                hynmsIndexTitle, favoritesIndexTitle,
+                                padding, mainViewModel, navController
+                            )
                         }
 
                     }
@@ -125,13 +140,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         super.onPause()
-        val sharedPreferences: SharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
         val gson = Gson()
-        if (!sharedPreferences.contains("hymnsIndexAndTitle")){
-            val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
-            editPreferences.putString("hymnsIndexAndTitle", gson.toJson(indexTitleList)).apply()
+        val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
+
+        if (!sharedPreferences.contains("hymnsIndexTitle")) {
+            editPreferences.putString("hymnsIndexTitle", gson.toJson(hynmsIndexTitle)).apply()
         }
 
+        if (!sharedPreferences.contains("favoritesIndexTitle")) {
+            editPreferences.putString("favoritesIndexTitle", gson.toJson(favoritesIndexTitle)).apply()
+        }
     }
 
 }

@@ -21,23 +21,25 @@ class MainViewModel : ViewModel() {
     ))
     val topAppBarUiState: StateFlow<TopAppBarUiState> = _topAppBarUiState.asStateFlow()
 
-    private val _navigationDrawerUiState = MutableStateFlow(NavigationDrawerUiState(
-        selectedItem = Route.Index
-    ))
+    private val _navigationDrawerUiState = MutableStateFlow(
+        NavigationDrawerUiState(selectedItem = Route.Index)
+    )
     val navigationDrawerUiState: StateFlow<NavigationDrawerUiState> = _navigationDrawerUiState.asStateFlow()
 
-    fun updateTopAppBar(topAppBar: TopAppBar = topAppBarUiState.value.topAppBar,
-                        title: String = topAppBarUiState.value.title,
-                        navigationIcon: ImageVector = topAppBarUiState.value.navigationIcon,
-                        onNavigationAction: () -> Unit = topAppBarUiState.value.onNavigationAction) {
-            _topAppBarUiState.update { currentState ->
-                currentState.copy(
-                    topAppBar = topAppBar,
-                    title = title,
-                    navigationIcon = navigationIcon,
-                    onNavigationAction = onNavigationAction
-                )
-            }
+    fun updateTopAppBar(
+        topAppBar: TopAppBar = topAppBarUiState.value.topAppBar,
+        title: String = topAppBarUiState.value.title,
+        navigationIcon: ImageVector = topAppBarUiState.value.navigationIcon,
+        onNavigationAction: () -> Unit = topAppBarUiState.value.onNavigationAction
+    ) {
+        _topAppBarUiState.update { currentState ->
+            currentState.copy(
+                topAppBar = topAppBar,
+                title = title,
+                navigationIcon = navigationIcon,
+                onNavigationAction = onNavigationAction
+            )
+        }
     }
 
     fun updateNavigationDrawer(selectedItem: Route) {

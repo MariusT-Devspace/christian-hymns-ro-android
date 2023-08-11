@@ -59,8 +59,14 @@ fun DrawerSheet(
                     navController.navigate(item.route)
                     mainViewModel.updateNavigationDrawer(item)
                     when (item) {
-                        Route.Index -> mainViewModel.updateTopAppBar(TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title)
-                        Route.Favorites -> mainViewModel.updateTopAppBar(TopAppBar.SMALLTOPAPPBAR, Route.Favorites.title)
+                        Route.Index -> mainViewModel.updateTopAppBar(
+                            TopAppBar.LARGETOPAPPBAR,
+                            TopAppBarTitle.TITLEINDEX.title
+                        )
+                        Route.Favorites -> mainViewModel.updateTopAppBar(
+                            TopAppBar.SMALLTOPAPPBAR,
+                            Route.Favorites.title
+                        )
                         else -> {}
                     }
                 },
