@@ -12,5 +12,5 @@ sealed class Route(
 ) {
     object Index : Route("index", "Index", Icons.Outlined.Home)
     object HymnDetails : Route("hymn-details")
-    object Favorites : Route("favorites", "Favorites", Icons.Outlined.FavoriteBorder)
+    object Favorites : Route("favorites", "Favorite", Icons.Outlined.FavoriteBorder)
 }
