@@ -1,8 +1,8 @@
-package com.example.imnuricrestine.data.models;
+package com.example.imnuricrestine.models;
 
 public class Verse{
-    private String lyrics;
-    private String tag;
+    private final String lyrics;
+    private final String tag;
 
     public Verse(String lyrics, String tag){
         this.lyrics = escape(lyrics);

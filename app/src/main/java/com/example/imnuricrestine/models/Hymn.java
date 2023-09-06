@@ -1,12 +1,12 @@
-package com.example.imnuricrestine.data.models;
+package com.example.imnuricrestine.models;
 
 import java.util.ArrayList;
 
 public class Hymn{
     //private short index;
-    private String index;
-    private String title;
-    private ArrayList<Verse> lyrics;
+    private final String index;
+    private final String title;
+    private final ArrayList<Verse> lyrics;
 
     public Hymn(String index, String title, ArrayList<Verse> lyrics){
         this.index = index;
