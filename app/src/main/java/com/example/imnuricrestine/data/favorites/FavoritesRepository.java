@@ -1,6 +1,10 @@
 package com.example.imnuricrestine.data.favorites;
 
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.imnuricrestine.data.db.entities.Favorite;
 import com.example.imnuricrestine.di.FavoritesDataSourceModule.FavoritesLocalDataSourceAnnotation;
 
@@ -21,8 +25,8 @@ public class FavoritesRepository {
         _favoritesLocalDataSource = favoritesLocalDataSource;
     }
 
-    public ArrayList<Favorite> getFavorites() throws ExecutionException, InterruptedException {
-        return new ArrayList<>(_favoritesLocalDataSource.getFavorites().get());
+    public LiveData<List<Favorite>> getFavorites() throws ExecutionException, InterruptedException {
+        return _favoritesLocalDataSource.getFavorites();
     }
 
     public void addFavorite(short id) throws ExecutionException, InterruptedException {

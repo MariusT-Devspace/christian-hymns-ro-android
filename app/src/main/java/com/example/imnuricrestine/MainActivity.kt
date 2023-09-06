@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -41,7 +42,8 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     companion object {
         lateinit var hymns : LiveData<ArrayList<Hymn>>
-        lateinit var favorites: LiveData<ArrayList<Favorite>>
+        //lateinit var favoritesMutable: MutableLiveData<ArrayList<Favorite>>
+        //lateinit var favorites: LiveData<List<Favorite>>
         lateinit var topAppBarState : TopAppBarState
     }
 
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
         hymns = hymnsViewModel.hymns
-        favorites = favoritesViewModel.favorites
+
 
         // Shared Preferences
         sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
@@ -69,13 +71,6 @@ class MainActivity : ComponentActivity() {
             gson.fromJson(sharedPreferences.getString("hymnsListItems", null), hymnsListItemsType)
         }
 
-        favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
-            favorites.value!!.map { favorite -> favorite.asFavoritesListItem() }
-        } else {
-            val gson = Gson()
-            gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
-        }
-
 
         setContent {
             // TopBar state
@@ -83,6 +78,14 @@ class MainActivity : ComponentActivity() {
             val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             val mainViewModel : MainViewModel = viewModel()
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
+            val favorites = favoritesViewModel.favorites.observeAsState(emptyList())
+
+            favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
+                favorites.value!!.map { favorite -> favorite.asFavoritesListItem() }
+            } else {
+                val gson = Gson()
+                gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
+            }
 
             ChristianHymnsTheme {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

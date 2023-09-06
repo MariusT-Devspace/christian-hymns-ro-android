@@ -30,7 +30,7 @@ fun Favorite.asFavoritesListItem(): FavoritesListItem {
     return FavoritesListItem(
         id = this.id,
         hymnId = this.hymn_id,
-        index = MainActivity.hymns.value!![this.hymn_id.toInt()].index,
-        title = MainActivity.hymns.value!![this.hymn_id.toInt()].title
+        index = MainActivity.hymns.value!![this.hymn_id.toInt() - 1].index,
+        title = MainActivity.hymns.value!![this.hymn_id.toInt() - 1].title
     )
 }
