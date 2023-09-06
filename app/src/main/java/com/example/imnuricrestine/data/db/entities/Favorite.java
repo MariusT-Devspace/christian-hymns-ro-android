@@ -5,13 +5,14 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(
+@Entity(tableName = "Favorites",
+        foreignKeys = @ForeignKey(
         entity = Hymn.class,
         parentColumns = "id",
         childColumns = "hymn_id")
 )
 
-public class Favorites {
+public class Favorite {
     @PrimaryKey
     public short id;
 
