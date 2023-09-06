@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
-import com.example.imnuricrestine.models.HymnsListItem
+import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
@@ -32,7 +32,7 @@ import com.example.imnuricrestine.state.TopAppBarTitle
 
 @Composable
 fun Favorites(
-    favoritesListItems: List<HymnsListItem>,
+    favoritesListItems: List<FavoritesListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController,
     mainViewModel: MainViewModel

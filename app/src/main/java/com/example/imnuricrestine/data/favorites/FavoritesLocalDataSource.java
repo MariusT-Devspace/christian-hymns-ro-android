@@ -2,6 +2,7 @@ package com.example.imnuricrestine.data.favorites;
 
 import com.example.imnuricrestine.data.db.FavoritesDao;
 import com.example.imnuricrestine.data.db.entities.Favorite;
+import com.example.imnuricrestine.data.db.models.FavoriteInsert;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -24,8 +25,12 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public void addFavorite(short id) {
-        System.out.println();
+    public CompletableFuture<Void> addFavorite(short id) {
+        return CompletableFuture.runAsync(() -> {
+            _favoritesDao.insertFavorite(
+                    new FavoriteInsert(id)
+            );
+        });
     }
 
     @Override

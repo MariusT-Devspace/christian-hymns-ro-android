@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.HymnsListItem
 import com.example.imnuricrestine.routes.Favorites
 import com.example.imnuricrestine.routes.HymnDetails
@@ -26,17 +27,19 @@ object navigationActions {
 @Composable
 fun Navigation(
     hymnsListItems: List<HymnsListItem>,
-    favoritesListItems: List<HymnsListItem>,
+    favoritesListItems: List<FavoritesListItem>,
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    onSaveToFavorites: ((Short) -> Unit)?
 ) {
     // Navigation routes
     NavHost(navController = navController, startDestination = Route.Index.route) {
         composable(Route.Index.route) {
             HymnsIndex(
                 hymnsListItems, contentPadding,
-                navController, mainViewModel
+                navController, mainViewModel,
+                onSaveToFavorites
             )
         }
         composable(

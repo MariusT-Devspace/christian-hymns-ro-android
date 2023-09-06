@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class FavoritesViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<Favorite>> _favorites;
+    private final FavoritesRepository _favoritesRepository;
 
     @Inject
     public FavoritesViewModel(
@@ -25,6 +26,7 @@ public class FavoritesViewModel extends AndroidViewModel {
             FavoritesRepository favoritesRepository
     ) {
         super(application);
+        _favoritesRepository = favoritesRepository;
         _favorites = new MutableLiveData<>();
         try {
             _favorites.setValue(favoritesRepository.getFavorites());
@@ -34,4 +36,11 @@ public class FavoritesViewModel extends AndroidViewModel {
     }
 
     public LiveData<ArrayList<Favorite>> getFavorites() { return _favorites; }
+    public void addFavorite(short id) {
+        try {
+            _favoritesRepository.addFavorite(id);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

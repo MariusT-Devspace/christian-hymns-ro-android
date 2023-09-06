@@ -25,4 +25,7 @@ public class FavoritesRepository {
         return new ArrayList<>(_favoritesLocalDataSource.getFavorites().get());
     }
 
+    public void addFavorite(short id) throws ExecutionException, InterruptedException {
+        _favoritesLocalDataSource.addFavorite(id);
+    }
 }

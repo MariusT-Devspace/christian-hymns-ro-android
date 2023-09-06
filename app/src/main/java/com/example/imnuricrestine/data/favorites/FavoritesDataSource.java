@@ -7,6 +7,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface FavoritesDataSource {
     CompletableFuture<ArrayList<Favorite>> getFavorites();
-    void addFavorite(short id);
+    CompletableFuture<Void> addFavorite(short id);
     void deleteFavorite(short id);
 }

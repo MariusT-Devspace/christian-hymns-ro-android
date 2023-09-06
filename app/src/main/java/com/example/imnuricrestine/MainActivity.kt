@@ -28,9 +28,11 @@ import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.data.db.entities.Favorite
+import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.HymnsListItem
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
+import com.example.imnuricrestine.utils.asFavoritesListItem
 import com.example.imnuricrestine.utils.asHymnsListItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -44,7 +46,7 @@ class MainActivity : ComponentActivity() {
     }
 
     lateinit var hymnsListItems: List<HymnsListItem>
-    lateinit var favoritesListItems: List<HymnsListItem>
+    lateinit var favoritesListItems: List<FavoritesListItem>
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +70,7 @@ class MainActivity : ComponentActivity() {
         }
 
         favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
-            favorites.value!!.map { favorite -> favorite.asHymnsListItem() }
+            favorites.value!!.map { favorite -> favorite.asFavoritesListItem() }
         } else {
             val gson = Gson()
             gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
@@ -118,7 +120,8 @@ class MainActivity : ComponentActivity() {
                             // Navigation composable
                             Navigation(
                                 hymnsListItems, favoritesListItems,
-                                padding, mainViewModel, navController
+                                padding, mainViewModel, navController,
+                                favoritesViewModel::addFavorite
                             )
                         }
 
@@ -143,12 +146,12 @@ class MainActivity : ComponentActivity() {
         val gson = Gson()
         val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
 
-        if (!sharedPreferences.contains("hymnsIndexTitle")) {
-            editPreferences.putString("hymnsIndexTitle", gson.toJson(hymnsListItems)).apply()
+        if (!sharedPreferences.contains("hymnsListItems")) {
+            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
         }
 
-        if (!sharedPreferences.contains("favoritesIndexTitle")) {
-            editPreferences.putString("favoritesIndexTitle", gson.toJson(favoritesListItems)).apply()
+        if (!sharedPreferences.contains("hymnsListItems")) {
+            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
         }
     }
 

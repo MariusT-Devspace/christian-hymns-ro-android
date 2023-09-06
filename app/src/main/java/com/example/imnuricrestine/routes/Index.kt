@@ -38,7 +38,8 @@ fun HymnsIndex(
     hymnsListItems: List<HymnsListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
-    mainViewModel: MainViewModel?
+    mainViewModel: MainViewModel?,
+    onSaveToFavorites: ((Short) -> Unit)?
 ) {
     val state = remember {
         mutableStateOf(hymnsListItems)
@@ -79,7 +80,9 @@ fun HymnsIndex(
                 trailingContent = {
                   IconButton(
                     onClick = {
-
+                        if (onSaveToFavorites != null) {
+                            onSaveToFavorites(item.id)
+                        }
                     }
                   ) {
                       Icon(Icons.Outlined.FavoriteBorder, contentDescription = stringResource(R.string.add_to_favorites_description))
@@ -104,11 +107,11 @@ fun HymnsIndex(
 @Composable
 fun HymnsIndexPreview() {
     val list = listOf(
-        HymnsListItem(index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
-        HymnsListItem(index = "13", title = "Domnul e bun"),
-        HymnsListItem(index = "110", title = "O, ce veste minunată!"),
-        HymnsListItem(index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
+        HymnsListItem(id = 0, index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
+        HymnsListItem(id = 1, index = "13", title = "Domnul e bun"),
+        HymnsListItem(id = 2, index = "110", title = "O, ce veste minunată!"),
+        HymnsListItem(id = 3, index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
     )
 
-    HymnsIndex(list, PaddingValues(20.dp),  null,  null)
+    HymnsIndex(list, PaddingValues(20.dp),  null,  null, null)
 }

@@ -19,8 +19,8 @@ public class FavoritesRemoteDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public void addFavorite(short id) {
-
+    public CompletableFuture<Void> addFavorite(short id) {
+        return null;
     }
 
     @Override

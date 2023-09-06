@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.imnuricrestine.data.db.entities.Favorite;
+import com.example.imnuricrestine.data.db.models.FavoriteInsert;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public interface FavoritesDao {
     @Query("SELECT * FROM Favorites")
     List<Favorite> getFavorites();
 
-    @Insert
-    void addFavorite(Favorite favorite);
+    @Insert(entity = Favorite.class)
+    void insertFavorite(FavoriteInsert favorite);
 
     @Delete
     void deleteFavorite(Favorite favorite);

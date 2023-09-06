@@ -11,9 +11,8 @@ import androidx.room.PrimaryKey;
         parentColumns = "id",
         childColumns = "hymn_id")
 )
-
 public class Favorite {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public short id;
 
     @NonNull
