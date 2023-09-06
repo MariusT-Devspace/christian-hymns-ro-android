@@ -15,7 +15,7 @@ class MainViewModel : ViewModel() {
 
     private val _topAppBarUiState = MutableStateFlow(TopAppBarUiState(
         topAppBar = TopAppBar.LARGETOPAPPBAR,
-        title = TopAppBarTitle.TITLEINDEX.title,
+        title = TopAppBarTitle.INDEX.title,
         navigationIcon = Icons.Filled.Menu,
         onNavigationAction = {}
     ))

@@ -8,8 +8,9 @@ enum class TopAppBar() {
 }
 
 enum class TopAppBarTitle(val title: String) {
-    TITLEINDEX("920 Imnuri Crestine"),
-    TITLEHYMNDETAILS("")
+    INDEX("920 Imnuri Crestine"),
+    HYMNDETAILS(""),
+    FAVORITES("Favorite")
 }
 
 data class TopAppBarUiState(

@@ -55,28 +55,35 @@ fun Navigation(
         }
     }
 
-
-
     navigationActions.onGoBack = {
         navController.popBackStack()
-        if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
-            //MainActivity.surfaceZIndexState.value = 1f
+        val currentRoute = navController.currentBackStackEntry!!.destination.route
+
+        if (currentRoute.equals(Route.Index.route) ||
+            currentRoute.equals(Route.Favorites.route)
+            ) {
             mainViewModel.updateTopAppBar(
-                TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title,
-                Icons.Filled.Menu, { navigationActions.onOpenMenu() }
+                navigationIcon = Icons.Filled.Menu,
+                onNavigationAction = { navigationActions.onOpenMenu() }
             )
+
+            when (currentRoute) {
+                Route.Index.route -> mainViewModel.updateTopAppBar(
+                    title = TopAppBarTitle.INDEX.title,
+                    topAppBar = TopAppBar.LARGETOPAPPBAR,
+                )
+                Route.Favorites.route ->
+                    mainViewModel.updateTopAppBar(
+                        title = TopAppBarTitle.FAVORITES.title,
+                        topAppBar = TopAppBar.SMALLTOPAPPBAR,
+                    )
+            }
         }
+
     }
 
     BackHandler(
     ) {
-        navController.popBackStack()
-        if (navController.currentBackStackEntry!!.destination.route.equals(Route.Index.route) ) {
-            //MainActivity.surfaceZIndexState.value = 1f
-            mainViewModel.updateTopAppBar(
-                TopAppBar.LARGETOPAPPBAR, TopAppBarTitle.TITLEINDEX.title,
-                Icons.Filled.Menu, { navigationActions.onOpenMenu() }
-            )
-        }
+        navigationActions.onGoBack()
     }
 }

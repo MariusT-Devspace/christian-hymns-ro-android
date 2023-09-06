@@ -61,7 +61,7 @@ fun DrawerSheet(
                     when (item) {
                         Route.Index -> mainViewModel.updateTopAppBar(
                             TopAppBar.LARGETOPAPPBAR,
-                            TopAppBarTitle.TITLEINDEX.title
+                            TopAppBarTitle.INDEX.title
                         )
                         Route.Favorites -> mainViewModel.updateTopAppBar(
                             TopAppBar.SMALLTOPAPPBAR,

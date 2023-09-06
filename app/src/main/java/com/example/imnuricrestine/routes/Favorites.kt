@@ -84,7 +84,7 @@ fun Favorites(
                     val hymnId = item.index.toInt()-1
                     navController.navigate(Route.HymnDetails.route+"/$hymnId")
                     mainViewModel.updateTopAppBar(
-                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.TITLEHYMNDETAILS.title,
+                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
                         Icons.Filled.ArrowBack, { navigationActions.onGoBack() }
                     )
                 },
