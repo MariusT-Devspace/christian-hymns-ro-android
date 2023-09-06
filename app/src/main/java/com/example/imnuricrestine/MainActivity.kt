@@ -3,9 +3,9 @@ package com.example.imnuricrestine
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
-import com.example.imnuricrestine.data.models.Hymn
+import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
-import com.example.imnuricrestine.data.HymnsViewModel
+import com.example.imnuricrestine.data.hymns.HymnsViewModel
 import com.example.imnuricrestine.ui.theme.ChristianHymnsTheme
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -26,52 +26,52 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
-import com.example.imnuricrestine.data.db.entities.Favorites
+import com.example.imnuricrestine.data.favorites.FavoritesViewModel
+import com.example.imnuricrestine.data.db.entities.Favorite
+import com.example.imnuricrestine.models.HymnsListItem
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
+import com.example.imnuricrestine.utils.asHymnsListItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    lateinit var hymnsViewModel: HymnsViewModel
     companion object {
         lateinit var hymns : LiveData<ArrayList<Hymn>>
-        lateinit var favorites: LiveData<List<Favorites>>
+        lateinit var favorites: LiveData<ArrayList<Favorite>>
         lateinit var topAppBarState : TopAppBarState
     }
-    data class IndexTitle (val index: String, val title: String)
-    lateinit var hynmsIndexTitle: List<IndexTitle>
-    lateinit var favoritesIndexTitle: List<IndexTitle>
+
+    lateinit var hymnsListItems: List<HymnsListItem>
+    lateinit var favoritesListItems: List<HymnsListItem>
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        hymnsViewModel = ViewModelProvider(this)[HymnsViewModel::class.java]
+        // Load data
+        val hymnsViewModel by viewModels<HymnsViewModel>()
+        val favoritesViewModel by viewModels<FavoritesViewModel>()
         hymns = hymnsViewModel.hymns
-        favorites = hymnsViewModel.favorites
+        favorites = favoritesViewModel.favorites
 
+        // Shared Preferences
         sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
-        hynmsIndexTitle = if (!sharedPreferences.contains("hymnsIndexTitle")) {
-            hymns.value!!.map { hymn ->
-                IndexTitle(index = hymn.index, title = hymn.title)
-            }
+        val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItem>>() {}.type
+
+        hymnsListItems = if (!sharedPreferences.contains("hymnsListItems")) {
+            hymns.value!!.map { hymn -> hymn.asHymnsListItem() }
         } else {
             val gson = Gson()
-            val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
-            gson.fromJson(sharedPreferences.getString("hymnsIndexTitle", null), arrayIndexTitleType)
+            gson.fromJson(sharedPreferences.getString("hymnsListItems", null), hymnsListItemsType)
         }
 
-        favoritesIndexTitle = if (!sharedPreferences.contains("favoritesIndexTitle")) {
-            favorites.value!!.map { item ->
-                IndexTitle(
-                    index = hymns.value!![item.hymn_id.toInt()].index,
-                    title = hymns.value!![item.hymn_id.toInt()].title
-                )
-            }
+        favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
+            favorites.value!!.map { favorite -> favorite.asHymnsListItem() }
         } else {
             val gson = Gson()
-            val arrayIndexTitleType = object : TypeToken<ArrayList<IndexTitle>>() {}.type
-            gson.fromJson(sharedPreferences.getString("hymnsIndexAndTitle", null), arrayIndexTitleType)
+            gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
         }
 
 
@@ -99,7 +99,6 @@ class MainActivity : ComponentActivity() {
                                 if (isClosed) open() else close()
                             }
                         }
-                        Log.d("OPENMENU", "OPENING MENU")
                     }
                     mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
                     // A surface container using the 'background' color from the theme
@@ -118,7 +117,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             // Navigation composable
                             Navigation(
-                                hynmsIndexTitle, favoritesIndexTitle,
+                                hymnsListItems, favoritesListItems,
                                 padding, mainViewModel, navController
                             )
                         }
@@ -145,11 +144,11 @@ class MainActivity : ComponentActivity() {
         val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
 
         if (!sharedPreferences.contains("hymnsIndexTitle")) {
-            editPreferences.putString("hymnsIndexTitle", gson.toJson(hynmsIndexTitle)).apply()
+            editPreferences.putString("hymnsIndexTitle", gson.toJson(hymnsListItems)).apply()
         }
 
         if (!sharedPreferences.contains("favoritesIndexTitle")) {
-            editPreferences.putString("favoritesIndexTitle", gson.toJson(favoritesIndexTitle)).apply()
+            editPreferences.putString("favoritesIndexTitle", gson.toJson(favoritesListItems)).apply()
         }
     }
 

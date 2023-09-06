@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.imnuricrestine.MainActivity.IndexTitle
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
+import com.example.imnuricrestine.models.HymnsListItem
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
@@ -32,7 +32,7 @@ import com.example.imnuricrestine.state.TopAppBarTitle
 
 @Composable
 fun Favorites(
-    favoritesIndexTitle: List<IndexTitle>,
+    favoritesListItems: List<HymnsListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController,
     mainViewModel: MainViewModel
@@ -42,7 +42,7 @@ fun Favorites(
         modifier = Modifier.padding(top = 30.dp)
     ) {
         items(
-            items = favoritesIndexTitle
+            items = favoritesListItems
         ) { item ->
             ListItem(
                 headlineContent = {

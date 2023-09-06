@@ -25,8 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.R
+import com.example.imnuricrestine.models.HymnsListItem
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
 import com.example.imnuricrestine.state.MainViewModel
@@ -35,13 +35,13 @@ import com.example.imnuricrestine.state.TopAppBarTitle
 
 @Composable
 fun HymnsIndex(
-    hymnsIndexTitle: List<MainActivity.IndexTitle>,
+    hymnsListItems: List<HymnsListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
     mainViewModel: MainViewModel?
 ) {
     val state = remember {
-        mutableStateOf(hymnsIndexTitle)
+        mutableStateOf(hymnsListItems)
     }
 
     LazyColumn(
@@ -104,10 +104,10 @@ fun HymnsIndex(
 @Composable
 fun HymnsIndexPreview() {
     val list = listOf(
-        MainActivity.IndexTitle(index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
-        MainActivity.IndexTitle(index = "13", title = "Domnul e bun"),
-        MainActivity.IndexTitle(index = "110", title = "O, ce veste minunată!"),
-        MainActivity.IndexTitle(index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
+        HymnsListItem(index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
+        HymnsListItem(index = "13", title = "Domnul e bun"),
+        HymnsListItem(index = "110", title = "O, ce veste minunată!"),
+        HymnsListItem(index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
     )
 
     HymnsIndex(list, PaddingValues(20.dp),  null,  null)
