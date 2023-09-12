@@ -5,7 +5,7 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.db.entities.HymnWithLyrics
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.Hymn
-import com.example.imnuricrestine.models.HymnsListItem
+import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.models.Verse
 
 fun HymnWithLyrics.asHymn(): Hymn {
@@ -19,12 +19,13 @@ fun HymnWithLyrics.asHymn(): Hymn {
     return Hymn(this.hymn.id ,this.hymn.hymn_index, this.hymn.title, verses)
 }
 
-fun Hymn.asHymnsListItem(): HymnsListItem {
-    return HymnsListItem(
-        id = this.id,
-        index = this.index,
-        title = this.title)
-}
+//fun Hymn.asHymnsListItemUiState(isBookMarked: Boolean): HymnsListItemUiState {
+//    return HymnsListItemUiState(
+//        index = this.index,
+//        title = this.title,
+//        isBookMarked = isBookMarked,
+//        onSaveToFavorites = {})
+//}
 
 fun Favorite.asFavoritesListItem(): FavoritesListItem {
     return FavoritesListItem(

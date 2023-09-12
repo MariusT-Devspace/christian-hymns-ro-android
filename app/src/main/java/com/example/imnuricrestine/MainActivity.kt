@@ -28,13 +28,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
-import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.FavoritesListItem
-import com.example.imnuricrestine.models.HymnsListItem
+import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.navigationActions
+import com.example.imnuricrestine.state.FavoriteAction
+import com.example.imnuricrestine.state.FavoriteIcon
+import com.example.imnuricrestine.state.HymnsListViewModel
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.utils.asFavoritesListItem
-import com.example.imnuricrestine.utils.asHymnsListItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,9 +46,13 @@ class MainActivity : ComponentActivity() {
         //lateinit var favoritesMutable: MutableLiveData<ArrayList<Favorite>>
         //lateinit var favorites: LiveData<List<Favorite>>
         lateinit var topAppBarState : TopAppBarState
+        data class OnFavoriteAction(
+            val addFavorite: (Short) -> Unit ,
+            val deleteFavorite: (Short) -> Unit
+        )
     }
 
-    lateinit var hymnsListItems: List<HymnsListItem>
+    lateinit var hymnsListItems: List<HymnsListItemUiState>
     lateinit var favoritesListItems: List<FavoritesListItem>
     lateinit var sharedPreferences: SharedPreferences
 
@@ -57,20 +62,21 @@ class MainActivity : ComponentActivity() {
         // Load data
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
+        val hymnsListViewModel by viewModels<HymnsListViewModel>()
         hymns = hymnsViewModel.hymns
 
 
-        // Shared Preferences
-        sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
-        val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItem>>() {}.type
+        val favoriteActions = OnFavoriteAction(
+            addFavorite = favoritesViewModel::addFavorite,
+            deleteFavorite = favoritesViewModel::deleteFavorite
+        )
 
-        hymnsListItems = if (!sharedPreferences.contains("hymnsListItems")) {
-            hymns.value!!.map { hymn -> hymn.asHymnsListItem() }
-        } else {
-            val gson = Gson()
-            gson.fromJson(sharedPreferences.getString("hymnsListItems", null), hymnsListItemsType)
-        }
+        //hymnsListItems = if (!sharedPreferences.contains("hymnsListItems")) {
 
+//            } else {
+//                val gson = Gson()
+//                gson.fromJson(sharedPreferences.getString("hymnsListItems", null), hymnsListItemsType)
+//            }
 
         setContent {
             // TopBar state
@@ -80,12 +86,27 @@ class MainActivity : ComponentActivity() {
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
             val favorites = favoritesViewModel.favorites.observeAsState(emptyList())
 
+            // Shared Preferences
+            sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
+            val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItemUiState>>() {}.type
+
             favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
                 favorites.value!!.map { favorite -> favorite.asFavoritesListItem() }
             } else {
                 val gson = Gson()
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
             }
+
+            //hymnsListViewModel.updateList(hymnsListItems)
+            for (favorite in favorites.value) {
+                hymnsListViewModel.updateItem(
+                    favorite.hymn_id - 1,
+                    true,
+                    FavoriteAction.DELETE_FAVORITE,
+                    FavoriteIcon.SAVED.name
+                )
+            }
+            val hymnsListUiState = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
 
             ChristianHymnsTheme {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -122,9 +143,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             // Navigation composable
                             Navigation(
-                                hymnsListItems, favoritesListItems,
+                                hymnsListUiState, favoritesListItems,
                                 padding, mainViewModel, navController,
-                                favoritesViewModel::addFavorite
+                                favoriteActions
                             )
                         }
 
@@ -145,17 +166,17 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         super.onPause()
-        sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
-
-        if (!sharedPreferences.contains("hymnsListItems")) {
-            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
-        }
-
-        if (!sharedPreferences.contains("hymnsListItems")) {
-            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
-        }
+//        sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
+//        val gson = Gson()
+//        val editPreferences: SharedPreferences.Editor = sharedPreferences.edit()
+//
+//        if (!sharedPreferences.contains("hymnsListItems")) {
+//            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
+//        }
+//
+//        if (!sharedPreferences.contains("hymnsListItems")) {
+//            editPreferences.putString("hymnsListItems", gson.toJson(hymnsListItems)).apply()
+//        }
     }
 
 }

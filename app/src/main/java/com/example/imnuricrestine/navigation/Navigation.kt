@@ -5,19 +5,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.imnuricrestine.models.FavoritesListItem
-import com.example.imnuricrestine.models.HymnsListItem
+import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.routes.Favorites
 import com.example.imnuricrestine.routes.HymnDetails
 import com.example.imnuricrestine.routes.HymnsIndex
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
+import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 
 object navigationActions {
     lateinit var onGoBack : () -> Unit
@@ -26,12 +28,12 @@ object navigationActions {
 
 @Composable
 fun Navigation(
-    hymnsListItems: List<HymnsListItem>,
+    hymnsListItems: State<List<HymnsListItemUiState>>,
     favoritesListItems: List<FavoritesListItem>,
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
     navController: NavHostController,
-    onSaveToFavorites: ((Short) -> Unit)?
+    onFavoriteActions: OnFavoriteAction
 ) {
     // Navigation routes
     NavHost(navController = navController, startDestination = Route.Index.route) {
@@ -39,7 +41,7 @@ fun Navigation(
             HymnsIndex(
                 hymnsListItems, contentPadding,
                 navController, mainViewModel,
-                onSaveToFavorites
+                onFavoriteActions
             )
         }
         composable(

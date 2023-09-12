@@ -1,5 +1,7 @@
 package com.example.imnuricrestine.di;
 
+import static com.example.imnuricrestine.utils.ConstantsKt.DATABASE_NAME;
+
 import android.content.Context;
 
 import androidx.room.Room;
@@ -24,7 +26,7 @@ public class DatabaseModule {
     @Singleton
     public static AppDatabase provideAppDatabase(@ApplicationContext Context appContext) {
         return Room.databaseBuilder(appContext, AppDatabase.class, "hymns.db")
-                .createFromAsset("Hymnsdb")
+                .createFromAsset(DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .build();
     }
