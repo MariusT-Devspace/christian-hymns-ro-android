@@ -13,5 +13,5 @@ public interface FavoritesDataSource {
     //CompletableFuture<ArrayList<Favorite>> getFavorites();
     LiveData<List<Favorite>> getFavorites();
     CompletableFuture<Void> addFavorite(short id);
-    void deleteFavorite(short id);
+    CompletableFuture<Void> deleteFavorite(Favorite favorite);
 }

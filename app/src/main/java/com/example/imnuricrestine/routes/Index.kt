@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.navigation.navigationActions
@@ -34,6 +35,7 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
+import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
 
 @Composable
@@ -83,10 +85,18 @@ fun HymnsIndex(
                 trailingContent = {
                   IconButton(
                     onClick = {
-                        if (item.onFavoriteAction == FavoriteAction.ADD_FAVORITE)
-                            onFavoriteActions.addFavorite((index + 1).toShort())
-                        else
-                            onFavoriteActions.deleteFavorite((index + 1).toShort())
+//                        if (item.onFavoriteAction == FavoriteAction.ADD_FAVORITE)
+//                            onFavoriteActions.addFavorite((index + 1).toShort())
+//                        else
+//                            onFavoriteActions.deleteFavorite((index + 1).toShort())
+                        item.onFavoriteAction(
+                            if (MainActivity.favorites.value.any { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id })
+                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
+                            else
+                                Favorite(
+                                    MainActivity.hymns.value!![index].id
+                                )
+                        )
                     }
                   ) {
                       if (item.icon == FavoriteIconName.SAVED.name)

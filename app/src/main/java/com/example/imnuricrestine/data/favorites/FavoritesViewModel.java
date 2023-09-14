@@ -32,9 +32,17 @@ public class FavoritesViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Favorite>> getFavorites() throws ExecutionException, InterruptedException { return _favoritesRepository.getFavorites(); }
-    public void addFavorite(short id) {
+    public void addFavorite(Favorite favorite) {
         try {
-            _favoritesRepository.addFavorite(id);
+            _favoritesRepository.addFavorite(favorite.hymn_id);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteFavorite(Favorite favorite) {
+        try {
+            _favoritesRepository.deleteFavorite(favorite);
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -3,12 +3,15 @@ package com.example.imnuricrestine
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.DrawerSheet
 import com.example.imnuricrestine.components.MyTopAppBar
+import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.state.HymnsListItemUiState
@@ -47,9 +51,11 @@ class MainActivity : ComponentActivity() {
         //lateinit var favorites: LiveData<List<Favorite>>
         lateinit var topAppBarState : TopAppBarState
         data class OnFavoriteAction(
-            val addFavorite: (Short) -> Unit ,
-            val deleteFavorite: (Short) -> Unit
+            val addFavorite: (Favorite) -> Unit ,
+            val deleteFavorite: (Favorite) -> Unit
         )
+        lateinit var favoriteActions: OnFavoriteAction
+        lateinit var favorites: State<List<Favorite>>
     }
 
     lateinit var hymnsListItems: List<HymnsListItemUiState>
@@ -66,7 +72,7 @@ class MainActivity : ComponentActivity() {
         hymns = hymnsViewModel.hymns
 
 
-        val favoriteActions = OnFavoriteAction(
+        favoriteActions = OnFavoriteAction(
             addFavorite = favoritesViewModel::addFavorite,
             deleteFavorite = favoritesViewModel::deleteFavorite
         )
@@ -84,7 +90,8 @@ class MainActivity : ComponentActivity() {
             val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
             val mainViewModel : MainViewModel = viewModel()
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
-            val favorites = favoritesViewModel.favorites.observeAsState(emptyList())
+            favorites = favoritesViewModel.favorites.observeAsState(emptyList())
+            Log.d("SET_CONTENT", "composable recomposition")
 
             // Shared Preferences
             sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)
@@ -98,14 +105,34 @@ class MainActivity : ComponentActivity() {
             }
 
             //hymnsListViewModel.updateList(hymnsListItems)
-            for (favorite in favorites.value) {
-                hymnsListViewModel.updateItem(
-                    favorite.hymn_id - 1,
-                    true,
-                    FavoriteAction.DELETE_FAVORITE,
-                    FavoriteIcon.SAVED.name
-                )
+
+
+            LaunchedEffect(favorites.value) {
+                if (favorites.value.isNotEmpty()) {
+                    for (favorite in favorites.value) {
+                        Log.d("SET_CONTENT", "update favorite ${favorite.hymn_id}")
+                        hymnsListViewModel.updateItem(
+                            favorite.hymn_id - 1,
+                            true,
+                            favoriteActions.deleteFavorite,
+                            FavoriteIcon.SAVED.name
+                        )
+                    }
+                }
+
             }
+//            LaunchedEffect(key1 = favorites) {
+//                for (favorite in favorites.value) {
+//                    Log.d("SET_CONTENT", "update favorite")
+//                    hymnsListViewModel.updateItem(
+//                        favorite.hymn_id - 1,
+//                        true,
+//                        FavoriteAction.DELETE_FAVORITE,
+//                        FavoriteIcon.SAVED.name
+//                    )
+//                }
+//            }
+
             val hymnsListUiState = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
 
             ChristianHymnsTheme {

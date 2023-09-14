@@ -18,4 +18,8 @@ public class Favorite {
     @NonNull
     public short hymn_id;
 
+    public Favorite(short hymn_id) {
+        this.hymn_id = hymn_id;
+    }
+
 }

@@ -33,7 +33,5 @@ public class FavoritesRemoteDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public void deleteFavorite(short id) {
-
-    }
+    public CompletableFuture<Void> deleteFavorite(Favorite favorite) { return null; }
 }

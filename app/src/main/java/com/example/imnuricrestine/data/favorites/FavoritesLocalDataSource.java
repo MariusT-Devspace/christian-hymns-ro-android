@@ -22,6 +22,13 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
         _favoritesDao = favoritesDao;
     }
 
+
+
+    @Override
+    public LiveData<List<Favorite>> getFavorites() {
+        return _favoritesDao.getFavorites();
+    }
+
     @Override
     public CompletableFuture<Void> addFavorite(short id) {
         return CompletableFuture.runAsync(() -> {
@@ -32,12 +39,9 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public LiveData<List<Favorite>> getFavorites() {
-        return _favoritesDao.getFavorites();
-    }
-
-    @Override
-    public void deleteFavorite(short id) {
-        System.out.println();
+    public CompletableFuture<Void> deleteFavorite(Favorite favorite) {
+        return CompletableFuture.runAsync(() -> {
+            _favoritesDao.deleteFavorite(favorite);
+        });
     }
 }

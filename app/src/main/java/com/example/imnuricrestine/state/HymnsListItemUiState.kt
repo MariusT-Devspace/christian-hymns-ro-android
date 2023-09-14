@@ -3,6 +3,9 @@ package com.example.imnuricrestine.state
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
+import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.Icon
 
 enum class FavoritesIconDescription(val description: String) {
@@ -30,6 +33,6 @@ data class HymnsListItemUiState (
     val index: String,
     val title: String,
     val isBookMarked: Boolean,
-    val onFavoriteAction: FavoriteAction,
+    val onFavoriteAction: (Favorite) -> Unit,
     val icon: String
 )
