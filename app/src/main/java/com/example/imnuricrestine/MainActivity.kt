@@ -42,6 +42,7 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.concurrent.CompletableFuture
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -51,8 +52,8 @@ class MainActivity : ComponentActivity() {
         //lateinit var favorites: LiveData<List<Favorite>>
         lateinit var topAppBarState : TopAppBarState
         data class OnFavoriteAction(
-            val addFavorite: (Favorite) -> Unit ,
-            val deleteFavorite: (Favorite) -> Unit
+            val addFavorite: (Favorite) -> CompletableFuture<Void>,
+            val deleteFavorite: (Favorite) -> CompletableFuture<Void>
         )
         lateinit var favoriteActions: OnFavoriteAction
         lateinit var favorites: State<List<Favorite>>
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
             val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItemUiState>>() {}.type
 
             favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
-                favorites.value!!.map { favorite -> favorite.asFavoritesListItem() }
+                favorites.value.map { favorite -> favorite.asFavoritesListItem() }
             } else {
                 val gson = Gson()
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
@@ -107,14 +108,14 @@ class MainActivity : ComponentActivity() {
             //hymnsListViewModel.updateList(hymnsListItems)
 
 
-            LaunchedEffect(favorites.value) {
+            LaunchedEffect(favorites) {
                 if (favorites.value.isNotEmpty()) {
                     for (favorite in favorites.value) {
                         Log.d("SET_CONTENT", "update favorite ${favorite.hymn_id}")
                         hymnsListViewModel.updateItem(
                             favorite.hymn_id - 1,
                             true,
-                            favoriteActions.deleteFavorite,
+                            FavoriteAction.DELETE_FAVORITE,
                             FavoriteIcon.SAVED.name
                         )
                     }
@@ -172,7 +173,7 @@ class MainActivity : ComponentActivity() {
                             Navigation(
                                 hymnsListUiState, favoritesListItems,
                                 padding, mainViewModel, navController,
-                                favoriteActions
+                                favoriteActions, hymnsListViewModel::updateItem
                             )
                         }
 

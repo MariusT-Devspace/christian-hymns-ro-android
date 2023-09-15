@@ -11,6 +11,7 @@ import com.example.imnuricrestine.data.db.entities.Favorite;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
@@ -32,17 +33,17 @@ public class FavoritesViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Favorite>> getFavorites() throws ExecutionException, InterruptedException { return _favoritesRepository.getFavorites(); }
-    public void addFavorite(Favorite favorite) {
+    public CompletableFuture<Void> addFavorite(Favorite favorite) {
         try {
-            _favoritesRepository.addFavorite(favorite.hymn_id);
+            return _favoritesRepository.addFavorite(favorite.hymn_id);
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteFavorite(Favorite favorite) {
+    public CompletableFuture<Void> deleteFavorite(Favorite favorite) {
         try {
-            _favoritesRepository.deleteFavorite(favorite);
+            return _favoritesRepository.deleteFavorite(favorite);
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

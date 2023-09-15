@@ -1,13 +1,13 @@
 package com.example.imnuricrestine.state
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.data.db.entities.Favorite
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
-import com.example.imnuricrestine.data.db.entities.Favorite
+import java.util.concurrent.CompletableFuture
 
 class HymnsListViewModel : ViewModel() {
     private var hymnUiStateList = mutableStateListOf<HymnsListItemUiState>()
@@ -24,7 +24,7 @@ class HymnsListViewModel : ViewModel() {
             hymn.index,
             hymn.title,
             false,
-            MainActivity.favoriteActions.addFavorite,
+            FavoriteAction.ADD_FAVORITE,
             FavoriteIcon.SAVED.icon.imageVector.name
         )
     }
@@ -32,12 +32,11 @@ class HymnsListViewModel : ViewModel() {
     fun updateItem(
         id: Int,
         isBookMarked: Boolean,
-        onFavoriteAction: (Favorite) -> Unit,
+        onFavoriteAction: FavoriteAction,
         icon: String
     ) {
         hymnUiStateList[id] = hymnUiStateList[id].copy(
             index = hymnUiStateList[id].index,
-            title = hymnUiStateList[id].title,
             isBookMarked = isBookMarked,
             onFavoriteAction = onFavoriteAction,
             icon = icon

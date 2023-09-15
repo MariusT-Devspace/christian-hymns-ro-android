@@ -20,6 +20,9 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
+import com.example.imnuricrestine.data.db.entities.Favorite
+import com.example.imnuricrestine.state.FavoriteAction
+import java.util.concurrent.CompletableFuture
 
 object navigationActions {
     lateinit var onGoBack : () -> Unit
@@ -33,7 +36,8 @@ fun Navigation(
     contentPadding: PaddingValues,
     mainViewModel: MainViewModel,
     navController: NavHostController,
-    onFavoriteActions: OnFavoriteAction
+    onFavoriteActions: OnFavoriteAction,
+    updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     // Navigation routes
     NavHost(navController = navController, startDestination = Route.Index.route) {
@@ -41,7 +45,7 @@ fun Navigation(
             HymnsIndex(
                 hymnsListItems, contentPadding,
                 navController, mainViewModel,
-                onFavoriteActions
+                onFavoriteActions, updateItem
             )
         }
         composable(

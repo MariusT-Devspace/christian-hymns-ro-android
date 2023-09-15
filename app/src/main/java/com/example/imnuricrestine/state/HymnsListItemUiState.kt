@@ -7,6 +7,7 @@ import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.Icon
+import java.util.concurrent.CompletableFuture
 
 enum class FavoritesIconDescription(val description: String) {
     SAVED("Elimina de la favorite"),
@@ -23,9 +24,9 @@ enum class FavoriteIconName(name: String) {
     NOT_SAVED(Icons.Outlined.FavoriteBorder.name)
 }
 
-enum class FavoriteAction {
-    ADD_FAVORITE,
-    DELETE_FAVORITE
+enum class FavoriteAction(methodName: String) {
+    ADD_FAVORITE("addFavorite"),
+    DELETE_FAVORITE("deleteFavorite")
 }
 
 data class HymnsListItemUiState (
@@ -33,6 +34,6 @@ data class HymnsListItemUiState (
     val index: String,
     val title: String,
     val isBookMarked: Boolean,
-    val onFavoriteAction: (Favorite) -> Unit,
+    val onFavoriteAction: FavoriteAction,
     val icon: String
 )

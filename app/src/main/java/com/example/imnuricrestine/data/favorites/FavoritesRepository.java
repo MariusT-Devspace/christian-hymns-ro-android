@@ -12,6 +12,7 @@ import com.example.imnuricrestine.di.FavoritesDataSourceModule.FavoritesLocalDat
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
@@ -31,12 +32,12 @@ public class FavoritesRepository {
         return _favoritesLocalDataSource.getFavorites();
     }
 
-    public void addFavorite(short id) throws ExecutionException, InterruptedException {
-        _favoritesLocalDataSource.addFavorite(id);
+    public CompletableFuture<Void> addFavorite(short id) throws ExecutionException, InterruptedException {
+        return _favoritesLocalDataSource.addFavorite(id);
     }
 
-    public void deleteFavorite(Favorite favorite) throws ExecutionException, InterruptedException {
-        _favoritesLocalDataSource.deleteFavorite(favorite);
+    public CompletableFuture<Void> deleteFavorite(Favorite favorite) throws ExecutionException, InterruptedException {
         Log.d("FAVORITES", "delete favorite");
+        return _favoritesLocalDataSource.deleteFavorite(favorite);
     }
 }

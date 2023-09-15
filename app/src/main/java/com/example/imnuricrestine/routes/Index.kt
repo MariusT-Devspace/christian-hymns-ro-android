@@ -1,5 +1,6 @@
 package com.example.imnuricrestine.routes
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,8 +36,10 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
+import com.example.imnuricrestine.MainActivity.Companion.favoriteActions
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
+import java.util.concurrent.CompletableFuture
 
 @Composable
 fun HymnsIndex(
@@ -44,7 +47,8 @@ fun HymnsIndex(
     contentPadding: PaddingValues,
     navController: NavHostController?,
     mainViewModel: MainViewModel?,
-    onFavoriteActions: OnFavoriteAction
+    onFavoriteActions: OnFavoriteAction,
+    updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     val state = remember {
         mutableStateOf(hymnsListItems)
@@ -85,18 +89,51 @@ fun HymnsIndex(
                 trailingContent = {
                   IconButton(
                     onClick = {
-//                        if (item.onFavoriteAction == FavoriteAction.ADD_FAVORITE)
-//                            onFavoriteActions.addFavorite((index + 1).toShort())
-//                        else
-//                            onFavoriteActions.deleteFavorite((index + 1).toShort())
-                        item.onFavoriteAction(
-                            if (MainActivity.favorites.value.any { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id })
-                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
-                            else
+                        if (item.onFavoriteAction == FavoriteAction.ADD_FAVORITE)
+                            onFavoriteActions.addFavorite(
                                 Favorite(
                                     MainActivity.hymns.value!![index].id
                                 )
-                        )
+                            ).thenRun {
+                                Log.d("UISTATE", "Update item")
+                                updateItem(
+                                    index,
+                                    true,
+                                    FavoriteAction.DELETE_FAVORITE,
+                                    FavoriteIcon.SAVED.name
+                                )
+                            }
+                        else
+                            onFavoriteActions.deleteFavorite(
+                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
+                            ).thenRun {
+                                Log.d("UISTATE", "Update item")
+                                updateItem(
+                                    index,
+                                    false,
+                                    FavoriteAction.ADD_FAVORITE,
+                                    FavoriteIcon.NOT_SAVED.name
+                                )
+                            }
+//                        item.onFavoriteAction(
+//                            if (MainActivity.favorites.value.any { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id })
+//                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
+//                            else
+//                                Favorite(
+//                                    MainActivity.hymns.value!![index].id
+//                                )
+//                        ).thenRun {
+//                            if (item::onFavoriteAction.name == FavoriteAction.DELETE_FAVORITE.action) {
+//                                Log.d("UISTATE", "Update item")
+//                                updateItem(
+//                                    index,
+//                                    false,
+//                                    favoriteActions.addFavorite,
+//                                    FavoriteIcon.NOT_SAVED.name
+//                                )
+//                            }
+//
+//                        }
                     }
                   ) {
                       if (item.icon == FavoriteIconName.SAVED.name)
