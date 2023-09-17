@@ -1,15 +1,12 @@
 package com.example.imnuricrestine.data.favorites;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.imnuricrestine.data.db.FavoritesDao;
 import com.example.imnuricrestine.data.db.entities.Favorite;
 import com.example.imnuricrestine.data.db.models.FavoriteInsert;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;

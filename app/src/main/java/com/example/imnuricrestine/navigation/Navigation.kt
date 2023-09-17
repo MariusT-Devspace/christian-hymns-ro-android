@@ -20,9 +20,7 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
-import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
-import java.util.concurrent.CompletableFuture
 
 object navigationActions {
     lateinit var onGoBack : () -> Unit

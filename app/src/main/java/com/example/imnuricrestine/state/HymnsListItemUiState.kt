@@ -3,11 +3,7 @@ package com.example.imnuricrestine.state
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
-import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.Icon
-import java.util.concurrent.CompletableFuture
 
 enum class FavoritesIconDescription(val description: String) {
     SAVED("Elimina de la favorite"),

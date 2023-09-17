@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -105,11 +106,7 @@ class MainActivity : ComponentActivity() {
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
             }
 
-            //hymnsListViewModel.updateList(hymnsListItems)
-
-
-            LaunchedEffect(favorites) {
-                if (favorites.value.isNotEmpty()) {
+            LaunchedEffect(favorites.value.isNotEmpty()) {
                     for (favorite in favorites.value) {
                         Log.d("SET_CONTENT", "update favorite ${favorite.hymn_id}")
                         hymnsListViewModel.updateItem(
@@ -119,20 +116,7 @@ class MainActivity : ComponentActivity() {
                             FavoriteIcon.SAVED.name
                         )
                     }
-                }
-
             }
-//            LaunchedEffect(key1 = favorites) {
-//                for (favorite in favorites.value) {
-//                    Log.d("SET_CONTENT", "update favorite")
-//                    hymnsListViewModel.updateItem(
-//                        favorite.hymn_id - 1,
-//                        true,
-//                        FavoriteAction.DELETE_FAVORITE,
-//                        FavoriteIcon.SAVED.name
-//                    )
-//                }
-//            }
 
             val hymnsListUiState = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
 

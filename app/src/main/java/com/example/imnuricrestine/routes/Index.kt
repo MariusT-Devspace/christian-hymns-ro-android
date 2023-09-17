@@ -36,10 +36,8 @@ import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
-import com.example.imnuricrestine.MainActivity.Companion.favoriteActions
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
-import java.util.concurrent.CompletableFuture
 
 @Composable
 fun HymnsIndex(
@@ -115,26 +113,7 @@ fun HymnsIndex(
                                     FavoriteIcon.NOT_SAVED.name
                                 )
                             }
-//                        item.onFavoriteAction(
-//                            if (MainActivity.favorites.value.any { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id })
-//                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
-//                            else
-//                                Favorite(
-//                                    MainActivity.hymns.value!![index].id
-//                                )
-//                        ).thenRun {
-//                            if (item::onFavoriteAction.name == FavoriteAction.DELETE_FAVORITE.action) {
-//                                Log.d("UISTATE", "Update item")
-//                                updateItem(
-//                                    index,
-//                                    false,
-//                                    favoriteActions.addFavorite,
-//                                    FavoriteIcon.NOT_SAVED.name
-//                                )
-//                            }
-//
-//                        }
-                    }
+                        }
                   ) {
                       if (item.icon == FavoriteIconName.SAVED.name)
                           Icon(imageVector = Icons.Outlined.Favorite, contentDescription = FavoriteIcon.SAVED.icon.description)
