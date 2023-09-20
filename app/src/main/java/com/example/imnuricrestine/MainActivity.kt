@@ -138,7 +138,11 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-                    mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
+
+                    LaunchedEffect(Unit) {
+                        mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
+                    }
+
                     // A surface container using the 'background' color from the theme
                     Scaffold(
                         modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
