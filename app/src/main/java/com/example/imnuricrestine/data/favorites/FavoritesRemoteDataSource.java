@@ -15,10 +15,6 @@ public class FavoritesRemoteDataSource implements FavoritesDataSource {
 
     }
 
-//    @Override
-//    public CompletableFuture<ArrayList<Favorite>> getFavorites() {
-//        return null;
-//    }
 
     @Override
     public LiveData<List<Favorite>> getFavorites() {

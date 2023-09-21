@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
@@ -19,8 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,9 +46,6 @@ fun HymnsIndex(
     onFavoriteActions: OnFavoriteAction,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
-    val state = remember {
-        mutableStateOf(hymnsListItems)
-    }
 
     LazyColumn(
         contentPadding = contentPadding,
@@ -126,7 +121,7 @@ fun HymnsIndex(
                     navController!!.navigate(Route.HymnDetails.route+"/$hymnId")
                     mainViewModel!!.updateTopAppBar(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
-                        Icons.Filled.ArrowBack, { navigationActions.onGoBack() }
+                        Icons.AutoMirrored.Filled.ArrowBack, { navigationActions.onGoBack() }
                     )
                 },
             )

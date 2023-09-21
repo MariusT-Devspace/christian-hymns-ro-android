@@ -20,7 +20,6 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     }
 
 
-
     @Override
     public LiveData<List<Favorite>> getFavorites() {
         return _favoritesDao.getFavorites();

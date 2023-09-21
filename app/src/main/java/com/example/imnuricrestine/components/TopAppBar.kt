@@ -20,7 +20,6 @@ fun MyTopAppBar(
     topAppBarUiState : TopAppBarUiState,
     scrollBehavior: TopAppBarScrollBehavior
 ){
-    val topAppBar : TopAppBar = topAppBarUiState.topAppBar
     val title : @Composable () -> Unit = {
         Text(
             topAppBarUiState.title,
@@ -44,10 +43,9 @@ fun MyTopAppBar(
             )
         }
     }
-    val scrollBehavior : TopAppBarScrollBehavior = scrollBehavior
 
     Log.d("TOPAPPBARCOMPOSABLE", "TopAppBar composable is called")
-    when(topAppBar){
+    when(topAppBarUiState.topAppBar){
         TopAppBar.LARGETOPAPPBAR -> {
             LargeTopAppBar(
                 title = title,

@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,7 +92,7 @@ class MainActivity : ComponentActivity() {
             val mainViewModel : MainViewModel = viewModel()
             val topAppBarUiState by mainViewModel.topAppBarUiState.collectAsState()
             favorites = favoritesViewModel.favorites.observeAsState(emptyList())
-            Log.d("SET_CONTENT", "composable recomposition")
+            Log.d("RECOMPOSITION", "setContent")
 
             // Shared Preferences
             sharedPreferences = getSharedPreferences("hymnsSharedPreferences", Context.MODE_PRIVATE)

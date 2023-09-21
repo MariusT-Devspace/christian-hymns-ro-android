@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 
 public class FavoritesRepository {
-    private static List<Favorite> _favorites;
     private final FavoritesDataSource _favoritesLocalDataSource;
 
     @Inject
