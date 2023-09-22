@@ -22,4 +22,8 @@ public class Favorite {
         this.hymn_id = hymn_id;
     }
 
+    public Favorite(short id, short hymnId) {
+        this.id = id;
+        this.hymn_id = hymnId;
+    }
 }

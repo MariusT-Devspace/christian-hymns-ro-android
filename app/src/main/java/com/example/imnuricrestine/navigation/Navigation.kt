@@ -35,7 +35,7 @@ fun Navigation(
     mainViewModel: MainViewModel,
     navController: NavHostController,
     onFavoriteActions: OnFavoriteAction,
-    updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     // Navigation routes
     NavHost(navController = navController, startDestination = Route.Index.route) {
@@ -43,7 +43,7 @@ fun Navigation(
             HymnsIndex(
                 hymnsListItems, contentPadding,
                 navController, mainViewModel,
-                onFavoriteActions, updateItem
+                onFavoriteActions, updateHymnsListItem
             )
         }
         composable(
@@ -58,7 +58,8 @@ fun Navigation(
             HymnDetails(hymnId = argument)
         }
         composable(Route.Favorites.route) {
-            Favorites(favoritesListItems, contentPadding, navController, mainViewModel)
+            Favorites(favoritesListItems, contentPadding, navController,
+                mainViewModel, onFavoriteActions.deleteFavorite, updateHymnsListItem)
         }
     }
 
