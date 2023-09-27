@@ -104,8 +104,8 @@ fun Favorites(
                     }
                 },
                 modifier = Modifier.clickable {
-                    val hymnId = item.index.toInt()-1
-                    navController.navigate(Route.HymnDetails.route+"/$hymnId")
+                    val hymnId = item.hymnId.toInt() - 1
+                    navController.navigate(Route.HymnDetails.route+"/${hymnId}")
                     mainViewModel.updateTopAppBar(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
                         Icons.AutoMirrored.Filled.ArrowBack, { navigationActions.onGoBack() }

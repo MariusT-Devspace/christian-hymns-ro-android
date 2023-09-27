@@ -117,8 +117,7 @@ fun HymnsIndex(
                   }
                 },
                 modifier = Modifier.clickable {
-                    val hymnId = item.index.toInt()-1
-                    navController!!.navigate(Route.HymnDetails.route+"/$hymnId")
+                    navController!!.navigate(Route.HymnDetails.route+"/$index")
                     mainViewModel!!.updateTopAppBar(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
                         Icons.AutoMirrored.Filled.ArrowBack, { navigationActions.onGoBack() }
