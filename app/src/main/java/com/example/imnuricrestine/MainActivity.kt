@@ -28,7 +28,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.imnuricrestine.components.DrawerSheet
+import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.components.MyTopAppBar
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
@@ -123,49 +123,45 @@ class MainActivity : ComponentActivity() {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        DrawerSheet(drawerState, scope, navController, mainViewModel)
-                    },
-                ) {
-                    navigationActions.onOpenMenu = {
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed) open() else close()
-                            }
+                navigationActions.onOpenMenu = {
+                    scope.launch {
+                        drawerState.apply {
+                            if (isClosed) open() else close()
                         }
-                    }
-
-                    LaunchedEffect(Unit) {
-                        mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
-                    }
-
-                    // A surface container using the 'background' color from the theme
-                    Scaffold(
-                        modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
-                        topBar = {
-                            MyTopAppBar(
-                                topAppBarUiState,
-                                exitUntilCollapsedScrollBehavior
-                            )
-                        },
-                    ) { padding ->
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            // Navigation composable
-                            Navigation(
-                                hymnsListUiState, favoritesListItems,
-                                padding, mainViewModel, navController,
-                                favoriteActions, hymnsListViewModel::updateItem
-                            )
-                        }
-
                     }
                 }
+
+                LaunchedEffect(Unit) {
+                    mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
+                }
+
+                // A surface container using the 'background' color from the theme
+                Scaffold(
+                    modifier = Modifier.nestedScroll(exitUntilCollapsedScrollBehavior.nestedScrollConnection),
+                    topBar = {
+                        MyTopAppBar(
+                            topAppBarUiState,
+                            exitUntilCollapsedScrollBehavior
+                        )
+                    },
+                    bottomBar = {
+                        BottomNavBar(navController, mainViewModel)
+                    }
+                ) { padding ->
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        // Navigation composable
+                        Navigation(
+                            hymnsListUiState, favoritesListItems,
+                            padding, mainViewModel, navController,
+                            favoriteActions, hymnsListViewModel::updateItem
+                        )
+                    }
+
+                }
+
             }
         }
 
