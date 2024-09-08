@@ -1,5 +1,7 @@
 package com.example.imnuricrestine.state
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class TopAppBar() {
@@ -16,6 +18,6 @@ enum class TopAppBarTitle(val title: String) {
 data class TopAppBarUiState(
     val topAppBar: TopAppBar,
     val title: String,
-    val navigationIcon: ImageVector,
+    val navigationIcon: @Composable () -> Unit,
     val onNavigationAction: () -> Unit
 )

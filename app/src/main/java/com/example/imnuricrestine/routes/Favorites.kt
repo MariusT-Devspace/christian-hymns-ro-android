@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,12 +27,13 @@ import com.example.imnuricrestine.R
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.navigationActions
+import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
+import com.example.imnuricrestine.utils.ICONS
 import java.util.concurrent.CompletableFuture
 
 @Composable
@@ -108,7 +108,7 @@ fun Favorites(
                     navController.navigate(Route.HymnDetails.route+"/${hymnId}")
                     mainViewModel.updateTopAppBar(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
-                        Icons.AutoMirrored.Filled.ArrowBack, { navigationActions.onGoBack() }
+                        ICONS.backIcon, { NavigationActions.onGoBack() }
                     )
                 },
             )

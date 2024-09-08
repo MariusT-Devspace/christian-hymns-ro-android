@@ -27,7 +27,7 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.navigationActions
+import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.FavoriteIconName
 import com.example.imnuricrestine.state.MainViewModel
@@ -36,6 +36,7 @@ import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
+import com.example.imnuricrestine.utils.ICONS
 
 @Composable
 fun HymnsIndex(
@@ -120,7 +121,7 @@ fun HymnsIndex(
                     navController!!.navigate(Route.HymnDetails.route+"/$index")
                     mainViewModel!!.updateTopAppBar(
                         TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
-                        Icons.AutoMirrored.Filled.ArrowBack, { navigationActions.onGoBack() }
+                        ICONS.backIcon, { NavigationActions.onGoBack() }
                     )
                 },
             )

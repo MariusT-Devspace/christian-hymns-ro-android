@@ -29,10 +29,7 @@ fun MyTopAppBar(
     }
     val navigationIcon : @Composable () -> Unit = {
         IconButton(onClick = topAppBarUiState.onNavigationAction) {
-            Icon(
-                imageVector = topAppBarUiState.navigationIcon,
-                contentDescription = "Localized description"
-            )
+            topAppBarUiState.navigationIcon()
         }
     }
     val actions : @Composable() (RowScope.() -> Unit) = {

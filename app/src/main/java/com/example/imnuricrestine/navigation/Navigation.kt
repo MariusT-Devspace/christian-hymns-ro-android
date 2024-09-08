@@ -2,8 +2,6 @@ package com.example.imnuricrestine.navigation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
@@ -21,8 +19,9 @@ import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.state.FavoriteAction
+import com.example.imnuricrestine.utils.ICONS
 
-object navigationActions {
+object NavigationActions {
     lateinit var onGoBack : () -> Unit
     lateinit var onOpenMenu : () -> Unit
 }
@@ -63,7 +62,7 @@ fun Navigation(
         }
     }
 
-    navigationActions.onGoBack = {
+    NavigationActions.onGoBack = {
         navController.popBackStack()
         val currentRoute = navController.currentBackStackEntry!!.destination.route
 
@@ -71,8 +70,8 @@ fun Navigation(
             currentRoute.equals(Route.Favorites.route)
             ) {
             mainViewModel.updateTopAppBar(
-                navigationIcon = Icons.Filled.Menu,
-                onNavigationAction = { navigationActions.onOpenMenu() }
+                navigationIcon = ICONS.topAppBarLogo,
+                onNavigationAction = { NavigationActions.onOpenMenu() }
             )
 
             when (currentRoute) {
@@ -87,11 +86,9 @@ fun Navigation(
                     )
             }
         }
-
     }
 
-    BackHandler(
-    ) {
-        navigationActions.onGoBack()
+    BackHandler {
+        NavigationActions.onGoBack()
     }
 }

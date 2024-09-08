@@ -1,7 +1,5 @@
 package com.example.imnuricrestine.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,6 +12,7 @@ import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.state.TopAppBar
 import com.example.imnuricrestine.state.TopAppBarTitle
+import com.example.imnuricrestine.utils.ICONS
 
 @Composable
 fun BottomNavBar(
@@ -41,14 +40,14 @@ fun BottomNavBar(
                             Route.Index -> mainViewModel.updateTopAppBar(
                                 TopAppBar.LARGETOPAPPBAR,
                                 TopAppBarTitle.INDEX.title,
-                                Icons.Filled.Menu,
+                                ICONS.topAppBarLogo,
                                 { }
                             )
 
                             Route.Favorites -> mainViewModel.updateTopAppBar(
                                 TopAppBar.SMALLTOPAPPBAR,
                                 TopAppBarTitle.FAVORITES.title,
-                                Icons.Filled.Menu,
+                                ICONS.topAppBarLogo,
                                 { }
                             )
 

@@ -34,7 +34,7 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.state.HymnsListItemUiState
-import com.example.imnuricrestine.navigation.navigationActions
+import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.HymnsListViewModel
@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                navigationActions.onOpenMenu = {
+                NavigationActions.onOpenMenu = {
                     scope.launch {
                         drawerState.apply {
                             if (isClosed) open() else close()
@@ -132,7 +132,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 LaunchedEffect(Unit) {
-                    mainViewModel.updateTopAppBar(onNavigationAction = { navigationActions.onOpenMenu() })
+                    mainViewModel.updateTopAppBar(onNavigationAction = { NavigationActions.onOpenMenu() })
                 }
 
                 // A surface container using the 'background' color from the theme
