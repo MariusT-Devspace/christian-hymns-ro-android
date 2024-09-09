@@ -33,10 +33,15 @@ fun HymnDetails(hymnId: Int) {
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
             for (verse in hymn.lyrics) {
-                Row(verticalAlignment = Alignment.Top) {
+                Column(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 46.dp),
+                    horizontalAlignment = Alignment.Start
+                )  {
+                    if (verse.is_chorus))
                     Text(
                         text = verse.tag + ".",
-                        fontSize = 26.sp
+                        fontSize = 30.sp,
+                        modifier = Modifier.padding(bottom = 10.dp)
                     )
                     Text(
                         text = verse.lyrics,
