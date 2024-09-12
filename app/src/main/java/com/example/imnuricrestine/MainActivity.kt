@@ -159,9 +159,7 @@ class MainActivity : ComponentActivity() {
                             favoriteActions, hymnsListViewModel::updateItem
                         )
                     }
-
                 }
-
             }
         }
 

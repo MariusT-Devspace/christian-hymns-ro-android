@@ -28,7 +28,6 @@ public class HymnsRepository {
         }
     }
 
-
     public ArrayList<Hymn> getHymns() throws ExecutionException, InterruptedException {
         _hymnsWithLyrics = _hymnsDataSource.getHymns.get();
         populateHymns();
