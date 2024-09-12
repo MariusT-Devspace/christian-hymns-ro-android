@@ -5,7 +5,6 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.db.entities.HymnWithLyrics
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.Hymn
-import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.models.Verse
 
 fun HymnWithLyrics.asHymn(): Hymn {
@@ -14,7 +13,7 @@ fun HymnWithLyrics.asHymn(): Hymn {
     for (verse in this.lyrics) {
         var tag: String? = ""
         tag = if (verse.is_chorus) CHORUS_TAG else (++verseTagCount).toString()
-        verses.add(Verse(verse.verse_text, tag))
+        verses.add(Verse(verse.verse_text, tag, verse.is_chorus))
     }
     return Hymn(this.hymn.id ,this.hymn.hymn_index, this.hymn.title, verses)
 }
