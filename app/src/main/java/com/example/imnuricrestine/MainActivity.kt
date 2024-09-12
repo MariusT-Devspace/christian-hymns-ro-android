@@ -15,7 +15,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,14 +33,12 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.state.HymnsListItemUiState
-import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.HymnsListViewModel
 import com.example.imnuricrestine.state.MainViewModel
 import com.example.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.concurrent.CompletableFuture
 
 @AndroidEntryPoint
@@ -120,20 +117,7 @@ class MainActivity : ComponentActivity() {
             val hymnsListUiState = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
 
             ChristianHymnsTheme {
-                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-                val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                NavigationActions.onOpenMenu = {
-                    scope.launch {
-                        drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
-                    }
-                }
-
-                LaunchedEffect(Unit) {
-                    mainViewModel.updateTopAppBar(onNavigationAction = { NavigationActions.onOpenMenu() })
-                }
 
                 // A surface container using the 'background' color from the theme
                 Scaffold(
