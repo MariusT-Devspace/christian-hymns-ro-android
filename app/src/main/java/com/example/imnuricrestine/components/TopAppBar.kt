@@ -11,8 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextOverflow
-import com.example.imnuricrestine.state.TopAppBar
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import com.example.imnuricrestine.state.TopAppBarType
 import com.example.imnuricrestine.state.TopAppBarUiState
 
 @Composable
@@ -20,13 +21,6 @@ fun MyTopAppBar(
     topAppBarUiState : TopAppBarUiState,
     scrollBehavior: TopAppBarScrollBehavior
 ){
-    val title : @Composable () -> Unit = {
-        Text(
-            topAppBarUiState.title,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
     val navigationIcon : @Composable () -> Unit = {
         IconButton(onClick = topAppBarUiState.onNavigationAction) {
             topAppBarUiState.navigationIcon()
@@ -42,18 +36,20 @@ fun MyTopAppBar(
     }
 
     Log.d("TOPAPPBARCOMPOSABLE", "TopAppBar composable is called")
-    when(topAppBarUiState.topAppBar){
-        TopAppBar.LARGETOPAPPBAR -> {
+
+
+    when(topAppBarUiState.topAppBar) {
+        TopAppBarType.LARGE_TOP_APP_BAR -> {
             LargeTopAppBar(
-                title = title,
+                title = { Text(topAppBarUiState.title) },
                 navigationIcon = navigationIcon,
                 actions = actions,
                 scrollBehavior = scrollBehavior
             )
         }
-        TopAppBar.SMALLTOPAPPBAR -> {
+        TopAppBarType.SMALL_TOP_APP_BAR -> {
             TopAppBar(
-                title = title,
+                title = { Text(topAppBarUiState.title) },
                 navigationIcon = navigationIcon,
                 actions = actions
             )
