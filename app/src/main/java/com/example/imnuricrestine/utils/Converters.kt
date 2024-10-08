@@ -11,8 +11,7 @@ fun HymnWithLyrics.asHymn(): Hymn {
     val verses = ArrayList<Verse>()
     var verseTagCount = 0
     for (verse in this.lyrics) {
-        var tag: String? = ""
-        tag = if (verse.is_chorus) CHORUS_TAG else (++verseTagCount).toString()
+        val tag: String = if (verse.is_chorus) CHORUS_TAG else (++verseTagCount).toString()
         verses.add(Verse(verse.verse_text, tag, verse.is_chorus))
     }
     return Hymn(this.hymn.id ,this.hymn.hymn_index, this.hymn.title, verses)
