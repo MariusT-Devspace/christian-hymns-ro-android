@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'com.google.devtools.ksp' version '2.0.20-1.0.24' apply false
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.1.0-Beta2'
 }
 
 android {
@@ -51,9 +52,6 @@ android {
     }
     namespace 'com.example.imnuricrestine'
 
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.3'
-    }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
