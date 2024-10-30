@@ -34,7 +34,7 @@ import com.example.imnuricrestine.state.FavoriteAction
 
 @Composable
 fun HymnsIndex(
-    hymnsListItems: State<List<HymnsListItemUiState>>,
+    hymnsListItems: List<HymnsListItemUiState>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
     onFavoriteActions: OnFavoriteAction,
@@ -45,7 +45,7 @@ fun HymnsIndex(
         modifier = Modifier.padding(top = 30.dp)
     ) {
         itemsIndexed(
-            items = hymnsListItems.value.take(100)
+            items = hymnsListItems.take(100)
         ) { index, item ->
             ListItem(
                 headlineContent = {

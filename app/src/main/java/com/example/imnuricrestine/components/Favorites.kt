@@ -80,7 +80,7 @@ fun Favorites(
                             ).thenRun {
                                 Log.d("UISTATE", "Update item")
                                 updateHymnsListItem(
-                                    index,
+                                    item.hymnId.toInt() - 1,
                                     false,
                                     FavoriteAction.ADD_FAVORITE,
                                     FavoriteIcon.NOT_SAVED.name

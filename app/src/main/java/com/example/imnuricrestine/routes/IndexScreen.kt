@@ -72,7 +72,7 @@ fun IndexScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             HymnsIndex(
-                hymnsListItems,
+                hymnsListItems.value,
                 padding,
                 navController,
                 onFavoriteActions,
