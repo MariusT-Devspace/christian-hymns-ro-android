@@ -17,14 +17,6 @@ fun HymnWithLyrics.asHymn(): Hymn {
     return Hymn(this.hymn.id ,this.hymn.hymn_index, this.hymn.title, verses)
 }
 
-//fun Hymn.asHymnsListItemUiState(isBookMarked: Boolean): HymnsListItemUiState {
-//    return HymnsListItemUiState(
-//        index = this.index,
-//        title = this.title,
-//        isBookMarked = isBookMarked,
-//        onSaveToFavorites = {})
-//}
-
 fun Favorite.asFavoritesListItem(): FavoritesListItem {
     return FavoritesListItem(
         id = this.id,

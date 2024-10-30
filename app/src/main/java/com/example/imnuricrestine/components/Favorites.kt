@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.routes
+package com.example.imnuricrestine.components
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
@@ -22,18 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.R
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIcon
-import com.example.imnuricrestine.state.MainViewModel
-import com.example.imnuricrestine.state.TopAppBar
-import com.example.imnuricrestine.state.TopAppBarTitle
-import com.example.imnuricrestine.utils.ICONS
 import java.util.concurrent.CompletableFuture
 
 @Composable
@@ -41,17 +35,16 @@ fun Favorites(
     favoritesListItems: List<FavoritesListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController,
-    mainViewModel: MainViewModel,
     onDeleteFavorite: (Favorite) -> CompletableFuture<Void>,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     LazyColumn(
         contentPadding = contentPadding,
-        modifier = Modifier.padding(top = 30.dp)
+        modifier = Modifier.padding(top = 30.dp),
     ) {
-        items(
+        itemsIndexed(
             items = favoritesListItems
-        ) { item ->
+        ) { index, item ->
             ListItem(
                 headlineContent = {
 
@@ -67,7 +60,7 @@ fun Favorites(
                         item.index,
                         modifier = Modifier
                             .background(
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 shape = MaterialTheme.shapes.extraLarge
                             )
                             .width(53.dp)
@@ -87,9 +80,7 @@ fun Favorites(
                             ).thenRun {
                                 Log.d("UISTATE", "Update item")
                                 updateHymnsListItem(
-                                    MainActivity.hymns.value!!.first {
-                                        item.hymnId == it.id
-                                    }.id.toInt() - 1,
+                                    index,
                                     false,
                                     FavoriteAction.ADD_FAVORITE,
                                     FavoriteIcon.NOT_SAVED.name
@@ -106,14 +97,8 @@ fun Favorites(
                 modifier = Modifier.clickable {
                     val hymnId = item.hymnId.toInt() - 1
                     navController.navigate(Route.HymnDetails.route+"/${hymnId}")
-                    mainViewModel.updateTopAppBar(
-                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
-                        ICONS.backIcon, { NavigationActions.onGoBack() }
-                    )
                 },
             )
-            //Divider()
-
         }
     }
 }

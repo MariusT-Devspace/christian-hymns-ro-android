@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.routes
+package com.example.imnuricrestine.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,18 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.navigation.NavigationActions
-import com.example.imnuricrestine.state.MainViewModel
-import com.example.imnuricrestine.utils.ICONS
+import com.example.imnuricrestine.models.Hymn
 
 @Composable
 fun HymnDetails(
-    hymnId: Int,
-    contentPadding: PaddingValues,
+    hymn: Hymn,
+    contentPadding: PaddingValues
 ) {
-    val hymn = MainActivity.hymns.value!![hymnId]
-
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
             .padding(contentPadding)

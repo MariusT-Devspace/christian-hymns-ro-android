@@ -9,15 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.state.MainViewModel
-import com.example.imnuricrestine.state.TopAppBar
-import com.example.imnuricrestine.state.TopAppBarTitle
-import com.example.imnuricrestine.utils.ICONS
 
 @Composable
 fun BottomNavBar(
-    navController: NavHostController,
-    mainViewModel: MainViewModel
+    navController: NavHostController
 ) {
     NavigationBar {
         val destinations = listOf(
@@ -25,44 +20,25 @@ fun BottomNavBar(
             Route.Favorites
         )
 
-        NavigationBar() {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
 
-            destinations.forEach { route ->
-                NavigationBarItem(
-                    icon = {
-                        when(currentDestination?.route == route.route) {
-                            true ->
-                                Icon(route.iconSelected!!, contentDescription = route.title)
-                            false ->
-                                Icon(route.iconNotSelected!!, contentDescription = route.title)
-                        }
-                    },
-                    label = { Text(route.title) },
-                    selected = currentDestination?.route == route.route,
-                    onClick = {
-                        navController.navigate(route.route)
-                        when (route) {
-                            Route.Index -> mainViewModel.updateTopAppBar(
-                                TopAppBar.LARGETOPAPPBAR,
-                                TopAppBarTitle.INDEX.title,
-                                ICONS.topAppBarLogo,
-                                { }
-                            )
-
-                            Route.Favorites -> mainViewModel.updateTopAppBar(
-                                TopAppBar.SMALLTOPAPPBAR,
-                                TopAppBarTitle.FAVORITES.title,
-                                ICONS.topAppBarLogo,
-                                { }
-                            )
-
-                            else -> {}
-                        }
+        destinations.forEach { route ->
+            NavigationBarItem(
+                icon = {
+                    when(currentDestination?.route == route.route) {
+                        true ->
+                            Icon(route.iconSelected!!, contentDescription = route.title)
+                        false ->
+                            Icon(route.iconNotSelected!!, contentDescription = route.title)
                     }
-                )
-            }
+                },
+                label = { Text(route.title) },
+                selected = currentDestination?.route == route.route,
+                onClick = {
+                    navController.navigate(route.route)
+                }
+            )
         }
     }
 }

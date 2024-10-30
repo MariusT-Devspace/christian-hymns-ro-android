@@ -1,4 +1,4 @@
-package com.example.imnuricrestine.routes
+package com.example.imnuricrestine.components
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -26,50 +26,45 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.Route
-import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.FavoriteIconName
-import com.example.imnuricrestine.state.MainViewModel
-import com.example.imnuricrestine.state.TopAppBar
-import com.example.imnuricrestine.state.TopAppBarTitle
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.state.FavoriteAction
-import com.example.imnuricrestine.utils.ICONS
 
 @Composable
 fun HymnsIndex(
     hymnsListItems: State<List<HymnsListItemUiState>>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
-    mainViewModel: MainViewModel?,
     onFavoriteActions: OnFavoriteAction,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
-
     LazyColumn(
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp)
     ) {
         itemsIndexed(
-            items = hymnsListItems.value
+            items = hymnsListItems.value.take(100)
         ) { index, item ->
             ListItem(
                 headlineContent = {
 
                 },
+
                 supportingContent = {
                     Text(
                         item.title,
                         fontSize = 18.sp
                     )
                 },
+
                 leadingContent = {
                     Text(
                         item.index,
                         modifier = Modifier
                             .background(
-                                color = MaterialTheme.colorScheme.primaryContainer,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                                 shape = MaterialTheme.shapes.extraLarge
                             )
                             .width(53.dp)
@@ -79,6 +74,7 @@ fun HymnsIndex(
                     )
 
                 },
+
                 trailingContent = {
                   IconButton(
                     onClick = {
@@ -98,7 +94,9 @@ fun HymnsIndex(
                             }
                         else
                             onFavoriteActions.deleteFavorite(
-                                MainActivity.favorites.value.first { favorite -> favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id }
+                                MainActivity.favorites.value.first { favorite ->
+                                    favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id
+                                }
                             ).thenRun {
                                 Log.d("UISTATE", "Update item")
                                 updateItem(
@@ -111,21 +109,22 @@ fun HymnsIndex(
                         }
                   ) {
                       if (item.icon == FavoriteIconName.SAVED.name)
-                          Icon(imageVector = Icons.Outlined.Favorite, contentDescription = FavoriteIcon.SAVED.icon.description)
+                          Icon(
+                              imageVector = Icons.Outlined.Favorite,
+                              contentDescription = FavoriteIcon.SAVED.icon.description
+                          )
                       else
-                          Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = FavoriteIcon.NOT_SAVED.icon.description)
+                          Icon(
+                              imageVector = Icons.Outlined.FavoriteBorder,
+                              contentDescription = FavoriteIcon.NOT_SAVED.icon.description
+                          )
                   }
                 },
+
                 modifier = Modifier.clickable {
                     navController!!.navigate(Route.HymnDetails.route+"/$index")
-                    mainViewModel!!.updateTopAppBar(
-                        TopAppBar.SMALLTOPAPPBAR, TopAppBarTitle.HYMNDETAILS.title,
-                        ICONS.backIcon, { NavigationActions.onGoBack() }
-                    )
-                },
+                }
             )
-            //Divider()
-
         }
     }
 }

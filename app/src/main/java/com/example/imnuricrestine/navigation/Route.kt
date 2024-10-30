@@ -13,14 +13,14 @@ sealed class Route(
     val iconSelected: ImageVector? = null,
     val iconNotSelected: ImageVector? = null
 ) {
-    object Index : Route(
+    data object Index : Route(
         "index",
         "Index",
         Icons.Filled.Home,
         Icons.Outlined.Home
     )
-    object HymnDetails : Route("hymn-details")
-    object Favorites : Route(
+    data object HymnDetails : Route("hymn-details")
+    data object Favorites : Route(
         "favorites",
         "Favorite",
         Icons.Filled.Favorite,

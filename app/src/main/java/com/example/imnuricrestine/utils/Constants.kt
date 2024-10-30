@@ -10,6 +10,12 @@ import com.example.imnuricrestine.R
 
 const val DATABASE_NAME = "Hymnsdb"
 const val CHORUS_TAG = "Ref"
+
+enum class TopAppBarTitle(val title: String) {
+    INDEX("920 Imnuri Crestine"),
+    FAVORITES("Favorite")
+}
+
 object ICONS {
     val topAppBarLogo: @Composable () -> Unit = {
         Image(
