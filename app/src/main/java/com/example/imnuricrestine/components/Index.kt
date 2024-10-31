@@ -17,7 +17,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -76,51 +75,56 @@ fun HymnsIndex(
                 },
 
                 trailingContent = {
-                  IconButton(
-                    onClick = {
-                        if (item.onFavoriteAction == FavoriteAction.ADD_FAVORITE)
-                            onFavoriteActions.addFavorite(
-                                Favorite(
-                                    MainActivity.hymns.value!![index].id
-                                )
-                            ).thenRun {
-                                Log.d("UISTATE", "Update item")
-                                updateItem(
-                                    index,
-                                    true,
-                                    FavoriteAction.DELETE_FAVORITE,
-                                    FavoriteIcon.SAVED.name
-                                )
-                            }
-                        else
-                            onFavoriteActions.deleteFavorite(
-                                MainActivity.favorites.value.first { favorite ->
-                                    favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id
+                    IconButton(
+                        onClick = {
+                            when (item.onFavoriteAction) {
+                                FavoriteAction.ADD_FAVORITE -> onFavoriteActions.addFavorite(
+                                    Favorite(
+                                        MainActivity.hymns.value!![index].id
+                                    )
+                                ).thenRun {
+                                    Log.d("UISTATE", "Update item")
+                                    updateItem(
+                                        index,
+                                        true,
+                                        FavoriteAction.DELETE_FAVORITE,
+                                        FavoriteIcon.SAVED.name
+                                    )
                                 }
-                            ).thenRun {
-                                Log.d("UISTATE", "Update item")
-                                updateItem(
-                                    index,
-                                    false,
-                                    FavoriteAction.ADD_FAVORITE,
-                                    FavoriteIcon.NOT_SAVED.name
-                                )
+
+                                FavoriteAction.DELETE_FAVORITE -> onFavoriteActions.deleteFavorite(
+                                    MainActivity.favorites.value.firstOrNull { favorite ->
+                                        favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id
+                                    }
+                                ).thenRun {
+                                    updateItem(
+                                        index,
+                                        false,
+                                        FavoriteAction.ADD_FAVORITE,
+                                        FavoriteIcon.NOT_SAVED.name
+                                    )
+                                }
                             }
                         }
-                  ) {
-                      if (item.icon == FavoriteIconName.SAVED.name)
-                          Icon(
-                              imageVector = Icons.Outlined.Favorite,
-                              contentDescription = FavoriteIcon.SAVED.icon.description
-                          )
-                      else
-                          Icon(
-                              imageVector = Icons.Outlined.FavoriteBorder,
-                              contentDescription = FavoriteIcon.NOT_SAVED.icon.description
-                          )
+                    ) {
+                      when (item.icon) {
+                          FavoriteIconName.SAVED.name -> {
+                              Log.d("HYMNS_LIST_UI_STATE", "SAVED")
+                              Icon(
+                                  imageVector = Icons.Outlined.Favorite,
+                                  contentDescription = FavoriteIcon.SAVED.icon.description
+                              )
+                          }
+                          FavoriteIconName.NOT_SAVED.name -> {
+                              Log.d("HYMNS_LIST_UI_STATE", "NOT SAVED")
+                              Icon(
+                                  imageVector = Icons.Outlined.FavoriteBorder,
+                                  contentDescription = FavoriteIcon.NOT_SAVED.icon.description
+                              )
+                          }
+                      }
                   }
                 },
-
                 modifier = Modifier.clickable {
                     navController!!.navigate(Route.HymnDetails.route+"/$index")
                 }

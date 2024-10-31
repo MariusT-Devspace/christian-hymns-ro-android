@@ -27,7 +27,7 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.FavoriteAction
-import com.example.imnuricrestine.state.FavoriteIcon
+import com.example.imnuricrestine.state.FavoriteIconName
 import java.util.concurrent.CompletableFuture
 
 @Composable
@@ -44,7 +44,7 @@ fun Favorites(
     ) {
         itemsIndexed(
             items = favoritesListItems
-        ) { index, item ->
+        ) { _, item ->
             ListItem(
                 headlineContent = {
 
@@ -83,7 +83,7 @@ fun Favorites(
                                     item.hymnId.toInt() - 1,
                                     false,
                                     FavoriteAction.ADD_FAVORITE,
-                                    FavoriteIcon.NOT_SAVED.name
+                                    FavoriteIconName.NOT_SAVED.name
                                 )
                             }
                         }

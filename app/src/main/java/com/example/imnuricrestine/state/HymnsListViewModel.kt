@@ -18,7 +18,7 @@ class HymnsListViewModel : ViewModel() {
             hymn.title,
             false,
             FavoriteAction.ADD_FAVORITE,
-            FavoriteIcon.SAVED.icon.imageVector.name
+            FavoriteIconName.NOT_SAVED.name
         )
     }
 
