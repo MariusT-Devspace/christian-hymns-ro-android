@@ -37,7 +37,7 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     @Override
     public CompletableFuture<Void> deleteFavorite(Favorite favorite) {
         return CompletableFuture.runAsync(() -> {
-            _favoritesDao.deleteFavorite(favorite);
+            if (favorite != null) _favoritesDao.deleteFavorite(favorite);
         });
     }
 }

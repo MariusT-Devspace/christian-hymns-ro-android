@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         lateinit var hymns : LiveData<ArrayList<Hymn>>
         data class OnFavoriteAction(
             val addFavorite: (Favorite) -> CompletableFuture<Void>,
-            val deleteFavorite: (Favorite) -> CompletableFuture<Void>
+            val deleteFavorite: (Favorite?) -> CompletableFuture<Void>
         )
         lateinit var favoriteActions: OnFavoriteAction
         lateinit var favorites: State<List<Favorite>>
