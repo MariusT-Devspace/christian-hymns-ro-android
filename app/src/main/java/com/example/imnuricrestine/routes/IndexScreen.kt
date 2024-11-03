@@ -14,12 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.components.HymnsIndex
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
@@ -30,9 +31,14 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 fun IndexScreen(
     hymnsListItems: State<List<HymnsListItemUiState>>,
     navController: NavHostController,
+    showBottomNavBar: MutableState<Boolean>,
     onFavoriteActions: MainActivity.Companion.OnFavoriteAction,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        showBottomNavBar.value = true
+    }
+
     val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         { true }
@@ -65,7 +71,6 @@ fun IndexScreen(
                 actions = actions
             )
         },
-        bottomBar = { BottomNavBar(navController) }
     ) { padding ->
         Surface(
             modifier = Modifier.fillMaxSize(),

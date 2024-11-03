@@ -14,11 +14,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
-import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.components.Favorites
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.state.FavoriteAction
@@ -29,9 +30,14 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 fun FavoritesScreen(
     favoritesListItems: List<FavoritesListItem>,
     navController: NavHostController,
+    showBottomNavBar: MutableState<Boolean>,
     onFavoriteActions: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        showBottomNavBar.value = true
+    }
+
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
         { true }
@@ -64,7 +70,6 @@ fun FavoritesScreen(
                 actions = actions
             )
         },
-        bottomBar = { BottomNavBar(navController) }
     ) { padding ->
         Surface(
             modifier = Modifier.fillMaxSize(),

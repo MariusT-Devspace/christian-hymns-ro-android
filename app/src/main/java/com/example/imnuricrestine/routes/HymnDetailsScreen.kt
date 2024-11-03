@@ -14,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,8 +31,12 @@ import com.example.imnuricrestine.utils.ICONS
 @Composable
 fun HymnDetailsScreen(
     hymnId: Int,
-    navController: NavHostController
+    navController: NavHostController,
+    showBottomNavBar: MutableState<Boolean>
 ) {
+    LaunchedEffect(Unit) {
+        showBottomNavBar.value = false
+    }
     val hymn = MainActivity.hymns.value!![hymnId]
 
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
