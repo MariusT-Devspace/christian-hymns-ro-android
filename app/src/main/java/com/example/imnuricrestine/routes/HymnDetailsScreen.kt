@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.components.HymnDetails
 import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.utils.ICONS
@@ -77,7 +76,6 @@ fun HymnDetailsScreen(
                 actions = actions
             )
         },
-        bottomBar = { BottomNavBar(navController) }
     ) { padding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
