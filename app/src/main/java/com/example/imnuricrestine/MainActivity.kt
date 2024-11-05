@@ -6,10 +6,15 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingAppBarDefaults
+import androidx.compose.material3.FloatingAppBarExitDirection.Companion.Bottom
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberFloatingAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -18,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
 import com.example.imnuricrestine.models.Hymn
@@ -28,6 +34,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.navigation.compose.rememberNavController
 import com.example.imnuricrestine.components.BottomNavBar
+import com.example.imnuricrestine.components.BottomPaginationBar
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
@@ -99,13 +106,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            val showBottomNavBar = rememberSaveable { mutableStateOf(true) }
-
             ChristianHymnsTheme {
                 Scaffold(
-                    bottomBar = { if (showBottomNavBar.value)
-                        BottomNavBar(navController)
-                    }
+                    bottomBar = { BottomNavBar(navController) }
                 ) { padding ->
                     Surface(
                         modifier = Modifier.fillMaxSize(),
@@ -116,7 +119,6 @@ class MainActivity : ComponentActivity() {
                             hymnsListItems,
                             favoritesListItems,
                             navController,
-                            showBottomNavBar,
                             favoriteActions,
                             hymnsListViewModel ::updateItem
                         )

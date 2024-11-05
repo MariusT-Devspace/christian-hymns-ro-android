@@ -41,7 +41,7 @@ fun HymnsIndex(
 ) {
     LazyColumn(
         contentPadding = contentPadding,
-        modifier = Modifier.padding(top = 30.dp)
+        modifier = Modifier.padding(top = 30.dp),
     ) {
         itemsIndexed(
             items = hymnsListItems.take(100)

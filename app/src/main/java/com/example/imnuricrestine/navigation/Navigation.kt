@@ -3,8 +3,8 @@ package com.example.imnuricrestine.navigation
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,13 +24,13 @@ object NavigationActions {
     lateinit var onOpenMenu : () -> Unit
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Navigation(
     padding: PaddingValues,
     hymnsListItems: State<List<HymnsListItemUiState>>,
     favoritesListItems: List<FavoritesListItem>,
     navController: NavHostController,
-    showBottomNavBar: MutableState<Boolean>,
     onFavoriteActions: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
@@ -43,7 +43,6 @@ fun Navigation(
             IndexScreen(
                 hymnsListItems,
                 navController,
-                showBottomNavBar,
                 onFavoriteActions,
                 updateHymnsListItem
             )
@@ -59,15 +58,13 @@ fun Navigation(
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
                 HymnDetailsScreen(
                     hymnId = argument,
-                    navController,
-                    showBottomNavBar
+                    navController
                 )
         }
         composable(Route.Favorites.route) {
             FavoritesScreen(
                 favoritesListItems,
                 navController,
-                showBottomNavBar,
                 onFavoriteActions,
                 updateHymnsListItem
             )
