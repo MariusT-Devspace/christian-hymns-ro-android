@@ -19,6 +19,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
@@ -27,6 +28,7 @@ import com.example.imnuricrestine.components.BottomPaginationBar
 import com.example.imnuricrestine.components.HymnsIndex
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
+import com.example.imnuricrestine.state.IndexScreenUiState
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
 
@@ -59,8 +61,12 @@ fun IndexScreen(
         }
     }
 
+    val (currentPage, paginationAppBarUiState, onChangePageAction) =
+        remember { IndexScreenUiState() }
+
     Scaffold(
-        modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
+        modifier = Modifier
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
             .nestedScroll(floatingAppBarScrollBehavior),
         topBar = {
             LargeTopAppBar(
@@ -76,7 +82,14 @@ fun IndexScreen(
                 actions = actions
             )
         },
-        bottomBar = { BottomPaginationBar(floatingAppBarScrollBehavior) }
+        bottomBar = {
+            BottomPaginationBar(
+                floatingAppBarScrollBehavior,
+                currentPage.value.title,
+                paginationAppBarUiState,
+                onChangePageAction
+            )
+        }
     ) { padding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
