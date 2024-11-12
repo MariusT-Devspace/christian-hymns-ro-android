@@ -14,10 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
 import com.example.imnuricrestine.data.hymns.HymnsViewModel
@@ -29,6 +33,7 @@ import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
+import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIcon
@@ -97,9 +102,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            val currentBackStack by navController.currentBackStackEntryAsState()
+            val currentDestination = currentBackStack?.destination?.route?.substringBefore("/")
+            val showBottomNavBar = rememberSaveable { mutableStateOf(true) }
+
+            LaunchedEffect(currentDestination) {
+                when (currentDestination) {
+                    Route.HymnDetails.route -> showBottomNavBar.value = false
+                    else -> showBottomNavBar.value = true
+                }
+            }
+
             ChristianHymnsTheme {
                 Scaffold(
-                    bottomBar = { BottomNavBar(navController) }
+                    bottomBar = {
+                        BottomNavBar(navController, showBottomNavBar.value)
+                    }
                 ) { padding ->
                     Surface(
                         modifier = Modifier.fillMaxSize(),
