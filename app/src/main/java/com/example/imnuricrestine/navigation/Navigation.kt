@@ -3,7 +3,6 @@ package com.example.imnuricrestine.navigation
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
@@ -24,7 +23,6 @@ object NavigationActions {
     lateinit var onOpenMenu : () -> Unit
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Navigation(
     padding: PaddingValues,
