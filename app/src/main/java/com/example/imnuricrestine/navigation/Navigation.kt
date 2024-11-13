@@ -1,7 +1,9 @@
 package com.example.imnuricrestine.navigation
 
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -32,6 +34,8 @@ fun Navigation(
     onFavoriteActions: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
+    val activity = LocalActivity.current as? ComponentActivity
+
     // Navigation routes
     NavHost(
         navController = navController,
@@ -68,12 +72,19 @@ fun Navigation(
         }
     }
 
+    // Back handling
     NavigationActions.onGoBack = {
         navController.popBackStack()
         Log.d("GO_BACK", "Index")
     }
 
     BackHandler {
-        NavigationActions.onGoBack()
+        val currentDestination = navController.currentBackStackEntry?.destination?.id
+        val startDestination = navController.graph.startDestinationId
+
+        if (currentDestination == startDestination)
+            activity?.finish()
+        else
+            NavigationActions.onGoBack()
     }
 }
