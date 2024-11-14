@@ -90,18 +90,6 @@ class MainActivity : ComponentActivity() {
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)
             }
 
-            LaunchedEffect(favorites.value.isNotEmpty()) {
-                for (favorite in favorites.value) {
-                    Log.d("SET_CONTENT", "update favorite ${favorite.hymn_id}")
-                    hymnsListViewModel.updateItem(
-                        favorite.hymn_id - 1,
-                        true,
-                        FavoriteAction.DELETE_FAVORITE,
-                        FavoriteIcon.SAVED.name
-                    )
-                }
-            }
-
             val currentBackStack by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackStack?.destination?.route?.substringBefore("/")
             val showBottomNavBar = rememberSaveable { mutableStateOf(true) }

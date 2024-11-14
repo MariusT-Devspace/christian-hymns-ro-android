@@ -16,9 +16,11 @@ class HymnsListViewModel : ViewModel() {
         HymnsListItemUiState(
             hymn.index,
             hymn.title,
-            false,
-            FavoriteAction.ADD_FAVORITE,
-            FavoriteIconName.NOT_SAVED.name
+            hymn.isFavorite,
+            if (hymn.isFavorite) FavoriteAction.ADD_FAVORITE
+            else FavoriteAction.DELETE_FAVORITE,
+            if (hymn.isFavorite) FavoriteIconName.SAVED.name
+            else FavoriteIconName.NOT_SAVED.name
         )
     }
 
