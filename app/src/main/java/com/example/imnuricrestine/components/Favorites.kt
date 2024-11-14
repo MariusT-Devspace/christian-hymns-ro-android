@@ -32,9 +32,9 @@ import java.util.concurrent.CompletableFuture
 
 @Composable
 fun Favorites(
-    favoritesListItems: List<FavoritesListItem>,
     contentPadding: PaddingValues,
     navController: NavHostController,
+    favoritesListItems: List<FavoritesListItem>,
     onDeleteFavorite: (Favorite) -> CompletableFuture<Void>,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {

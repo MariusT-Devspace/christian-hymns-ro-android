@@ -1,7 +1,7 @@
 package com.example.imnuricrestine.data.hymns;
 
 import com.example.imnuricrestine.data.db.HymnsDao;
-import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
+import com.example.imnuricrestine.data.db.models.HymnWithFavoriteStatus;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -16,7 +16,8 @@ public class HymnsDataSource {
         _hymnsDao = hymnsDao;
     }
 
-    public final CompletableFuture<List<HymnWithLyrics>> getHymns = CompletableFuture.supplyAsync(() ->
+    public final CompletableFuture<List<HymnWithFavoriteStatus>> getHymns =
+        CompletableFuture.supplyAsync(() ->
             _hymnsDao.getHymns()
     );
 }

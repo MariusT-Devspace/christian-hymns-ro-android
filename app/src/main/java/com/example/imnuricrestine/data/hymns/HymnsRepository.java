@@ -2,7 +2,7 @@ package com.example.imnuricrestine.data.hymns;
 
 import static com.example.imnuricrestine.utils.ConvertersKt.asHymn;
 
-import com.example.imnuricrestine.data.db.entities.HymnWithLyrics;
+import com.example.imnuricrestine.data.db.models.HymnWithFavoriteStatus;
 import com.example.imnuricrestine.models.Hymn;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 public class HymnsRepository {
 
-    private static List<HymnWithLyrics> _hymnsWithLyrics;
+    private static List<HymnWithFavoriteStatus> _hymnsWithFavoriteStatus;
     private ArrayList<Hymn> _hymns;
     private final HymnsDataSource _hymnsDataSource;
 
@@ -23,13 +23,13 @@ public class HymnsRepository {
 
     private void populateHymns() {
         _hymns = new ArrayList<>();
-        for(var hymnWithLyrics : _hymnsWithLyrics) {
-            _hymns.add(asHymn(hymnWithLyrics));
+        for(var hymnWithFavoriteStatus : _hymnsWithFavoriteStatus) {
+            _hymns.add(asHymn(hymnWithFavoriteStatus));
         }
     }
 
     public ArrayList<Hymn> getHymns() throws ExecutionException, InterruptedException {
-        _hymnsWithLyrics = _hymnsDataSource.getHymns.get();
+        _hymnsWithFavoriteStatus = _hymnsDataSource.getHymns.get();
         populateHymns();
         return _hymns;
     }

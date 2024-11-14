@@ -28,9 +28,9 @@ object NavigationActions {
 @Composable
 fun Navigation(
     padding: PaddingValues,
+    navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
     favoritesListItems: List<FavoritesListItem>,
-    navController: NavHostController,
     onFavoriteActions: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
@@ -43,8 +43,8 @@ fun Navigation(
     ) {
         composable(Route.Index.route) {
             IndexScreen(
-                hymnsListItems,
                 navController,
+                hymnsListItems,
                 onFavoriteActions,
                 updateHymnsListItem
             )
@@ -64,8 +64,8 @@ fun Navigation(
         }
         composable(Route.Favorites.route) {
             FavoritesScreen(
-                favoritesListItems,
                 navController,
+                favoritesListItems,
                 onFavoriteActions,
                 updateHymnsListItem
             )

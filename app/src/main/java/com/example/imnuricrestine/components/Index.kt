@@ -33,9 +33,9 @@ import com.example.imnuricrestine.state.FavoriteAction
 
 @Composable
 fun HymnsIndex(
-    hymnsListItems: List<HymnsListItemUiState>,
     contentPadding: PaddingValues,
     navController: NavHostController?,
+    hymnsListItems: List<HymnsListItemUiState>,
     onFavoriteActions: OnFavoriteAction,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {

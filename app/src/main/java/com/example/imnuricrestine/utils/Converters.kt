@@ -2,19 +2,26 @@ package com.example.imnuricrestine.utils
 
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.data.db.entities.Favorite
-import com.example.imnuricrestine.data.db.entities.HymnWithLyrics
+import com.example.imnuricrestine.data.db.models.HymnWithFavoriteStatus
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.models.Verse
 
-fun HymnWithLyrics.asHymn(): Hymn {
+fun HymnWithFavoriteStatus.asHymn(): Hymn {
     val verses = ArrayList<Verse>()
     var verseTagCount = 0
-    for (verse in this.lyrics) {
+
+    for (verse in this.hymnWithLyrics.lyrics) {
         val tag: String = if (verse.is_chorus) CHORUS_TAG else (++verseTagCount).toString()
         verses.add(Verse(verse.verse_text, tag, verse.is_chorus))
     }
-    return Hymn(this.hymn.id ,this.hymn.hymn_index, this.hymn.title, verses)
+
+    return Hymn(
+        this.hymnWithLyrics.hymn.id,
+        this.hymnWithLyrics.hymn.hymn_index,
+        this.hymnWithLyrics.hymn.title, verses,
+        this.isFavorite
+    )
 }
 
 fun Favorite.asFavoritesListItem(): FavoritesListItem {

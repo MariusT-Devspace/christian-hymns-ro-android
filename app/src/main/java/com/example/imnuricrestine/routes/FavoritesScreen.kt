@@ -26,8 +26,8 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 
 @Composable
 fun FavoritesScreen(
-    favoritesListItems: List<FavoritesListItem>,
     navController: NavHostController,
+    favoritesListItems: List<FavoritesListItem>,
     onFavoriteActions: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
@@ -69,9 +69,9 @@ fun FavoritesScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             Favorites(
-                favoritesListItems,
                 padding,
                 navController,
+                favoritesListItems,
                 onFavoriteActions.deleteFavorite,
                 updateHymnsListItem
             )

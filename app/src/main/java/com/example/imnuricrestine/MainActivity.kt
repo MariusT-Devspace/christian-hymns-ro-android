@@ -125,9 +125,9 @@ class MainActivity : ComponentActivity() {
                     ) {
                         Navigation(
                             padding,
+                            navController,
                             hymnsListItems,
                             favoritesListItems,
-                            navController,
                             favoriteActions,
                             hymnsListViewModel ::updateItem
                         )
