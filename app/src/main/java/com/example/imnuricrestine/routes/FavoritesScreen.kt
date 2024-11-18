@@ -1,7 +1,10 @@
 package com.example.imnuricrestine.routes
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -26,6 +29,7 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 
 @Composable
 fun FavoritesScreen(
+    contentPadding: PaddingValues,
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
     onFavoriteActions: OnFavoriteAction,
@@ -48,7 +52,7 @@ fun FavoritesScreen(
     Scaffold(
         modifier = Modifier.nestedScroll(
             pinnedScrollBehavior.nestedScrollConnection
-        ),
+        ).padding(contentPadding).consumeWindowInsets(contentPadding),
         topBar = {
             TopAppBar(
                 title = { Text(TopAppBarTitle.FAVORITES.title) },
