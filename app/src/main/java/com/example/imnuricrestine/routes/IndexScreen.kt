@@ -1,5 +1,6 @@
 package com.example.imnuricrestine.routes
 
+import android.util.Log
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -35,8 +37,8 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IndexScreen(
-    hymnsListItems: State<List<HymnsListItemUiState>>,
     navController: NavHostController,
+    hymnsListItems: State<List<HymnsListItemUiState>>,
     onFavoriteActions: MainActivity.Companion.OnFavoriteAction,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
@@ -63,6 +65,23 @@ fun IndexScreen(
 
     val (currentPage, paginationAppBarUiState, onChangePageAction) =
         remember { IndexScreenUiState() }
+
+    val pageItems = remember { mutableStateOf(hymnsListItems.value.subList(
+        currentPage.value.start - 1,
+        currentPage.value.end
+    ))  }
+
+    LaunchedEffect(currentPage.value) {
+        Log.d("INDEX_SCREEN", currentPage.value.toString())
+        pageItems.value = hymnsListItems.value.subList(
+            currentPage.value.start - 1,
+            currentPage.value.end
+        )
+        pageItems.value.forEach {
+            Log.d("INDEX_SCREEN", it.toString())
+        }
+
+    }
 
     Scaffold(
         modifier = Modifier
@@ -96,9 +115,9 @@ fun IndexScreen(
             color = MaterialTheme.colorScheme.background
         ) {
             HymnsIndex(
-                hymnsListItems.value,
                 padding,
                 navController,
+                pageItems.value,
                 onFavoriteActions,
                 updateItem
             )

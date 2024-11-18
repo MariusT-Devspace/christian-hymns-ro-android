@@ -64,6 +64,7 @@ fun Navigation(
         }
         composable(Route.Favorites.route) {
             FavoritesScreen(
+                padding,
                 navController,
                 favoritesListItems,
                 onFavoriteActions,

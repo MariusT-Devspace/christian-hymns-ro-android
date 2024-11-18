@@ -44,7 +44,7 @@ fun HymnsIndex(
         modifier = Modifier.padding(top = 30.dp),
     ) {
         itemsIndexed(
-            items = hymnsListItems.take(100)
+            items = hymnsListItems
         ) { index, item ->
             ListItem(
                 headlineContent = {
@@ -80,12 +80,12 @@ fun HymnsIndex(
                             when (item.onFavoriteAction) {
                                 FavoriteAction.ADD_FAVORITE -> onFavoriteActions.addFavorite(
                                     Favorite(
-                                        MainActivity.hymns.value!![index].id
+                                        item.id.toShort()
                                     )
                                 ).thenRun {
                                     Log.d("UISTATE", "Update item")
                                     updateItem(
-                                        index,
+                                        item.id - 1,
                                         true,
                                         FavoriteAction.DELETE_FAVORITE,
                                         FavoriteIcon.SAVED.name
@@ -94,11 +94,11 @@ fun HymnsIndex(
 
                                 FavoriteAction.DELETE_FAVORITE -> onFavoriteActions.deleteFavorite(
                                     MainActivity.favorites.value.firstOrNull { favorite ->
-                                        favorite.hymn_id == MainActivity.hymns.value?.get(index)!!.id
+                                        favorite.hymn_id.toInt() == item.id
                                     }
                                 ).thenRun {
                                     updateItem(
-                                        index,
+                                        item.id - 1,
                                         false,
                                         FavoriteAction.ADD_FAVORITE,
                                         FavoriteIcon.NOT_SAVED.name
@@ -109,14 +109,12 @@ fun HymnsIndex(
                     ) {
                       when (item.icon) {
                           FavoriteIconName.SAVED.name -> {
-                              Log.d("HYMNS_LIST_UI_STATE", "SAVED")
                               Icon(
                                   imageVector = Icons.Outlined.Favorite,
                                   contentDescription = FavoriteIcon.SAVED.icon.description
                               )
                           }
                           FavoriteIconName.NOT_SAVED.name -> {
-                              Log.d("HYMNS_LIST_UI_STATE", "NOT SAVED")
                               Icon(
                                   imageVector = Icons.Outlined.FavoriteBorder,
                                   contentDescription = FavoriteIcon.NOT_SAVED.icon.description

@@ -14,15 +14,22 @@ class HymnsListViewModel : ViewModel() {
 
     private val _hymnsListItems = MainActivity.hymns.value!!.map { hymn ->
         HymnsListItemUiState(
+            hymn.id.toInt(),
             hymn.index,
             hymn.title,
             hymn.isFavorite,
-            if (hymn.isFavorite) FavoriteAction.ADD_FAVORITE
-            else FavoriteAction.DELETE_FAVORITE,
+            if (hymn.isFavorite) FavoriteAction.DELETE_FAVORITE
+            else FavoriteAction.ADD_FAVORITE,
             if (hymn.isFavorite) FavoriteIconName.SAVED.name
             else FavoriteIconName.NOT_SAVED.name
         )
     }
+/*
+
+    fun getPageItems(start: Int, end: Int) : List<HymnsListItemUiState> {
+        return hymnUiStateListFlow.value.subList(start, end)
+    }
+*/
 
     fun updateItem(
         id: Int,
