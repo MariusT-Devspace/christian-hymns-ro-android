@@ -1,6 +1,5 @@
 package com.example.imnuricrestine.routes
 
-import android.util.Log
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -69,18 +68,13 @@ fun IndexScreen(
     val pageItems = remember { mutableStateOf(hymnsListItems.value.subList(
         currentPage.value.start - 1,
         currentPage.value.end
-    ))  }
+    )) }
 
     LaunchedEffect(currentPage.value) {
-        Log.d("INDEX_SCREEN", currentPage.value.toString())
         pageItems.value = hymnsListItems.value.subList(
             currentPage.value.start - 1,
             currentPage.value.end
         )
-        pageItems.value.forEach {
-            Log.d("INDEX_SCREEN", it.toString())
-        }
-
     }
 
     Scaffold(

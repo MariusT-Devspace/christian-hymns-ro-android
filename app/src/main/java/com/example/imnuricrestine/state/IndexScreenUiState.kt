@@ -3,13 +3,15 @@ package com.example.imnuricrestine.state
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.state.PaginationConfig.PAGE_SIZE
 import com.example.imnuricrestine.state.PaginationConfig.TOTAL_PAGES
 import com.example.imnuricrestine.state.PaginationConfig.pages
+import kotlin.math.ceil
 
 object PaginationConfig {
     const val PAGE_SIZE: Int = 99
-    const val TOTAL_PAGES: Int = 920 / PAGE_SIZE
+    val TOTAL_PAGES: Int = ceil((765.toDouble() / PAGE_SIZE.toDouble())).toInt()
     val pages: Array<Page> = Array(TOTAL_PAGES) { index ->
         Page(index + 1)
     }
@@ -17,9 +19,20 @@ object PaginationConfig {
 
 data class Page(
     val index: Int,
-    val start: Int = if (index == 1) 1 else ((index - 1) * PAGE_SIZE) + (index - 1),
-    val end: Int = if (index == 1) PAGE_SIZE else start + PAGE_SIZE,
-    val title: String = "$start - $end"
+    val start: Int = if (index == 1) 1
+    else (
+        MainActivity.hymns.value!!.find{ it.index == ((index - 1) * PAGE_SIZE).toString() }!!.id
+    ) + (index - 1),
+    val end: Int = when(index) {
+        1 -> PAGE_SIZE
+        TOTAL_PAGES ->
+            MainActivity.hymns.value!![MainActivity.hymns.value!!.size - 1].id.toInt()
+        else ->
+            MainActivity.hymns.value!!.indexOf(
+                MainActivity.hymns.value!!.find { it.index == (start + PAGE_SIZE).toString() }
+        ) + 1
+    },
+    val title: String = "${MainActivity.hymns.value!![start - 1].index} - ${MainActivity.hymns.value!![end - 1].index}"
 )
 
 enum class PageChangeAction {

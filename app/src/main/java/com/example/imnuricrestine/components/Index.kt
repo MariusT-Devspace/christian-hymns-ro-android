@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -43,9 +43,9 @@ fun HymnsIndex(
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
-        itemsIndexed(
+        items(
             items = hymnsListItems
-        ) { index, item ->
+        ) { item ->
             ListItem(
                 headlineContent = {
 
@@ -124,7 +124,7 @@ fun HymnsIndex(
                   }
                 },
                 modifier = Modifier.clickable {
-                    navController!!.navigate(Route.HymnDetails.route+"/$index")
+                    navController!!.navigate(Route.HymnDetails.route+"/${item.id - 1}")
                 }
             )
         }
