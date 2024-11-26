@@ -22,7 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import com.example.imnuricrestine.state.OnChangePageAction
 import com.example.imnuricrestine.state.PageChangeAction
@@ -36,7 +39,7 @@ fun BottomPaginationBar(
     paginationAppBarUiState: State<PaginationAppBarUiState>,
     onChangePageAction: OnChangePageAction,
 ) {
-    val selectedPage = 1
+    val openDialog = remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxWidth()) {
         HorizontalFloatingAppBar(
@@ -47,48 +50,71 @@ fun BottomPaginationBar(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
             contentPadding = FloatingAppBarDefaults.ContentPadding,
             scrollBehavior = scrollBehavior,
-            shape = FloatingAppBarDefaults.ContainerShape,
-            leadingContent = {},
-            trailingContent = { }
+            shape = FloatingAppBarDefaults.ContainerShape
         ) {
-            SingleChoiceSegmentedButtonRow {
-                SegmentedButton(
-                    selected = false,
-                    onClick = { onChangePageAction(PageChangeAction.PREVIOUS, null) },
-                    shape = SegmentedButtonDefaults.itemShape(0, 3),
-                    Modifier.width(100.dp),
-                    enabled = paginationAppBarUiState.value.isPreviousButtonEnabled
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Sharp.KeyboardArrowLeft, "",
-                        tint = if (paginationAppBarUiState.value.isPreviousButtonEnabled)
-                            MaterialTheme.colorScheme.onSurface
-                        else
-                            Color.DarkGray
-                    )
-                }
+            SegmentedButtons(
+                openDialog,
+                onChangePageAction,
+                paginationAppBarUiState,
+                pageTitle
+            )
 
-                SegmentedButton(
-                    selected = false,
-                    onClick = { onChangePageAction(PageChangeAction.SELECT, selectedPage) },
-                    shape = SegmentedButtonDefaults.itemShape(1, 3)
-                ) { Text(pageTitle) }
+            if (openDialog.value)
+                SelectPageDialog(
+                    openDialog,
+                    onChangePageAction
+                )
+        }
+    }
+}
 
-                SegmentedButton(
-                    selected = false,
-                    onClick = { onChangePageAction(PageChangeAction.NEXT, null) },
-                    shape = SegmentedButtonDefaults.itemShape(2, 3),
-                    enabled = paginationAppBarUiState.value.isNextButtonEnabled
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Sharp.KeyboardArrowRight, "",
-                        tint = if (paginationAppBarUiState.value.isNextButtonEnabled)
-                            MaterialTheme.colorScheme.onSurface
-                        else
-                            Color.DarkGray
-                    )
-                }
-            }
+@Composable
+fun SegmentedButtons(
+    openDialog: MutableState<Boolean>,
+    onChangePageAction: OnChangePageAction,
+    paginationAppBarUiState: State<PaginationAppBarUiState>,
+    pageTitle: String
+) {
+    SingleChoiceSegmentedButtonRow {
+        SegmentedButton(
+            selected = false,
+            onClick = {
+                onChangePageAction(PageChangeAction.PREVIOUS, null)
+            },
+            shape = SegmentedButtonDefaults.itemShape(0, 3),
+            Modifier.width(100.dp),
+            enabled = paginationAppBarUiState.value.isPreviousButtonEnabled
+        ) {
+            Icon(
+                Icons.AutoMirrored.Sharp.KeyboardArrowLeft, "",
+                tint = if (paginationAppBarUiState.value.isPreviousButtonEnabled)
+                    MaterialTheme.colorScheme.onSurface
+                else
+                    Color.DarkGray
+            )
+        }
+
+        SegmentedButton(
+            selected = false,
+            onClick = { openDialog.value = true },
+            shape = SegmentedButtonDefaults.itemShape(1, 3)
+        ) { Text(pageTitle) }
+
+        SegmentedButton(
+            selected = false,
+            onClick = {
+                onChangePageAction(PageChangeAction.NEXT, null)
+            },
+            shape = SegmentedButtonDefaults.itemShape(2, 3),
+            enabled = paginationAppBarUiState.value.isNextButtonEnabled
+        ) {
+            Icon(
+                Icons.AutoMirrored.Sharp.KeyboardArrowRight, "",
+                tint = if (paginationAppBarUiState.value.isNextButtonEnabled)
+                    MaterialTheme.colorScheme.onSurface
+                else
+                    Color.DarkGray
+            )
         }
     }
 }
