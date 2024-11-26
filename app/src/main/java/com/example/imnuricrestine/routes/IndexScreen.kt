@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
@@ -30,6 +31,7 @@ import com.example.imnuricrestine.components.HymnsIndex
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.IndexScreenUiState
+import com.example.imnuricrestine.state.IndexScreenUiStateSaver
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
 
@@ -62,8 +64,10 @@ fun IndexScreen(
         }
     }
 
+    val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) { IndexScreenUiState() }
+
     val (currentPage, paginationAppBarUiState, onChangePageAction) =
-        remember { IndexScreenUiState() }
+        indexScreenUiState
 
     val pageItems = remember { mutableStateOf(hymnsListItems.value.subList(
         currentPage.value.start - 1,
