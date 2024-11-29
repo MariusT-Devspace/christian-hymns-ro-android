@@ -88,7 +88,10 @@ class MainActivity : ComponentActivity() {
                     val hymnIndex = hymns.value!!.indexOf(hymns.value!!.find {
                         it.id == favorite.hymn_id
                     })
-                    hymns.value!![hymnIndex].asFavoritesListItem() }
+                    favorite.asFavoritesListItem(
+                        hymns.value!![hymnIndex].index,
+                        hymns.value!![hymnIndex].title
+                    ) }
             } else {
                 val gson = Gson()
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)

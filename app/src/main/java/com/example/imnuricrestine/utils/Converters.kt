@@ -1,5 +1,6 @@
 package com.example.imnuricrestine.utils
 
+import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.db.models.HymnWithFavoriteStatus
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.Hymn
@@ -22,11 +23,14 @@ fun HymnWithFavoriteStatus.asHymn(): Hymn {
     )
 }
 
-fun Hymn.asFavoritesListItem(): FavoritesListItem {
+fun Favorite.asFavoritesListItem(
+    hymnIndex: String,
+    title: String
+): FavoritesListItem {
     return FavoritesListItem(
-        id = this.id,
-        hymnId = this.id,
-        index = this.index,
-        title = this.title
+        this.id,
+        this.hymn_id,
+        hymnIndex,
+        title
     )
 }
