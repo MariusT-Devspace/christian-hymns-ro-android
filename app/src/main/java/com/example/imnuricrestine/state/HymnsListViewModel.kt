@@ -7,6 +7,8 @@ import com.example.imnuricrestine.models.Hymn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+typealias UpdateHymnsListItemUiState = (Int, Boolean, FavoriteAction, String) -> Unit
+
 class HymnsListViewModel(val hymns: LiveData<ArrayList<Hymn>>) : ViewModel() {
     private var hymnUiStateList = mutableStateListOf<HymnsListItemUiState>()
     private val _hymnUiStateListFlow = MutableStateFlow(hymnUiStateList)

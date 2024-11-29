@@ -29,11 +29,11 @@ import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.components.BottomPaginationBar
 import com.example.imnuricrestine.components.HymnsIndex
 import com.example.imnuricrestine.models.OnFavoriteActions
-import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.IndexScreenUiState
 import com.example.imnuricrestine.state.IndexScreenUiStateSaver
 import com.example.imnuricrestine.state.PaginationConfig.getPages
+import com.example.imnuricrestine.state.UpdateHymnsListItemUiState
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
 
@@ -43,7 +43,7 @@ fun IndexScreen(
     navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
     onFavoriteActions: OnFavoriteActions,
-    updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -123,7 +123,7 @@ fun IndexScreen(
                 navController,
                 pageItems.value,
                 onFavoriteActions,
-                updateItem
+                updateHymnsListItemUiState
             )
         }
     }

@@ -23,7 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.components.Favorites
 import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.models.OnFavoriteAction
-import com.example.imnuricrestine.state.FavoriteAction
+import com.example.imnuricrestine.state.UpdateHymnsListItemUiState
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
 
@@ -33,7 +33,7 @@ fun FavoritesScreen(
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
     onDeleteFavorite: OnFavoriteAction,
-    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState
 ) {
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
@@ -77,7 +77,7 @@ fun FavoritesScreen(
                 navController,
                 favoritesListItems,
                 onDeleteFavorite,
-                updateHymnsListItem
+                updateHymnsListItemUiState
             )
         }
     }

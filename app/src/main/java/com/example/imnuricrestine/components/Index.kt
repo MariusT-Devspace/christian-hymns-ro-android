@@ -33,6 +33,7 @@ import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.state.FavoriteAction
+import com.example.imnuricrestine.state.UpdateHymnsListItemUiState
 
 @Composable
 fun HymnsIndex(
@@ -40,10 +41,11 @@ fun HymnsIndex(
     navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
     onFavoriteActions: OnFavoriteActions,
-    updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState
 ) {
     val favoritesViewModel: FavoritesViewModel = hiltViewModel()
-    val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
+    val favorites: State<List<Favorite>> =
+        favoritesViewModel.favorites.observeAsState(emptyList())
 
     LazyColumn(
         contentPadding = contentPadding,
@@ -90,7 +92,7 @@ fun HymnsIndex(
                                     )
                                 ).thenRun {
                                     Log.d("UISTATE", "Update item")
-                                    updateItem(
+                                    updateHymnsListItemUiState(
                                         item.id - 1,
                                         true,
                                         FavoriteAction.DELETE_FAVORITE,
@@ -104,7 +106,7 @@ fun HymnsIndex(
                                     }
 
                                 ).thenRun {
-                                    updateItem(
+                                    updateHymnsListItemUiState(
                                         item.id - 1,
                                         false,
                                         FavoriteAction.ADD_FAVORITE,

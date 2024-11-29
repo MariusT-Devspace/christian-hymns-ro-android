@@ -29,7 +29,7 @@ import com.example.imnuricrestine.models.OnFavoriteAction
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIconName
-import java.util.concurrent.CompletableFuture
+import com.example.imnuricrestine.state.UpdateHymnsListItemUiState
 
 @Composable
 fun Favorites(
@@ -37,7 +37,7 @@ fun Favorites(
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
     onDeleteFavorite: OnFavoriteAction,
-    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItem: UpdateHymnsListItemUiState
 ) {
     LazyColumn(
         contentPadding = contentPadding,
