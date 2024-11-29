@@ -17,17 +17,20 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.FavoriteIconName
 import com.example.imnuricrestine.data.db.entities.Favorite
+import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.state.FavoriteAction
 
@@ -39,6 +42,9 @@ fun HymnsIndex(
     onFavoriteActions: OnFavoriteActions,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
+    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
+
     LazyColumn(
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
@@ -93,9 +99,10 @@ fun HymnsIndex(
                                 }
 
                                 FavoriteAction.DELETE_FAVORITE -> onFavoriteActions.deleteFavorite(
-                                    MainActivity.favorites.value.firstOrNull { favorite ->
+                                    favorites.value.firstOrNull { favorite ->
                                         favorite.hymn_id.toInt() == item.id
                                     }
+
                                 ).thenRun {
                                     updateItem(
                                         item.id - 1,

@@ -45,11 +45,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        lateinit var favorites: State<List<Favorite>>
         lateinit var indexScreenPages: List<Page>
     }
 
-    lateinit var favoritesListItems: List<FavoritesListItem>
     lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +58,7 @@ class MainActivity : ComponentActivity() {
         val favoritesViewModel by viewModels<FavoritesViewModel>()
         val hymns: LiveData<ArrayList<Hymn>> = hymnsViewModel.hymns
 
+
         val favoriteActions = OnFavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
             deleteFavorite = favoritesViewModel::deleteFavorite
@@ -69,15 +68,15 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val hymnsListViewModel: HymnsListViewModel = viewModel { HymnsListViewModel(hymns) }
             val hymnsListItems = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
+            val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
 
-            favorites = favoritesViewModel.favorites.observeAsState(emptyList())
             Log.d("RECOMPOSITION", "setContent")
 
             // Shared Preferences
             sharedPreferences = getSharedPreferences("hymnsSharedPreferences", MODE_PRIVATE)
             val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItemUiState>>() {}.type
 
-            favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
+            val favoritesListItems: List<FavoritesListItem> = if (!sharedPreferences.contains("favoritesListItems")) {
                 favorites.value.map { favorite ->
                     val hymnIndex = hymns.value!!.indexOf(hymns.value!!.find {
                         it.id == favorite.hymn_id
