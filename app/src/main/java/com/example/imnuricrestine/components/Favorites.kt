@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.models.FavoritesListItem
+import com.example.imnuricrestine.models.OnFavoriteAction
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.FavoriteIconName
@@ -35,7 +36,7 @@ fun Favorites(
     contentPadding: PaddingValues,
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
-    onDeleteFavorite: (Favorite) -> CompletableFuture<Void>,
+    onDeleteFavorite: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     LazyColumn(

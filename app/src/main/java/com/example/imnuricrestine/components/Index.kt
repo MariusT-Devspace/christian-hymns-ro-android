@@ -27,8 +27,8 @@ import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.FavoriteIcon
 import com.example.imnuricrestine.state.FavoriteIconName
-import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.data.db.entities.Favorite
+import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.state.FavoriteAction
 
 @Composable
@@ -36,7 +36,7 @@ fun HymnsIndex(
     contentPadding: PaddingValues,
     navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
-    onFavoriteActions: OnFavoriteAction,
+    onFavoriteActions: OnFavoriteActions,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     LazyColumn(

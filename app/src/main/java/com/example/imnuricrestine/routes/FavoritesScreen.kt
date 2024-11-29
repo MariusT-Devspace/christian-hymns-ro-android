@@ -20,9 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
-import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.components.Favorites
 import com.example.imnuricrestine.models.FavoritesListItem
+import com.example.imnuricrestine.models.OnFavoriteAction
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
@@ -32,7 +32,7 @@ fun FavoritesScreen(
     contentPadding: PaddingValues,
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
-    onFavoriteActions: OnFavoriteAction,
+    onDeleteFavorite: OnFavoriteAction,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
@@ -76,7 +76,7 @@ fun FavoritesScreen(
                 padding,
                 navController,
                 favoritesListItems,
-                onFavoriteActions.deleteFavorite,
+                onDeleteFavorite,
                 updateHymnsListItem
             )
         }

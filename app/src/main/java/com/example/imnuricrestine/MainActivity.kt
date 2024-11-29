@@ -34,22 +34,17 @@ import com.example.imnuricrestine.components.BottomNavBar
 import com.example.imnuricrestine.data.db.entities.Favorite
 import com.example.imnuricrestine.data.favorites.FavoritesViewModel
 import com.example.imnuricrestine.models.FavoritesListItem
+import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.HymnsListViewModel
 import com.example.imnuricrestine.state.Page
 import com.example.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.CompletableFuture
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        data class OnFavoriteAction(
-            val addFavorite: (Favorite) -> CompletableFuture<Void>,
-            val deleteFavorite: (Favorite?) -> CompletableFuture<Void>
-        )
-        lateinit var favoriteActions: OnFavoriteAction
         lateinit var favorites: State<List<Favorite>>
         lateinit var indexScreenPages: List<Page>
     }
@@ -65,8 +60,7 @@ class MainActivity : ComponentActivity() {
         val favoritesViewModel by viewModels<FavoritesViewModel>()
         val hymns: LiveData<ArrayList<Hymn>> = hymnsViewModel.hymns
 
-
-        favoriteActions = OnFavoriteAction(
+        val favoriteActions = OnFavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
             deleteFavorite = favoritesViewModel::deleteFavorite
         )

@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.components.BottomPaginationBar
 import com.example.imnuricrestine.components.HymnsIndex
+import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.IndexScreenUiState
@@ -41,7 +42,7 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 fun IndexScreen(
     navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
-    onFavoriteActions: MainActivity.Companion.OnFavoriteAction,
+    onFavoriteActions: OnFavoriteActions,
     updateItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(

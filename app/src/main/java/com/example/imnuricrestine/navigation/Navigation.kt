@@ -12,8 +12,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.imnuricrestine.MainActivity.Companion.OnFavoriteAction
 import com.example.imnuricrestine.models.FavoritesListItem
+import com.example.imnuricrestine.models.OnFavoriteActions
 import com.example.imnuricrestine.routes.FavoritesScreen
 import com.example.imnuricrestine.routes.HymnDetailsScreen
 import com.example.imnuricrestine.routes.IndexScreen
@@ -31,7 +31,7 @@ fun Navigation(
     navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
     favoritesListItems: List<FavoritesListItem>,
-    onFavoriteActions: OnFavoriteAction,
+    onFavoriteActions: OnFavoriteActions,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
     val activity = LocalActivity.current as? ComponentActivity
@@ -67,7 +67,7 @@ fun Navigation(
                 padding,
                 navController,
                 favoritesListItems,
-                onFavoriteActions,
+                onFavoriteActions.deleteFavorite,
                 updateHymnsListItem
             )
         }
