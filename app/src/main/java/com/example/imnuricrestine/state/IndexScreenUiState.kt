@@ -4,8 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
-import com.example.imnuricrestine.state.PaginationConfig.TOTAL_PAGES
-import com.example.imnuricrestine.state.PaginationConfig.pages
+import com.example.imnuricrestine.MainActivity.Companion.indexScreenPages
+import com.example.imnuricrestine.state.PaginationConfig.totalPages
 
 // State holder saver
 val IndexScreenUiStateSaver = Saver<IndexScreenUiState, Map<String, Any>>(
@@ -18,7 +18,6 @@ val IndexScreenUiStateSaver = Saver<IndexScreenUiState, Map<String, Any>>(
     // Restore the state
     restore = { restoredState ->
         IndexScreenUiState().apply {
-            // Restore the page
             val pageIndex = restoredState["currentPageIndex"] as Int
             onChangePageAction(null, pageIndex)
         }
@@ -26,8 +25,8 @@ val IndexScreenUiStateSaver = Saver<IndexScreenUiState, Map<String, Any>>(
 )
 
 // State holder class
-class IndexScreenUiState {
-    private val _page: MutableState<Page> = mutableStateOf(pages[0])
+class IndexScreenUiState() {
+    private val _page: MutableState<Page> = mutableStateOf(indexScreenPages[0])
     private val _paginationAppBarUiState: MutableState<PaginationAppBarUiState> = mutableStateOf(
         PaginationAppBarUiState(
             isPreviousButtonEnabled = false,
@@ -51,7 +50,7 @@ class IndexScreenUiState {
     ) {
         fun updatePaginationAppBarUiState() {
             when (page.value.index) {
-                in 2..<TOTAL_PAGES ->
+                in 2..<totalPages ->
                     _paginationAppBarUiState.value = paginationAppBarUiState.value.copy(
                         isPreviousButtonEnabled = true,
                         isNextButtonEnabled = true
@@ -61,7 +60,7 @@ class IndexScreenUiState {
                         isPreviousButtonEnabled = false,
                         isNextButtonEnabled = true
                     )
-                TOTAL_PAGES ->
+                totalPages ->
                     _paginationAppBarUiState.value = paginationAppBarUiState.value.copy(
                         isPreviousButtonEnabled = true,
                         isNextButtonEnabled = false
@@ -72,18 +71,18 @@ class IndexScreenUiState {
         when (action) {
             PageChangeAction.NEXT -> {
                 val index = page.value.index + 1
-                _page.value = pages[index-1]
+                _page.value = indexScreenPages[index-1]
                 updatePaginationAppBarUiState()
             }
 
             PageChangeAction.PREVIOUS -> {
                 val index = page.value.index - 1
-                _page.value = pages[index-1]
+                _page.value = indexScreenPages[index-1]
                 updatePaginationAppBarUiState()
             }
             else -> {
                 val index = selectedPage ?: page.value.index
-                _page.value = pages[index-1]
+                _page.value = indexScreenPages[index-1]
                 updatePaginationAppBarUiState()
             }
         }

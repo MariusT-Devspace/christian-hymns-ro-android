@@ -32,6 +32,7 @@ import com.example.imnuricrestine.state.FavoriteAction
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.IndexScreenUiState
 import com.example.imnuricrestine.state.IndexScreenUiStateSaver
+import com.example.imnuricrestine.state.PaginationConfig.getPages
 import com.example.imnuricrestine.utils.ICONS
 import com.example.imnuricrestine.utils.TopAppBarTitle
 
@@ -64,7 +65,11 @@ fun IndexScreen(
         }
     }
 
-    val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) { IndexScreenUiState() }
+    MainActivity.indexScreenPages = hymnsListItems.value.getPages()
+
+    val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) {
+        IndexScreenUiState()
+    }
 
     val (currentPage, paginationAppBarUiState, onChangePageAction) =
         indexScreenUiState

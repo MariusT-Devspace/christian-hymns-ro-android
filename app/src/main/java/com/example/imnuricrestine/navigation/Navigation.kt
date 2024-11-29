@@ -59,7 +59,7 @@ fun Navigation(
         ) { navBackStackEntry ->
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
                 HymnDetailsScreen(
-                    hymnId = argument
+                    index = argument
                 )
         }
         composable(Route.Favorites.route) {

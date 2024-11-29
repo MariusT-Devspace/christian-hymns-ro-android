@@ -1,45 +1,56 @@
 package com.example.imnuricrestine.state
 
-import com.example.imnuricrestine.MainActivity
-import com.example.imnuricrestine.state.PaginationConfig.PAGE_SIZE
-import com.example.imnuricrestine.state.PaginationConfig.TOTAL_PAGES
 import kotlin.math.ceil
 
-// Constants and Utility Functions
 object PaginationConfig {
-    const val PAGE_SIZE: Int = 99
-    val TOTAL_PAGES: Int = ceil((765.toDouble() / PAGE_SIZE.toDouble())).toInt()
-    val pages: List<Page> = Array(TOTAL_PAGES) { index ->
-        Page(index + 1)
-    }.toList()
+    const val pageSize: Int = 99
+    val totalPages: Int = ceil((765.toDouble() / pageSize.toDouble())).toInt()
+    fun List<HymnsListItemUiState>.getPages(): List<Page> =
+        Array(totalPages) { index ->
+            Page(this, pageSize, totalPages, index + 1)
+        }.toList()
 }
 
-private fun getPageStart(index: Int): Int =
+// Constants, types and Utility Functions
+private fun List<HymnsListItemUiState>.getPageStart(index: Int, pageSize: Int): Int =
     if (index == 1)
         1
     else
-        MainActivity.hymns.value!!.find { it.index == ((index - 1) * PAGE_SIZE).toString() }!!.id + (index - 1)
+        this.find { it.index == ((index - 1) * pageSize).toString() }!!.id + (index - 1)
 
-private fun getPageEnd(index: Int, start: Int): Int = when (index) {
-    1 -> PAGE_SIZE
-    TOTAL_PAGES ->
-        MainActivity.hymns.value!![MainActivity.hymns.value!!.size - 1].id.toInt()
+private fun List<HymnsListItemUiState>.getPageEnd(
+    index: Int,
+    start: Int,
+    pageSize: Int,
+    totalPages: Int
+): Int = when (index) {
+        1 -> pageSize
+        totalPages ->
+            this[this.size - 1].id
 
-    else ->
-        MainActivity.hymns.value!!.indexOf(
-            MainActivity.hymns.value!!.find { it.index == (start + PAGE_SIZE).toString() }
-        ) + 1
-}
+        else ->
+            this.indexOf(
+                this.find { it.index == (start + pageSize).toString() }
+            ) + 1
+    }
 
-private fun getPageTitle(start: Int, end: Int): String =
-    "${MainActivity.hymns.value!![start - 1].index} - ${MainActivity.hymns.value!![end - 1].index}"
+private fun List<HymnsListItemUiState>.getPageTitle(
+    start: Int,
+    end: Int
+): String =
+    "${this[start - 1].index} - ${this[end - 1].index}"
 
 // Data classes, enums and type aliases
 data class Page(
+    // Parameters to provide
+    private val hymnsListItems: List<HymnsListItemUiState>,
+    private val pageSize: Int,
+    private val totalPages: Int,
     val index: Int,
-    val start: Int = getPageStart(index),
-    val end: Int = getPageEnd(index, start),
-    val title: String = getPageTitle(start, end)
+    // Default parameters
+    val start: Int = hymnsListItems.getPageStart(index, pageSize),
+    val end: Int = hymnsListItems.getPageEnd(index, start, pageSize, totalPages),
+    val title: String = hymnsListItems.getPageTitle(start, end)
 )
 
 enum class PageChangeAction {

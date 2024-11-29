@@ -1,18 +1,19 @@
 package com.example.imnuricrestine.state
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.imnuricrestine.MainActivity
+import com.example.imnuricrestine.models.Hymn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class HymnsListViewModel : ViewModel() {
+class HymnsListViewModel(val hymns: LiveData<ArrayList<Hymn>>) : ViewModel() {
     private var hymnUiStateList = mutableStateListOf<HymnsListItemUiState>()
     private val _hymnUiStateListFlow = MutableStateFlow(hymnUiStateList)
 
     val hymnUiStateListFlow: StateFlow<List<HymnsListItemUiState>> get() = _hymnUiStateListFlow
 
-    private val _hymnsListItems = MainActivity.hymns.value!!.map { hymn ->
+    private val _hymnsListItems = hymns.value!!.map { hymn ->
         HymnsListItemUiState(
             hymn.id.toInt(),
             hymn.index,
@@ -24,12 +25,6 @@ class HymnsListViewModel : ViewModel() {
             else FavoriteIconName.NOT_SAVED.name
         )
     }
-/*
-
-    fun getPageItems(start: Int, end: Int) : List<HymnsListItemUiState> {
-        return hymnUiStateListFlow.value.subList(start, end)
-    }
-*/
 
     fun updateItem(
         id: Int,

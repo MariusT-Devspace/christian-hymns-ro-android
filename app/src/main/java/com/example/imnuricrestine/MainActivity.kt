@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.imnuricrestine.models.Hymn
 import com.example.imnuricrestine.navigation.Navigation
@@ -36,6 +37,7 @@ import com.example.imnuricrestine.models.FavoritesListItem
 import com.example.imnuricrestine.navigation.Route
 import com.example.imnuricrestine.state.HymnsListItemUiState
 import com.example.imnuricrestine.state.HymnsListViewModel
+import com.example.imnuricrestine.state.Page
 import com.example.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.CompletableFuture
@@ -43,13 +45,13 @@ import java.util.concurrent.CompletableFuture
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        lateinit var hymns : LiveData<ArrayList<Hymn>>
         data class OnFavoriteAction(
             val addFavorite: (Favorite) -> CompletableFuture<Void>,
             val deleteFavorite: (Favorite?) -> CompletableFuture<Void>
         )
         lateinit var favoriteActions: OnFavoriteAction
         lateinit var favorites: State<List<Favorite>>
+        lateinit var indexScreenPages: List<Page>
     }
 
     lateinit var favoritesListItems: List<FavoritesListItem>
@@ -61,8 +63,7 @@ class MainActivity : ComponentActivity() {
         // Load data
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
-        val hymnsListViewModel by viewModels<HymnsListViewModel>()
-        hymns = hymnsViewModel.hymns
+        val hymns: LiveData<ArrayList<Hymn>> = hymnsViewModel.hymns
 
 
         favoriteActions = OnFavoriteAction(
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            val hymnsListViewModel: HymnsListViewModel = viewModel { HymnsListViewModel(hymns) }
             val hymnsListItems = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
 
             favorites = favoritesViewModel.favorites.observeAsState(emptyList())
@@ -82,7 +84,11 @@ class MainActivity : ComponentActivity() {
             val hymnsListItemsType = object : TypeToken<ArrayList<HymnsListItemUiState>>() {}.type
 
             favoritesListItems = if (!sharedPreferences.contains("favoritesListItems")) {
-                favorites.value.map { favorite -> favorite.asFavoritesListItem() }
+                favorites.value.map { favorite ->
+                    val hymnIndex = hymns.value!!.indexOf(hymns.value!!.find {
+                        it.id == favorite.hymn_id
+                    })
+                    hymns.value!![hymnIndex].asFavoritesListItem() }
             } else {
                 val gson = Gson()
                 gson.fromJson(sharedPreferences.getString("favoritesListItems", null), hymnsListItemsType)

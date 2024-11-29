@@ -15,9 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.example.imnuricrestine.state.OnChangePageAction
 import com.example.imnuricrestine.state.PageChangeAction
-import com.example.imnuricrestine.state.PaginationConfig.pages
 
 @Composable
 fun SelectPageDialog(
@@ -49,7 +49,7 @@ fun DialogContent(
     onChangePageAction: OnChangePageAction
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
-        pages.forEach { selectionOption ->
+        indexScreenPages.forEach { selectionOption ->
             ListItem(
                 headlineContent = { Text(text = selectionOption.title) },
                 modifier = Modifier.clickable {

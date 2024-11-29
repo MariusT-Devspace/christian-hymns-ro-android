@@ -19,16 +19,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.example.imnuricrestine.MainActivity
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.imnuricrestine.components.HymnDetails
+import com.example.imnuricrestine.data.hymns.HymnsViewModel
 import com.example.imnuricrestine.navigation.NavigationActions
 import com.example.imnuricrestine.utils.ICONS
 
 @Composable
 fun HymnDetailsScreen(
-    hymnId: Int
+    index: Int
 ) {
-    val hymn = MainActivity.hymns.value!![hymnId]
+    val hymnsViewModel: HymnsViewModel = hiltViewModel()
+    val hymn = hymnsViewModel.hymns.value!![index]
 
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
