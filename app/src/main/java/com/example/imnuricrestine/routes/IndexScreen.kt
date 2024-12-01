@@ -2,6 +2,7 @@ package com.example.imnuricrestine.routes
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -80,11 +81,15 @@ fun IndexScreen(
         currentPage.value.end
     )) }
 
+    val listState = rememberLazyListState()
+
     LaunchedEffect(currentPage.value) {
         pageItems.value = hymnsListItems.value.subList(
             currentPage.value.start - 1,
             currentPage.value.end
         )
+        listState.scrollToItem(0)
+        topAppBarScrollBehavior.state.heightOffset = 0f
     }
 
     Scaffold(
@@ -122,6 +127,8 @@ fun IndexScreen(
                 padding,
                 navController,
                 pageItems.value,
+                listState,
+                currentPage,
                 onFavoriteActions,
                 updateHymnsListItemUiState
             )

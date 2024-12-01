@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -40,6 +41,7 @@ fun HymnsIndex(
     contentPadding: PaddingValues,
     navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
+    listState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
     updateHymnsListItemUiState: UpdateHymnsListItemUiState
 ) {
@@ -48,6 +50,7 @@ fun HymnsIndex(
         favoritesViewModel.favorites.observeAsState(emptyList())
 
     LazyColumn(
+        state = listState,
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
