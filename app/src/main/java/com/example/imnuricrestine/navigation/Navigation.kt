@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
@@ -22,7 +23,6 @@ import com.example.imnuricrestine.state.HymnsListItemUiState
 
 object NavigationActions {
     lateinit var onGoBack : () -> Unit
-    lateinit var onOpenMenu : () -> Unit
 }
 
 @Composable
@@ -31,6 +31,8 @@ fun Navigation(
     navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
     favoritesListItems: List<FavoritesListItem>,
+    indexListState: LazyListState,
+    favoritesListState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
     updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
 ) {
@@ -45,6 +47,7 @@ fun Navigation(
             IndexScreen(
                 navController,
                 hymnsListItems,
+                indexListState,
                 onFavoriteActions,
                 updateHymnsListItem
             )
@@ -67,6 +70,7 @@ fun Navigation(
                 padding,
                 navController,
                 favoritesListItems,
+                favoritesListState,
                 onFavoriteActions.deleteFavorite,
                 updateHymnsListItem
             )

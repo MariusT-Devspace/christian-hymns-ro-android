@@ -2,7 +2,7 @@ package com.example.imnuricrestine.routes
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -20,6 +20,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,6 +44,7 @@ import com.example.imnuricrestine.utils.TopAppBarTitle
 fun IndexScreen(
     navController: NavHostController,
     hymnsListItems: State<List<HymnsListItemUiState>>,
+    listState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
     updateHymnsListItemUiState: UpdateHymnsListItemUiState
 ) {
@@ -81,8 +83,6 @@ fun IndexScreen(
         currentPage.value.end
     )) }
 
-    val listState = rememberLazyListState()
-
     LaunchedEffect(currentPage.value) {
         pageItems.value = hymnsListItems.value.subList(
             currentPage.value.start - 1,
@@ -90,6 +90,16 @@ fun IndexScreen(
         )
         listState.scrollToItem(0)
         topAppBarScrollBehavior.state.heightOffset = 0f
+    }
+
+    val scrolledToTop = remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
+
+    LaunchedEffect(scrolledToTop.value) {
+        if (scrolledToTop.value) {
+            topAppBarScrollBehavior.state.heightOffset = 0f
+        }
     }
 
     Scaffold(
@@ -128,7 +138,6 @@ fun IndexScreen(
                 navController,
                 pageItems.value,
                 listState,
-                currentPage,
                 onFavoriteActions,
                 updateHymnsListItemUiState
             )

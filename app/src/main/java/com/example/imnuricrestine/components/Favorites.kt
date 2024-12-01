@@ -1,12 +1,12 @@
 package com.example.imnuricrestine.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
@@ -36,10 +36,12 @@ fun Favorites(
     contentPadding: PaddingValues,
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
+    listState: LazyListState,
     onDeleteFavorite: OnFavoriteAction,
     updateHymnsListItem: UpdateHymnsListItemUiState
 ) {
     LazyColumn(
+        state = listState,
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
@@ -79,7 +81,6 @@ fun Favorites(
                                     item.hymnId
                                 )
                             ).thenRun {
-                                Log.d("UISTATE", "Update item")
                                 updateHymnsListItem(
                                     item.hymnId.toInt() - 1,
                                     false,
