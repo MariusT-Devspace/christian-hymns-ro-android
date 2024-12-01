@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
@@ -43,9 +43,9 @@ fun Favorites(
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
-        itemsIndexed(
+        items(
             items = favoritesListItems
-        ) { _, item ->
+        ) { item ->
             ListItem(
                 headlineContent = {
 
