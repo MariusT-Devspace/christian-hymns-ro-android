@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,10 @@ fun Favorites(
     onDeleteFavorite: OnFavoriteAction,
     updateHymnsListItem: UpdateHymnsListItemUiState
 ) {
+    LaunchedEffect(Unit) {
+        listState.scrollToItem(0)
+    }
+
     LazyColumn(
         state = listState,
         contentPadding = contentPadding,
