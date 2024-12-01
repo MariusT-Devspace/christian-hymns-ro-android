@@ -38,3 +38,6 @@ app/src/main/assets/
 
 # Kotlin Gradle plugin data
 .kotlin/
+
+# Release
+app/release/
