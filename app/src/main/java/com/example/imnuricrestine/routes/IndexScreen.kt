@@ -6,8 +6,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FloatingAppBarDefaults
-import androidx.compose.material3.FloatingAppBarExitDirection.Companion.Bottom
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarExitDirection.Companion.Bottom
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -52,7 +52,7 @@ fun IndexScreen(
         rememberTopAppBarState(),
         { true }
     )
-    val floatingAppBarScrollBehavior = FloatingAppBarDefaults.exitAlwaysScrollBehavior(
+    val floatingAppBarScrollBehavior = FloatingToolbarDefaults.exitAlwaysScrollBehavior(
         exitDirection = Bottom
     )
 
