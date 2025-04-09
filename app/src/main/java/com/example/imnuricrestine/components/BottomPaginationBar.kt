@@ -91,6 +91,7 @@ fun SegmentedButtons(
         val disabledContentColor = MaterialTheme.colorScheme.onPrimary
         val borderColor = MaterialTheme.colorScheme.primaryContainer
         val buttonShape = shapes.extraLarge
+        val buttonHorizontalPadding = 10.dp
 
         SegmentedButton(
             selected = false,
@@ -98,7 +99,7 @@ fun SegmentedButtons(
                 onChangePageAction(PageChangeAction.PREVIOUS, null)
             },
             shape = buttonShape,
-            Modifier.width(110.dp),
+            Modifier.width(110.dp).padding(horizontal = buttonHorizontalPadding),
             enabled = paginationAppBarUiState.value.isPreviousButtonEnabled,
             colors = SegmentedButtonColors(
                 activeContainerColor = SegmentedButtonDefaults.colors().activeContainerColor,
@@ -170,6 +171,7 @@ fun SegmentedButtons(
                 onChangePageAction(PageChangeAction.NEXT, null)
             },
             shape = buttonShape,
+            modifier = Modifier.padding(horizontal = buttonHorizontalPadding),
             enabled = paginationAppBarUiState.value.isNextButtonEnabled,
             colors = SegmentedButtonColors(
                 activeContainerColor = SegmentedButtonDefaults.colors().activeContainerColor,
