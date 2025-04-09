@@ -1,7 +1,10 @@
 package com.example.imnuricrestine.routes
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -21,11 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.MainActivity
 import com.example.imnuricrestine.components.BottomPaginationBar
@@ -69,6 +74,7 @@ fun IndexScreen(
         }
     }
 
+
     MainActivity.indexScreenPages = hymnsListItems.value.getPages()
 
     val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) {
@@ -102,20 +108,41 @@ fun IndexScreen(
         }
     }
 
+    val isCollapsed by remember { derivedStateOf {
+        topAppBarScrollBehavior.state.heightOffset < 0
+    } }
+
+    val textOffset = remember { mutableStateOf(0.dp) }
+
+    LaunchedEffect(isCollapsed) {
+        if (isCollapsed) {
+            textOffset.value = 10.dp
+        }
+        else {
+            textOffset.value = 0.dp
+        }
+    }
+
     Scaffold(
         modifier = Modifier
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
             .nestedScroll(floatingAppBarScrollBehavior),
         topBar = {
             LargeTopAppBar(
-                title = { Text(TopAppBarTitle.INDEX.title) },
+                title = { Text(TopAppBarTitle.INDEX.title)
+                },
                 scrollBehavior = topAppBarScrollBehavior,
                 navigationIcon = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        ICONS.topAppBarLogo()
+                    Row(modifier = Modifier.padding(start = 10.dp, end =  10.dp)) {
+                        IconButton(
+                            onClick = {},
+                        modifier = Modifier.size(36.dp)
+//                            .offset { IntOffset(10.dp.roundToPx(), 0.dp.roundToPx()) }
+                        ) {
+                            ICONS.topAppBarLogo()
+                        }
                     }
+
                 },
                 actions = actions
             )

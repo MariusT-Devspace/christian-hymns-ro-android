@@ -1,10 +1,12 @@
 package com.example.imnuricrestine.routes
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -23,6 +25,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.components.Favorites
 import com.example.imnuricrestine.models.FavoritesListItem
@@ -73,10 +76,13 @@ fun FavoritesScreen(
                 title = { Text(TopAppBarTitle.FAVORITES.title) },
                 scrollBehavior = topAppBarScrollBehavior,
                 navigationIcon = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        ICONS.topAppBarLogo()
+                    Row(modifier = Modifier.padding(start = 10.dp, end =  10.dp)) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            ICONS.topAppBarLogo()
+                        }
                     }
                 },
                 actions = actions
