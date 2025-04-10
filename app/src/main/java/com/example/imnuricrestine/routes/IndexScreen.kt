@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -108,21 +107,6 @@ fun IndexScreen(
         }
     }
 
-    val isCollapsed by remember { derivedStateOf {
-        topAppBarScrollBehavior.state.heightOffset < 0
-    } }
-
-    val textOffset = remember { mutableStateOf(0.dp) }
-
-    LaunchedEffect(isCollapsed) {
-        if (isCollapsed) {
-            textOffset.value = 10.dp
-        }
-        else {
-            textOffset.value = 0.dp
-        }
-    }
-
     Scaffold(
         modifier = Modifier
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
@@ -137,7 +121,6 @@ fun IndexScreen(
                         IconButton(
                             onClick = {},
                         modifier = Modifier.size(36.dp)
-//                            .offset { IntOffset(10.dp.roundToPx(), 0.dp.roundToPx()) }
                         ) {
                             ICONS.topAppBarLogo()
                         }
