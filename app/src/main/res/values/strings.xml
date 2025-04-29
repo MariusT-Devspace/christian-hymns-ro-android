@@ -10,6 +10,6 @@
     <string name="remove_from_favorites_description">Elimină de la favorite</string>
     <string name="navigation_drawer_header">Imnuri Creștine</string>
     <string name="favorites_empty_heading">Nu ai adăugat încă niciun imn la favorite.</string>
-    <string name="favorites_empty_content">Adaugă imnurile tale preferate pentru a le accesa mai ușor în viitor.</string>
+    <string name="favorites_empty_content">Păstrează imnurile tale preferate pentru a le accesa mai ușor în viitor.</string>
     <string name="favorites_delete_confirmation">Ești sigur că vrei să elimini acest imn din lista de favorite?</string>
 </resources>

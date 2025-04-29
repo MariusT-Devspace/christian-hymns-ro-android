@@ -39,6 +39,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardColors
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.Placeholder
@@ -167,7 +168,7 @@ fun Favorites(
                                     placeholderVerticalAlign = PlaceholderVerticalAlign.Center
                                 )
                             ) {
-                                Icon(Icons.Filled.Favorite,"", modifier = Modifier.fillMaxSize())
+                                Icon(Icons.Filled.FavoriteBorder,"", modifier = Modifier.fillMaxSize())
                             }
                         )
                     )
