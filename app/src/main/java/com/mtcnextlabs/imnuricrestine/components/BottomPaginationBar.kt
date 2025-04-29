@@ -58,7 +58,7 @@ fun BottomPaginationBar(
                 MaterialTheme.colorScheme.primaryContainer,
                 MaterialTheme.colorScheme.onPrimary
             ),
-            contentPadding = PaddingValues(6.dp),
+            contentPadding = PaddingValues(0.dp),
             scrollBehavior = scrollBehavior,
             shape = FloatingToolbarDefaults.ContainerShape
         ) {
