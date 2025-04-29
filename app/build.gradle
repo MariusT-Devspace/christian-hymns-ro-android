@@ -13,7 +13,7 @@ android {
     //compileSdkExtension 12
 
     defaultConfig {
-        applicationId "com.example.imnuricrestine"
+        applicationId "com.mtcnextlabs.imnuricrestine"
         minSdk 28
         targetSdk 35
         versionCode 1

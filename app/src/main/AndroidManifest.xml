@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar"
-        android:name=".HymnsApplication">
+        android:name="com.mtcnextlabs.imnuricrestine.HymnsApplication">
         <activity
-            android:name=".MainActivity"
+            android:name="com.mtcnextlabs.imnuricrestine.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
