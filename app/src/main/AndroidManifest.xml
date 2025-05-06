@@ -10,6 +10,8 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar"
         android:name="com.mtcnextlabs.imnuricrestine.HymnsApplication">
+        <meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="false"/>
+
         <activity
             android:name="com.mtcnextlabs.imnuricrestine.MainActivity"
             android:exported="true">
