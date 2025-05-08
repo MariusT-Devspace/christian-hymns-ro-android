@@ -28,6 +28,7 @@ import com.mtcnextlabs.imnuricrestine.navigation.Navigation
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnsViewModel
 import com.mtcnextlabs.imnuricrestine.theme.ChristianHymnsTheme
 import androidx.navigation.compose.rememberNavController
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logScreenView
 import com.mtcnextlabs.imnuricrestine.components.BottomNavBar
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
@@ -52,7 +53,6 @@ class MainActivity : ComponentActivity() {
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
         val hymns: LiveData<ArrayList<Hymn>> = hymnsViewModel.hymns
-
 
         val favoriteActions = OnFavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
@@ -87,6 +87,8 @@ class MainActivity : ComponentActivity() {
                     Route.HymnDetails.route -> showBottomNavBar.value = false
                     else -> showBottomNavBar.value = true
                 }
+
+                logScreenView(currentDestination ?: "Unknown")
             }
 
             val indexListState = rememberLazyListState()
