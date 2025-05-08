@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logAddToFavorites
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
@@ -147,6 +148,7 @@ fun HymnsIndex(
                 },
                 modifier = Modifier.clickable {
                     navController!!.navigate(Route.HymnDetails.route+"/${item.id - 1}")
+                    logNavigateToHymnDetails(item.id, "index screen")
                 }
             )
         }

@@ -69,4 +69,17 @@ object AppAnalytics {
         }
         firebaseAnalytics.logEvent("remove_from_favorites", params)
     }
+
+    /**
+     * Logs when a user accesses hymn content, indicating the source.
+     * @param hymnId The id of the hymn being viewed.
+     * @param source The origin of the access ("index_screen" or "favorites_screen").
+     */
+    fun logNavigateToHymnDetails(hymnId: Int, source: String) {
+        val params = Bundle().apply {
+            putInt("hymn_id", hymnId)
+            putString("source", source)
+        }
+        firebaseAnalytics.logEvent("navigate_to_hymn_details", params)
+    }
 }

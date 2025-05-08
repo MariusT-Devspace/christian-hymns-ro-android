@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontStyle
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 
 @Composable
@@ -122,6 +123,7 @@ fun Favorites(
                     modifier = Modifier.clickable {
                         val hymnId = item.hymnId - 1
                         navController.navigate(Route.HymnDetails.route+"/${hymnId}")
+                        logNavigateToHymnDetails(item.hymnId, "favorites screen")
                     },
                 )
             }
