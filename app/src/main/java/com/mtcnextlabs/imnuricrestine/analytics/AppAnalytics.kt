@@ -36,4 +36,15 @@ object AppAnalytics {
         }
         firebaseAnalytics.logEvent("navigate_index", params)
     }
+
+    /**
+     * Logs when a user taps on a bottom navigation bar item.
+     * @param destination The destination route/name (e.g., "Index", "Favorite").
+     */
+    fun logBottomBarNavigation(destination: String) {
+        val params = Bundle().apply {
+            putString("destination", destination)
+        }
+        firebaseAnalytics.logEvent("navigate_bottom_bar", params)
+    }
 }

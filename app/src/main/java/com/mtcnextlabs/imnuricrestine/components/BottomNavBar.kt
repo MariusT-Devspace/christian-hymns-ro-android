@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logBottomBarNavigation
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import kotlinx.coroutines.launch
 
@@ -71,6 +72,8 @@ fun BottomNavBar(
                                 else
                                     navController.navigate(route.route)
                         }
+
+                        logBottomBarNavigation(route.title)
                     }
                 )
             }
