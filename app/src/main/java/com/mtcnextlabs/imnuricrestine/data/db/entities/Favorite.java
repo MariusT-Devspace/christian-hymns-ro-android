@@ -13,16 +13,16 @@ import androidx.room.PrimaryKey;
 )
 public class Favorite {
     @PrimaryKey(autoGenerate = true)
-    public short id;
+    public int id;
 
     @NonNull
-    public short hymn_id;
+    public int hymn_id;
 
-    public Favorite(short hymn_id) {
+    public Favorite(int hymn_id) {
         this.hymn_id = hymn_id;
     }
 
-    public Favorite(short id, short hymnId) {
+    public Favorite(int id, int hymnId) {
         this.id = id;
         this.hymn_id = hymnId;
     }

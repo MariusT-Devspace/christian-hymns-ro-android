@@ -22,7 +22,7 @@ public class FavoritesRemoteDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public CompletableFuture<Void> addFavorite(short id) {
+    public CompletableFuture<Void> addFavorite(int id) {
         return null;
     }
 

@@ -22,7 +22,6 @@ public class HymnsViewModel extends AndroidViewModel {
     public HymnsViewModel(
             Application application,
             HymnsRepository hymnsRepository
-            //,SavedStateHandle savedStateHandle
     ) {
         super(application);
         _hymns = new MutableLiveData<>();

@@ -26,7 +26,7 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public CompletableFuture<Void> addFavorite(short id) {
+    public CompletableFuture<Void> addFavorite(int id) {
         return CompletableFuture.runAsync(() -> {
             _favoritesDao.insertFavorite(
                     new FavoriteInsert(id)

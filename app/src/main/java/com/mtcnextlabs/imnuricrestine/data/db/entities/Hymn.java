@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 public class Hymn {
     @PrimaryKey
     @ColumnInfo(index = true)
-    public short id;
+    public int id;
 
     @NonNull
     public String hymn_index;
