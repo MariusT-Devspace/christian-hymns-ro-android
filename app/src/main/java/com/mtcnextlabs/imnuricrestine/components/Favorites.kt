@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontStyle
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 
 @Composable
 fun Favorites(
@@ -108,6 +109,8 @@ fun Favorites(
                                         FavoriteIconName.NOT_SAVED.name
                                     )
                                 }
+
+                                logRemoveFromFavorites(item.id)
                             }
                         ) {
                             Icon(

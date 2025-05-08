@@ -47,4 +47,26 @@ object AppAnalytics {
         }
         firebaseAnalytics.logEvent("navigate_bottom_bar", params)
     }
+
+    /**
+     * Logs when a hymn is added to favorites.
+     * @param hymnId The id of the hymn saved to favorites.
+     */
+    fun logAddToFavorites(hymnId: Int) {
+        val params = Bundle().apply {
+            putInt("hymn_id", hymnId)
+        }
+        firebaseAnalytics.logEvent("add_to_favorites", params)
+    }
+
+    /**
+     * Logs when a hymn is removed from favorites.
+     * @param hymnId The id of the hymn removed from favorites.
+     */
+    fun logRemoveFromFavorites(hymnId: Int) {
+        val params = Bundle().apply {
+            putInt("hymn_id", hymnId)
+        }
+        firebaseAnalytics.logEvent("remove_from_favorites", params)
+    }
 }

@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logAddToFavorites
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteIcon
@@ -89,32 +91,40 @@ fun HymnsIndex(
                     IconButton(
                         onClick = {
                             when (item.onFavoriteAction) {
-                                FavoriteAction.ADD_FAVORITE -> onFavoriteActions.addFavorite(
-                                    Favorite(
-                                        item.id.toShort()
-                                    )
-                                ).thenRun {
-                                    Log.d("UISTATE", "Update item")
-                                    updateHymnsListItemUiState(
-                                        item.id - 1,
-                                        true,
-                                        FavoriteAction.DELETE_FAVORITE,
-                                        FavoriteIcon.SAVED.name
-                                    )
-                                }
-
-                                FavoriteAction.DELETE_FAVORITE -> onFavoriteActions.deleteFavorite(
-                                    favorites.value.firstOrNull { favorite ->
-                                        favorite.hymn_id.toInt() == item.id
+                                FavoriteAction.ADD_FAVORITE -> {
+                                    onFavoriteActions.addFavorite(
+                                        Favorite(
+                                            item.id
+                                        )
+                                    ).thenRun {
+                                        Log.d("UISTATE", "Update item")
+                                        updateHymnsListItemUiState(
+                                            item.id - 1,
+                                            true,
+                                            FavoriteAction.DELETE_FAVORITE,
+                                            FavoriteIcon.SAVED.name
+                                        )
                                     }
 
-                                ).thenRun {
-                                    updateHymnsListItemUiState(
-                                        item.id - 1,
-                                        false,
-                                        FavoriteAction.ADD_FAVORITE,
-                                        FavoriteIcon.NOT_SAVED.name
-                                    )
+                                    logAddToFavorites(item.id)
+                                }
+
+                                FavoriteAction.DELETE_FAVORITE -> {
+                                    onFavoriteActions.deleteFavorite(
+                                        favorites.value.firstOrNull { favorite ->
+                                            favorite.hymn_id == item.id
+                                        }
+
+                                    ).thenRun {
+                                        updateHymnsListItemUiState(
+                                            item.id - 1,
+                                            false,
+                                            FavoriteAction.ADD_FAVORITE,
+                                            FavoriteIcon.NOT_SAVED.name
+                                        )
+                                    }
+
+                                    logRemoveFromFavorites(item.id)
                                 }
                             }
                         }
