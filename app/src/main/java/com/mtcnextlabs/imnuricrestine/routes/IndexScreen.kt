@@ -73,7 +73,6 @@ fun IndexScreen(
         }
     }
 
-
     MainActivity.indexScreenPages = hymnsListItems.value.getPages()
 
     val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) {
@@ -133,7 +132,7 @@ fun IndexScreen(
         bottomBar = {
             BottomPaginationBar(
                 floatingAppBarScrollBehavior,
-                currentPage.value.title,
+                currentPage.value,
                 paginationAppBarUiState,
                 onChangePageAction
             )

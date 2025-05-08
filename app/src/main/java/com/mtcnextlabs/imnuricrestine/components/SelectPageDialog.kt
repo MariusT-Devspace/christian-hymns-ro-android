@@ -16,6 +16,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 import com.mtcnextlabs.imnuricrestine.state.OnChangePageAction
 import com.mtcnextlabs.imnuricrestine.state.PageChangeAction
 
@@ -23,6 +24,7 @@ import com.mtcnextlabs.imnuricrestine.state.PageChangeAction
 fun SelectPageDialog(
     openDialog: MutableState<Boolean>,
     onChangePageAction: OnChangePageAction,
+    currentPageRange: String
 ) {
     BasicAlertDialog(
         onDismissRequest = { openDialog.value = false }
@@ -36,7 +38,8 @@ fun SelectPageDialog(
             ) {
                 DialogContent(
                     openDialog,
-                    onChangePageAction
+                    onChangePageAction,
+                    currentPageRange
                 )
             }
         }
@@ -46,7 +49,8 @@ fun SelectPageDialog(
 @Composable
 fun DialogContent(
     openDialog: MutableState<Boolean>,
-    onChangePageAction: OnChangePageAction
+    onChangePageAction: OnChangePageAction,
+    currentPageRange: String
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         indexScreenPages.forEach { selectionOption ->
@@ -55,6 +59,7 @@ fun DialogContent(
                 modifier = Modifier.clickable {
                     openDialog.value = false
                     onChangePageAction(PageChangeAction.SELECT, selectionOption.index)
+                    logIndexNavigation("range browser", currentPageRange, selectionOption.title)
                 }
             )
         }
