@@ -6,6 +6,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
@@ -34,7 +35,8 @@ fun Navigation(
     indexListState: LazyListState,
     favoritesListState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit
+    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     val activity = LocalActivity.current as? ComponentActivity
 
@@ -49,7 +51,8 @@ fun Navigation(
                 hymnsListItems,
                 indexListState,
                 onFavoriteActions,
-                updateHymnsListItem
+                updateHymnsListItem,
+                snackbarHostState
             )
         }
         composable(
@@ -72,7 +75,8 @@ fun Navigation(
                 favoritesListItems,
                 favoritesListState,
                 onFavoriteActions.deleteFavorite,
-                updateHymnsListItem
+                updateHymnsListItem,
+                snackbarHostState
             )
         }
     }

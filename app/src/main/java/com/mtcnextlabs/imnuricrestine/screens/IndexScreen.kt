@@ -16,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -50,7 +51,8 @@ fun IndexScreen(
     hymnsListItems: State<List<HymnsListItemUiState>>,
     listState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItemUiState: UpdateHymnsListItemUiState
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState,
+    snackbarHostState: SnackbarHostState
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -148,7 +150,8 @@ fun IndexScreen(
                 pageItems.value,
                 listState,
                 onFavoriteActions,
-                updateHymnsListItemUiState
+                updateHymnsListItemUiState,
+                snackbarHostState
             )
         }
     }

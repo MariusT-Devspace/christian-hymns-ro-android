@@ -38,15 +38,19 @@ import com.mtcnextlabs.imnuricrestine.state.UpdateHymnsListItemUiState
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontStyle
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
+import kotlinx.coroutines.launch
 
 @Composable
 fun Favorites(
@@ -55,8 +59,11 @@ fun Favorites(
     favoritesListItems: List<FavoritesListItem>,
     listState: LazyListState,
     onDeleteFavorite: OnFavoriteAction,
-    updateHymnsListItem: UpdateHymnsListItemUiState
+    updateHymnsListItem: UpdateHymnsListItemUiState,
+    snackbarHostState: SnackbarHostState
 ) {
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(Unit) {
         listState.scrollToItem(0)
     }
@@ -109,6 +116,17 @@ fun Favorites(
                                         FavoriteAction.ADD_FAVORITE,
                                         FavoriteIconName.NOT_SAVED.name
                                     )
+
+                                    scope.launch {
+                                        val snackResult = snackbarHostState.showSnackbar(
+                                            "Imnul \"${item.index} ${item.title}\" șters de la favorite",
+                                            "Anulează",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                        if (snackResult == SnackbarResult.ActionPerformed) {
+
+                                        }
+                                    }
                                 }
 
                                 logRemoveFromFavorites(item.id)

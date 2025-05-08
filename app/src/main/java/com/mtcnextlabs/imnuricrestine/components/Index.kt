@@ -16,10 +16,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +42,7 @@ import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
 import com.mtcnextlabs.imnuricrestine.state.FavoriteAction
 import com.mtcnextlabs.imnuricrestine.state.UpdateHymnsListItemUiState
+import kotlinx.coroutines.launch
 
 @Composable
 fun HymnsIndex(
@@ -46,8 +51,10 @@ fun HymnsIndex(
     hymnsListItems: List<HymnsListItemUiState>,
     listState: LazyListState,
     onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItemUiState: UpdateHymnsListItemUiState
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState,
+    snackbarHostState: SnackbarHostState
 ) {
+    val scope = rememberCoroutineScope()
     val favoritesViewModel: FavoritesViewModel = hiltViewModel()
     val favorites: State<List<Favorite>> =
         favoritesViewModel.favorites.observeAsState(emptyList())
@@ -99,12 +106,25 @@ fun HymnsIndex(
                                         )
                                     ).thenRun {
                                         Log.d("UISTATE", "Update item")
+
                                         updateHymnsListItemUiState(
                                             item.id - 1,
                                             true,
                                             FavoriteAction.DELETE_FAVORITE,
                                             FavoriteIcon.SAVED.name
                                         )
+
+                                        scope.launch {
+                                            val snackResult = snackbarHostState.showSnackbar(
+                                                "Imnul \"${item.index} ${item.title}\" salvat la favorite",
+                                                "Anulează",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                            if (snackResult == SnackbarResult.ActionPerformed) {
+
+                                            }
+                                        }
+
                                     }
 
                                     logAddToFavorites(item.id)
@@ -123,6 +143,17 @@ fun HymnsIndex(
                                             FavoriteAction.ADD_FAVORITE,
                                             FavoriteIcon.NOT_SAVED.name
                                         )
+
+                                        scope.launch {
+                                            val snackResult = snackbarHostState.showSnackbar(
+                                                "Imnul \"${item.index} ${item.title}\" șters de la favorite",
+                                                "Anulează",
+                                                duration = SnackbarDuration.Short
+                                            )
+                                            if (snackResult == SnackbarResult.ActionPerformed) {
+
+                                            }
+                                        }
                                     }
 
                                     logRemoveFromFavorites(item.id)

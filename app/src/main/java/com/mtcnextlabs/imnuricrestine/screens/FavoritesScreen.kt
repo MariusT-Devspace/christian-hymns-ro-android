@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -41,7 +42,8 @@ fun FavoritesScreen(
     favoritesListItems: List<FavoritesListItem>,
     listState: LazyListState,
     onDeleteFavorite: OnFavoriteAction,
-    updateHymnsListItemUiState: UpdateHymnsListItemUiState
+    updateHymnsListItemUiState: UpdateHymnsListItemUiState,
+    snackbarHostState: SnackbarHostState
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
@@ -99,7 +101,8 @@ fun FavoritesScreen(
                 favoritesListItems,
                 listState,
                 onDeleteFavorite,
-                updateHymnsListItemUiState
+                updateHymnsListItemUiState,
+                snackbarHostState
             )
         }
     }

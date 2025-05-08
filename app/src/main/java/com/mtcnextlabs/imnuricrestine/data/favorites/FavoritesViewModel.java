@@ -34,7 +34,7 @@ public class FavoritesViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<List<Favorite>> getFavorites() throws ExecutionException, InterruptedException { return favorites; }
+    public LiveData<List<Favorite>> getFavorites() { return favorites; }
     public CompletableFuture<Void> addFavorite(Favorite favorite) {
         try {
             return _favoritesRepository.addFavorite(favorite.hymn_id);
