@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.routes
+package com.mtcnextlabs.imnuricrestine.screens
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize

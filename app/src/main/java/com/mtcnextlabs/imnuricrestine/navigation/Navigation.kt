@@ -15,9 +15,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
-import com.mtcnextlabs.imnuricrestine.routes.FavoritesScreen
-import com.mtcnextlabs.imnuricrestine.routes.HymnDetailsScreen
-import com.mtcnextlabs.imnuricrestine.routes.IndexScreen
+import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
+import com.mtcnextlabs.imnuricrestine.screens.HymnDetailsScreen
+import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
 import com.mtcnextlabs.imnuricrestine.state.FavoriteAction
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 
