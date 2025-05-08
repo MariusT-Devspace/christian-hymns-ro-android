@@ -119,7 +119,7 @@ fun Favorites(
 
                                     scope.launch {
                                         val snackResult = snackbarHostState.showSnackbar(
-                                            "Imnul \"${item.index} ${item.title}\" șters de la favorite",
+                                            "Imnul \"${item.index}. ${item.title}\" șters de la favorite",
                                             "Anulează",
                                             duration = SnackbarDuration.Short
                                         )

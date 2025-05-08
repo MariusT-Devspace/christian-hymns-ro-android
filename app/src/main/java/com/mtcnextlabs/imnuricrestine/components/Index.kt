@@ -116,7 +116,7 @@ fun HymnsIndex(
 
                                         scope.launch {
                                             val snackResult = snackbarHostState.showSnackbar(
-                                                "Imnul \"${item.index} ${item.title}\" salvat la favorite",
+                                                "Imnul \"${item.index}. ${item.title}\" salvat la favorite",
                                                 "Anulează",
                                                 duration = SnackbarDuration.Short
                                             )
@@ -146,7 +146,7 @@ fun HymnsIndex(
 
                                         scope.launch {
                                             val snackResult = snackbarHostState.showSnackbar(
-                                                "Imnul \"${item.index} ${item.title}\" șters de la favorite",
+                                                "Imnul \"${item.index}. ${item.title}\" șters de la favorite",
                                                 "Anulează",
                                                 duration = SnackbarDuration.Short
                                             )
