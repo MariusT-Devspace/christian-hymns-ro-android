@@ -28,7 +28,7 @@ public class FavoritesRepository {
         return _favoritesLocalDataSource.getFavorites();
     }
 
-    public CompletableFuture<Void> addFavorite(short id) throws ExecutionException, InterruptedException {
+    public CompletableFuture<Void> addFavorite(int id) throws ExecutionException, InterruptedException {
         return _favoritesLocalDataSource.addFavorite(id);
     }
 

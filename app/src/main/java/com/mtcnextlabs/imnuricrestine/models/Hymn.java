@@ -3,14 +3,14 @@ package com.mtcnextlabs.imnuricrestine.models;
 import java.util.ArrayList;
 
 public class Hymn{
-    private final short id;
+    private final int id;
     private final String index;
     private final String title;
     private final ArrayList<Verse> lyrics;
     private boolean isFavorite;
 
     public Hymn(
-            short id,
+            int id,
             String index,
             String title,
             ArrayList<Verse> lyrics,
@@ -23,7 +23,7 @@ public class Hymn{
         this.isFavorite = isFavorite;
     }
 
-    public short getId() { return this.id; }
+    public int getId() { return this.id; }
 
     public String getIndex(){
         return this.index;

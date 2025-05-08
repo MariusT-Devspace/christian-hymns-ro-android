@@ -17,7 +17,7 @@ class HymnsListViewModel(val hymns: LiveData<ArrayList<Hymn>>) : ViewModel() {
 
     private val _hymnsListItems = hymns.value!!.map { hymn ->
         HymnsListItemUiState(
-            hymn.id.toInt(),
+            hymn.id,
             hymn.index,
             hymn.title,
             hymn.isFavorite,

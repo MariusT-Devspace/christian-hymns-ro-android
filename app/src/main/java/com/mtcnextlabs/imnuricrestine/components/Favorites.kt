@@ -102,7 +102,7 @@ fun Favorites(
                                     )
                                 ).thenRun {
                                     updateHymnsListItem(
-                                        item.hymnId.toInt() - 1,
+                                        item.hymnId - 1,
                                         false,
                                         FavoriteAction.ADD_FAVORITE,
                                         FavoriteIconName.NOT_SAVED.name
@@ -117,7 +117,7 @@ fun Favorites(
                         }
                     },
                     modifier = Modifier.clickable {
-                        val hymnId = item.hymnId.toInt() - 1
+                        val hymnId = item.hymnId - 1
                         navController.navigate(Route.HymnDetails.route+"/${hymnId}")
                     },
                 )
