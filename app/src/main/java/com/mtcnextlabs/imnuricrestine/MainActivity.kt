@@ -65,8 +65,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            val hymnsListViewModel: HymnsListViewModel = viewModel { HymnsListViewModel(hymns) }
-            val hymnsListItems = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
             val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
 
             Log.d("RECOMPOSITION", "setContent")
@@ -126,7 +124,7 @@ class MainActivity : ComponentActivity() {
                             indexListState,
                             favoritesListState,
                             favoriteActions,
-                            hymnsListViewModel ::updateItem,
+                            snackbarViewModel::showSnackbar
                             snackbarHostState
                         )
                     }

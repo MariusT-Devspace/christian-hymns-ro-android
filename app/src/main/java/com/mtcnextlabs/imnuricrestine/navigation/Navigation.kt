@@ -15,12 +15,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
+import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.screens.HymnDetailsScreen
 import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
-import com.mtcnextlabs.imnuricrestine.state.FavoriteAction
-import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 
 object NavigationActions {
     lateinit var onGoBack : () -> Unit
@@ -30,13 +29,13 @@ object NavigationActions {
 fun Navigation(
     padding: PaddingValues,
     navController: NavHostController,
-    hymnsListItems: State<List<HymnsListItemUiState>>,
+    hymns: State<List<Hymn>>,
     favoritesListItems: List<FavoritesListItem>,
     indexListState: LazyListState,
     favoritesListState: LazyListState,
+    snackbarHostState: SnackbarHostState,
     onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItem: (Int, Boolean, FavoriteAction, String) -> Unit,
-    snackbarHostState: SnackbarHostState
+    showSnackbar: (String) -> Unit,
 ) {
     val activity = LocalActivity.current as? ComponentActivity
 
@@ -48,11 +47,10 @@ fun Navigation(
         composable(Route.Index.route) {
             IndexScreen(
                 navController,
-                hymnsListItems,
+                hymns,
                 indexListState,
                 onFavoriteActions,
-                updateHymnsListItem,
-                snackbarHostState
+                showSnackbar
             )
         }
         composable(
@@ -75,7 +73,6 @@ fun Navigation(
                 favoritesListItems,
                 favoritesListState,
                 onFavoriteActions.deleteFavorite,
-                updateHymnsListItem,
                 snackbarHostState
             )
         }

@@ -32,9 +32,6 @@ import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteAction
 import com.mtcnextlabs.imnuricrestine.navigation.Route
-import com.mtcnextlabs.imnuricrestine.state.FavoriteAction
-import com.mtcnextlabs.imnuricrestine.state.FavoriteIconName
-import com.mtcnextlabs.imnuricrestine.state.UpdateHymnsListItemUiState
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.InlineTextContent
@@ -59,7 +56,6 @@ fun Favorites(
     favoritesListItems: List<FavoritesListItem>,
     listState: LazyListState,
     onDeleteFavorite: OnFavoriteAction,
-    updateHymnsListItem: UpdateHymnsListItemUiState,
     snackbarHostState: SnackbarHostState
 ) {
     val scope = rememberCoroutineScope()
@@ -110,13 +106,6 @@ fun Favorites(
                                         item.hymnId
                                     )
                                 ).thenRun {
-                                    updateHymnsListItem(
-                                        item.hymnId - 1,
-                                        false,
-                                        FavoriteAction.ADD_FAVORITE,
-                                        FavoriteIconName.NOT_SAVED.name
-                                    )
-
                                     scope.launch {
                                         val snackResult = snackbarHostState.showSnackbar(
                                             "Imnul \"${item.index}. ${item.title}\" șters de la favorite",

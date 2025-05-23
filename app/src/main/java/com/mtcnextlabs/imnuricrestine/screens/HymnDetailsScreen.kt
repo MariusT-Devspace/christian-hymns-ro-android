@@ -16,6 +16,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -30,7 +31,7 @@ fun HymnDetailsScreen(
     index: Int
 ) {
     val hymnsViewModel: HymnsViewModel = hiltViewModel()
-    val hymn = hymnsViewModel.hymns.value!![index]
+    val hymns = hymnsViewModel.hymnsAsync.observeAsState()
 
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
@@ -57,34 +58,38 @@ fun HymnDetailsScreen(
         }
     }
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(
-            pinnedScrollBehavior.nestedScrollConnection
-        ),
-        topBar = {
-            LargeTopAppBar(
-                title = { Text("${hymn.index}. ${hymn.title}") },
-                scrollBehavior = pinnedScrollBehavior,
-                colors = largeTopAppBarColors,
-                navigationIcon = {
-                    IconButton(
-                        onClick = { NavigationActions.onGoBack() }
-                    ) {
-                        ICONS.backIcon()
-                    }
-                },
-                actions = actions
-            )
-        },
-    ) { padding ->
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            HymnDetails(
-                hymn,
-                padding
-            )
+    if (hymns.value?.isNotEmpty() == true) {
+        val hymn = hymnsViewModel.hymnsAsync.value!![index]
+
+        Scaffold(
+            modifier = Modifier.nestedScroll(
+                pinnedScrollBehavior.nestedScrollConnection
+            ),
+            topBar = {
+                LargeTopAppBar(
+                    title = { Text("${hymn.index}. ${hymn.title}") },
+                    scrollBehavior = pinnedScrollBehavior,
+                    colors = largeTopAppBarColors,
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { NavigationActions.onGoBack() }
+                        ) {
+                            ICONS.backIcon()
+                        }
+                    },
+                    actions = actions
+                )
+            },
+        ) { padding ->
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                HymnDetails(
+                    hymn,
+                    padding
+                )
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.mtcnextlabs.imnuricrestine.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,28 +30,22 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logAddToFavorites
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteIcon
-import com.mtcnextlabs.imnuricrestine.state.FavoriteIconName
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
-import com.mtcnextlabs.imnuricrestine.state.FavoriteAction
-import com.mtcnextlabs.imnuricrestine.state.UpdateHymnsListItemUiState
-import kotlinx.coroutines.launch
+import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
 
 @Composable
 fun HymnsIndex(
     contentPadding: PaddingValues,
     navController: NavHostController?,
-    hymnsListItems: List<HymnsListItemUiState>,
+    hymnsListItems: State<List<HymnsListItemUiState>>,
     listState: LazyListState,
-    onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItemUiState: UpdateHymnsListItemUiState,
-    snackbarHostState: SnackbarHostState
+    indexScreenUiState: IndexScreenUiState,
+    onFavoriteActions: OnFavoriteActions
 ) {
     val scope = rememberCoroutineScope()
     val favoritesViewModel: FavoritesViewModel = hiltViewModel()
@@ -65,7 +58,7 @@ fun HymnsIndex(
         modifier = Modifier.padding(top = 30.dp),
     ) {
         items(
-            items = hymnsListItems
+            items = hymnsListItems.value
         ) { item ->
             ListItem(
                 headlineContent = {
@@ -98,83 +91,26 @@ fun HymnsIndex(
                 trailingContent = {
                     IconButton(
                         onClick = {
-                            when (item.onFavoriteAction) {
-                                FavoriteAction.ADD_FAVORITE -> {
-                                    onFavoriteActions.addFavorite(
-                                        Favorite(
-                                            item.id
-                                        )
-                                    ).thenRun {
-                                        Log.d("UISTATE", "Update item")
-
-                                        updateHymnsListItemUiState(
-                                            item.id - 1,
-                                            true,
-                                            FavoriteAction.DELETE_FAVORITE,
-                                            FavoriteIcon.SAVED.name
-                                        )
-
-                                        scope.launch {
-                                            val snackResult = snackbarHostState.showSnackbar(
-                                                "Imnul \"${item.index}. ${item.title}\" salvat la favorite",
-                                                "Anulează",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                            if (snackResult == SnackbarResult.ActionPerformed) {
-
-                                            }
-                                        }
-
+                            if(item.isFavorite)
+                                indexScreenUiState.deleteFavorite(
+                                    favorites.value.first { favorite ->
+                                        favorite.hymn_id == item.id
                                     }
-
-                                    logAddToFavorites(item.id)
-                                }
-
-                                FavoriteAction.DELETE_FAVORITE -> {
-                                    onFavoriteActions.deleteFavorite(
-                                        favorites.value.firstOrNull { favorite ->
-                                            favorite.hymn_id == item.id
-                                        }
-
-                                    ).thenRun {
-                                        updateHymnsListItemUiState(
-                                            item.id - 1,
-                                            false,
-                                            FavoriteAction.ADD_FAVORITE,
-                                            FavoriteIcon.NOT_SAVED.name
-                                        )
-
-                                        scope.launch {
-                                            val snackResult = snackbarHostState.showSnackbar(
-                                                "Imnul \"${item.index}. ${item.title}\" șters de la favorite",
-                                                "Anulează",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                            if (snackResult == SnackbarResult.ActionPerformed) {
-
-                                            }
-                                        }
-                                    }
-
-                                    logRemoveFromFavorites(item.id)
-                                }
-                            }
+                                )
+                            else
+                                indexScreenUiState.addFavorite(Favorite(item.id))
                         }
                     ) {
-                      when (item.icon) {
-                          FavoriteIconName.SAVED.name -> {
+                      if (item.isFavorite)
                               Icon(
                                   imageVector = Icons.Outlined.Favorite,
                                   contentDescription = FavoriteIcon.SAVED.icon.description
                               )
-                          }
-                          FavoriteIconName.NOT_SAVED.name -> {
+                          else
                               Icon(
                                   imageVector = Icons.Outlined.FavoriteBorder,
                                   contentDescription = FavoriteIcon.NOT_SAVED.icon.description
                               )
-                          }
-                      }
                   }
                 },
                 modifier = Modifier.clickable {
