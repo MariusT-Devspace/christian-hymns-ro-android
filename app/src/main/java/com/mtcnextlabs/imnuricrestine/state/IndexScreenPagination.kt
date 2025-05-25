@@ -1,24 +1,33 @@
 package com.mtcnextlabs.imnuricrestine.state
 
+import com.mtcnextlabs.imnuricrestine.models.Hymn
 import kotlin.math.ceil
 
 object PaginationConfig {
     const val pageSize: Int = 99
     val totalPages: Int = ceil((765.toDouble() / pageSize.toDouble())).toInt()
-    fun List<HymnsListItemUiState>.getPages(): List<Page> =
+    fun List<Hymn>.getPages(): List<Page> =
         Array(totalPages) { index ->
-            Page(this, pageSize, totalPages, index + 1)
+            Page(
+                index + 1,
+                this.getPageStart(index + 1, pageSize),
+                this.getPageEnd(index + 1, this.getPageStart(index + 1, pageSize), pageSize, totalPages),
+                this.getPageTitle(
+                    this.getPageStart(index + 1, pageSize),
+                    this.getPageEnd(index + 1, this.getPageStart(index + 1, pageSize), pageSize, totalPages)
+                )
+            )
         }.toList()
 }
 
 // Constants, types and Utility Functions
-private fun List<HymnsListItemUiState>.getPageStart(index: Int, pageSize: Int): Int =
+private fun List<Hymn>.getPageStart(index: Int, pageSize: Int): Int =
     if (index == 1)
         1
     else
         this.find { it.index == ((index - 1) * pageSize).toString() }!!.id + (index - 1)
 
-private fun List<HymnsListItemUiState>.getPageEnd(
+private fun List<Hymn>.getPageEnd(
     index: Int,
     start: Int,
     pageSize: Int,
@@ -34,7 +43,7 @@ private fun List<HymnsListItemUiState>.getPageEnd(
             ) + 1
     }
 
-private fun List<HymnsListItemUiState>.getPageTitle(
+private fun List<Hymn>.getPageTitle(
     start: Int,
     end: Int
 ): String =
@@ -42,15 +51,10 @@ private fun List<HymnsListItemUiState>.getPageTitle(
 
 // Data classes, enums and type aliases
 data class Page(
-    // Parameters to provide
-    private val hymnsListItems: List<HymnsListItemUiState>,
-    private val pageSize: Int,
-    private val totalPages: Int,
-    val index: Int,
-    // Default parameters
-    val start: Int = hymnsListItems.getPageStart(index, pageSize),
-    val end: Int = hymnsListItems.getPageEnd(index, start, pageSize, totalPages),
-    val title: String = hymnsListItems.getPageTitle(start, end)
+    val number: Int,
+    val start: Int,
+    val end: Int,
+    val title: String
 )
 
 enum class PageChangeAction {

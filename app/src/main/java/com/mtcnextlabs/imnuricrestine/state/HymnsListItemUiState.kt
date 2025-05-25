@@ -24,7 +24,7 @@ data class HymnsListItemUiState (
     val id: Int,
     val index: String,
     val title: String,
-    val isBookMarked: Boolean,
+    val isFavorite: Boolean,
     val onFavoriteAction: FavoriteAction,
     val icon: String
 )

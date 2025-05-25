@@ -15,19 +15,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.navigation.Navigation
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnsViewModel
 import com.mtcnextlabs.imnuricrestine.theme.ChristianHymnsTheme
@@ -39,7 +36,7 @@ import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
 import com.mtcnextlabs.imnuricrestine.navigation.Route
-import com.mtcnextlabs.imnuricrestine.state.HymnsListViewModel
+import com.mtcnextlabs.imnuricrestine.state.FavoriteSnackbarViewModel
 import com.mtcnextlabs.imnuricrestine.state.Page
 import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        lateinit var indexScreenPages: List<Page>
+        var indexScreenPages: List<Page> = emptyList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +53,6 @@ class MainActivity : ComponentActivity() {
         // Load data
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
-        val hymns: LiveData<ArrayList<Hymn>> = hymnsViewModel.hymns
 
         val favoriteActions = OnFavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
@@ -64,21 +60,31 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+            val hymns = remember { mutableStateOf(hymnsViewModel.hymns) }
+
+            // Observe updates from LiveData
+            val liveHymns by hymnsViewModel.hymnsAsync.observeAsState()
+
+            LaunchedEffect(liveHymns) {
+                liveHymns?.let {
+                    if (it.isNotEmpty())
+                        hymns.value = it
+                }
+            }
+
             val navController = rememberNavController()
-            val hymnsListViewModel: HymnsListViewModel = viewModel { HymnsListViewModel(hymns) }
-            val hymnsListItems = hymnsListViewModel.hymnUiStateListFlow.collectAsState()
             val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
 
             Log.d("RECOMPOSITION", "setContent")
 
             val favoritesListItems: List<FavoritesListItem> =
                 favorites.value.map { favorite ->
-                    val hymnIndex = hymns.value!!.indexOf(hymns.value!!.find {
+                    val hymnIndex = hymns.value.indexOf(hymns.value.find {
                         it.id == favorite.hymn_id
                     })
                     favorite.asFavoritesListItem(
-                        hymns.value!![hymnIndex].index,
-                        hymns.value!![hymnIndex].title
+                        hymns.value[hymnIndex].index,
+                        hymns.value[hymnIndex].title
                     )
                 }
 
@@ -121,13 +127,12 @@ class MainActivity : ComponentActivity() {
                         Navigation(
                             padding,
                             navController,
-                            hymnsListItems,
+                            hymns,
                             favoritesListItems,
                             indexListState,
                             favoritesListState,
-                            favoriteActions,
-                            hymnsListViewModel ::updateItem,
-                            snackbarHostState
+                            snackbarHostState,
+                            favoriteActions
                         )
                     }
                 }

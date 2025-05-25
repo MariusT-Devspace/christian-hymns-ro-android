@@ -58,7 +58,7 @@ fun DialogContent(
                 headlineContent = { Text(text = selectionOption.title) },
                 modifier = Modifier.clickable {
                     openDialog.value = false
-                    onChangePageAction(PageChangeAction.SELECT, selectionOption.index)
+                    onChangePageAction(PageChangeAction.SELECT, selectionOption.number)
                     logIndexNavigation("range browser", currentPageRange, selectionOption.title)
                 }
             )

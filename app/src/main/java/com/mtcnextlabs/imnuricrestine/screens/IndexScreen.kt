@@ -1,5 +1,6 @@
 package com.mtcnextlabs.imnuricrestine.screens
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -25,9 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
@@ -35,12 +35,11 @@ import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.MainActivity
 import com.mtcnextlabs.imnuricrestine.components.BottomPaginationBar
 import com.mtcnextlabs.imnuricrestine.components.HymnsIndex
+import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
-import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
-import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.getPages
-import com.mtcnextlabs.imnuricrestine.state.UpdateHymnsListItemUiState
+import com.mtcnextlabs.imnuricrestine.state.indexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 
@@ -48,11 +47,9 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 @Composable
 fun IndexScreen(
     navController: NavHostController,
-    hymnsListItems: State<List<HymnsListItemUiState>>,
+    hymns: State<List<Hymn>>,
     listState: LazyListState,
-    onFavoriteActions: OnFavoriteActions,
-    updateHymnsListItemUiState: UpdateHymnsListItemUiState,
-    snackbarHostState: SnackbarHostState
+    onFavoriteActions: OnFavoriteActions
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -75,27 +72,35 @@ fun IndexScreen(
         }
     }
 
-    MainActivity.indexScreenPages = hymnsListItems.value.getPages()
+    MainActivity.indexScreenPages = remember { hymns.value.getPages() }
 
-    val indexScreenUiState = rememberSaveable(saver = IndexScreenUiStateSaver) {
-        IndexScreenUiState()
+    val indexScreenUiState = rememberSaveable (
+        saver = indexScreenUiStateSaver(
+            hymns.value,
+            onFavoriteActions
+        )
+    ) {
+        IndexScreenUiState(
+            hymns.value,
+            onFavoriteActions
+        )
     }
 
-    val (currentPage, paginationAppBarUiState, onChangePageAction) =
+    val (currentPage,
+        paginationAppBarUiState,
+        pageItems,
+        onChangePageAction,
+        updatePageItems) =
         indexScreenUiState
 
-    val pageItems = remember { mutableStateOf(hymnsListItems.value.subList(
-        currentPage.value.start - 1,
-        currentPage.value.end
-    )) }
-
     LaunchedEffect(currentPage.value) {
-        pageItems.value = hymnsListItems.value.subList(
-            currentPage.value.start - 1,
-            currentPage.value.end
-        )
+        updatePageItems(hymns.value)
         listState.scrollToItem(0)
         topAppBarScrollBehavior.state.heightOffset = 0f
+    }
+
+    LaunchedEffect(hymns.value) {
+        updatePageItems(hymns.value)
     }
 
     val scrolledToTop = remember {
@@ -105,6 +110,19 @@ fun IndexScreen(
     LaunchedEffect(scrolledToTop.value) {
         if (scrolledToTop.value) {
             topAppBarScrollBehavior.state.heightOffset = 0f
+        }
+    }
+
+    if (hymns.value.isNotEmpty()) {
+        Box(modifier = Modifier.padding(vertical = 80.dp, horizontal = 16.dp),
+            contentAlignment = Alignment.Center) {
+            Text("List not empty")
+        }
+
+    } else {
+        Box(modifier = Modifier.padding(vertical = 80.dp, horizontal = 16.dp),
+            contentAlignment = Alignment.Center) {
+            Text("Empty list")
         }
     }
 
@@ -121,7 +139,7 @@ fun IndexScreen(
                     Row(modifier = Modifier.padding(start = 10.dp, end =  10.dp)) {
                         IconButton(
                             onClick = {},
-                        modifier = Modifier.size(36.dp)
+                            modifier = Modifier.size(36.dp)
                         ) {
                             ICONS.topAppBarLogo()
                         }
@@ -147,12 +165,11 @@ fun IndexScreen(
             HymnsIndex(
                 padding,
                 navController,
-                pageItems.value,
+                pageItems,
                 listState,
-                onFavoriteActions,
-                updateHymnsListItemUiState,
-                snackbarHostState
+                indexScreenUiState
             )
         }
     }
 }
+
