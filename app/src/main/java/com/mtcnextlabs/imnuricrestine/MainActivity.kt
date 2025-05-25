@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -112,7 +113,11 @@ class MainActivity : ComponentActivity() {
                 snackbarViewModel.snackBarEvent.collect { message ->
                     snackbarJob?.cancel()
                     snackbarJob = launch {
-                        snackbarHostState.showSnackbar(message, "Anulează")
+                        snackbarHostState.showSnackbar(
+                            message,
+                            "Anulează",
+                            duration = SnackbarDuration.Short
+                        )
                     }
                 }
             }
