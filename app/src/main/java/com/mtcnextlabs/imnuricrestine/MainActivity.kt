@@ -40,6 +40,8 @@ import com.mtcnextlabs.imnuricrestine.state.FavoriteSnackbarViewModel
 import com.mtcnextlabs.imnuricrestine.state.Page
 import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -101,10 +103,22 @@ class MainActivity : ComponentActivity() {
                 logScreenView(currentDestination ?: "Unknown")
             }
 
+            // Snackbar
+            val snackbarViewModel: FavoriteSnackbarViewModel = hiltViewModel()
+            val snackbarHostState = remember { SnackbarHostState() }
+            var snackbarJob by remember { mutableStateOf<Job?>(null) }
+
+            LaunchedEffect(Unit) {
+                snackbarViewModel.snackBarEvent.collect { message ->
+                    snackbarJob?.cancel()
+                    snackbarJob = launch {
+                        snackbarHostState.showSnackbar(message, "Anulează")
+                    }
+                }
+            }
+
             val indexListState = rememberLazyListState()
             val favoritesListState = rememberLazyListState()
-
-            val snackbarHostState = remember { SnackbarHostState() }
 
             ChristianHymnsTheme {
                 Scaffold(
@@ -132,7 +146,8 @@ class MainActivity : ComponentActivity() {
                             indexListState,
                             favoritesListState,
                             snackbarHostState,
-                            favoriteActions
+                            favoriteActions,
+                            snackbarViewModel::showSnackbar
                         )
                     }
                 }

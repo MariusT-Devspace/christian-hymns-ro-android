@@ -49,7 +49,8 @@ fun IndexScreen(
     navController: NavHostController,
     hymns: State<List<Hymn>>,
     listState: LazyListState,
-    onFavoriteActions: OnFavoriteActions
+    onFavoriteActions: OnFavoriteActions,
+    showSnackbar: (String) -> Unit,
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -77,12 +78,14 @@ fun IndexScreen(
     val indexScreenUiState = rememberSaveable (
         saver = indexScreenUiStateSaver(
             hymns.value,
-            onFavoriteActions
+            onFavoriteActions,
+            showSnackbar
         )
     ) {
         IndexScreenUiState(
             hymns.value,
-            onFavoriteActions
+            onFavoriteActions,
+            showSnackbar
         )
     }
 

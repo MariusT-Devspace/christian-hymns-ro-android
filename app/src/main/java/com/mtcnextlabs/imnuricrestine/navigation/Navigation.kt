@@ -34,7 +34,8 @@ fun Navigation(
     indexListState: LazyListState,
     favoritesListState: LazyListState,
     snackbarHostState: SnackbarHostState,
-    onFavoriteActions: OnFavoriteActions
+    onFavoriteActions: OnFavoriteActions,
+    showSnackbar: (String) -> Unit,
 ) {
     val activity = LocalActivity.current as? ComponentActivity
 
@@ -48,7 +49,8 @@ fun Navigation(
                 navController,
                 hymns,
                 indexListState,
-                onFavoriteActions
+                onFavoriteActions,
+                showSnackbar
             )
         }
         composable(

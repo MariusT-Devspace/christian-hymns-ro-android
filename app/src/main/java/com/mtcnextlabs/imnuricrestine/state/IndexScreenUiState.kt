@@ -13,7 +13,8 @@ import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.totalPages
 // State holder saver
 fun indexScreenUiStateSaver(
     hymns: List<Hymn>,
-    onFavoriteActions: OnFavoriteActions
+    onFavoriteActions: OnFavoriteActions,
+    showSnackbar: (String) -> Unit
 ) = Saver<IndexScreenUiState, Map<String, Any>>(
     // Save the state
     save = { state ->
@@ -25,7 +26,8 @@ fun indexScreenUiStateSaver(
     restore = { restoredState ->
         IndexScreenUiState(
             hymns,
-            onFavoriteActions
+            onFavoriteActions,
+            showSnackbar
         ).apply {
             val pageIndex = restoredState["currentPageIndex"] as Int
             onChangePageAction(null, pageIndex)
@@ -36,7 +38,8 @@ fun indexScreenUiStateSaver(
 // State holder class
 class IndexScreenUiState(
     val hymns: List<Hymn>,
-    val onFavoriteActions: OnFavoriteActions
+    val onFavoriteActions: OnFavoriteActions,
+    val showSnackbar: (String) -> Unit
 ) {
     private val _hymns = mutableStateOf(hymns)
 
@@ -131,9 +134,17 @@ class IndexScreenUiState(
 
     fun addFavorite(favorite: Favorite) {
         onFavoriteActions.addFavorite(favorite)
+            .thenRun{
+                showSnackbar(
+                    "Imnul \"${hymns[favorite.hymn_id - 1].index}. ${hymns[favorite.hymn_id - 1].title}\" salvat la favorite"
+                )
+            }
     }
 
     fun deleteFavorite(favorite: Favorite) {
         onFavoriteActions.deleteFavorite(favorite)
+            .thenRun {
+                showSnackbar("Imnul \"${hymns[favorite.hymn_id].index}. ${hymns[favorite.hymn_id].title}\" șters de la favorite")
+            }
     }
 }
