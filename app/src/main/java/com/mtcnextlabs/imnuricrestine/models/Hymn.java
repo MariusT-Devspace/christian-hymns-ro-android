@@ -7,7 +7,7 @@ public class Hymn{
     private final String index;
     private final String title;
     private final ArrayList<Verse> lyrics;
-    private boolean isFavorite;
+    private final boolean isFavorite;
 
     public Hymn(
             int id,

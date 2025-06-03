@@ -18,7 +18,7 @@ import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
-import com.mtcnextlabs.imnuricrestine.screens.HymnDetailsScreen
+import com.mtcnextlabs.imnuricrestine.screens.HymnDetailScreen
 import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
@@ -63,7 +63,7 @@ fun Navigation(
             )
         ) { navBackStackEntry ->
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
-                HymnDetailsScreen(
+                HymnDetailScreen(
                     index = argument
                 )
         }

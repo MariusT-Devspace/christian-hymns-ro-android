@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 
 @Composable
-fun HymnDetails(
+fun HymnDetail(
     hymn: Hymn,
     contentPadding: PaddingValues
 ) {
@@ -24,7 +24,7 @@ fun HymnDetails(
             .padding(contentPadding)
             .padding(top = 40.dp)
     ) {
-        for (verse in hymn.lyrics) {
+        for (verse in hymn.lyrics)
             Column(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 46.dp),
                 horizontalAlignment = Alignment.Start
@@ -40,6 +40,5 @@ fun HymnDetails(
                     style = TextStyle(lineHeight = 35.sp),
                 )
             }
-        }
     }
 }

@@ -18,14 +18,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.imnuricrestine.R
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.navigation.Route
-import com.mtcnextlabs.imnuricrestine.state.FavoriteIcon
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
@@ -33,7 +34,7 @@ import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.toggleFavorit
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
 @Composable
-fun HymnsIndex(
+fun Index(
     contentPadding: PaddingValues,
     navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
@@ -92,13 +93,13 @@ fun HymnsIndex(
                       if (item.isFavorite)
                               Icon(
                                   imageVector = Icons.Outlined.Favorite,
-                                  contentDescription = FavoriteIcon.SAVED.icon.description
+                                  contentDescription = stringResource(R.string.remove_from_favorites_description)
                               )
-                          else
-                              Icon(
-                                  imageVector = Icons.Outlined.FavoriteBorder,
-                                  contentDescription = FavoriteIcon.NOT_SAVED.icon.description
-                              )
+                      else
+                          Icon(
+                              imageVector = Icons.Outlined.FavoriteBorder,
+                              contentDescription = stringResource(R.string.add_to_favorites_description)
+                          )
                   }
                 },
                 modifier = Modifier.clickable {

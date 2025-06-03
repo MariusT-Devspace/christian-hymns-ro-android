@@ -36,7 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.MainActivity
 import com.mtcnextlabs.imnuricrestine.components.BottomPaginationBar
-import com.mtcnextlabs.imnuricrestine.components.HymnsIndex
+import com.mtcnextlabs.imnuricrestine.components.Index
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.Hymn
@@ -171,7 +171,7 @@ fun IndexScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            HymnsIndex(
+            Index(
                 padding,
                 navController,
                 pageItems.value,
