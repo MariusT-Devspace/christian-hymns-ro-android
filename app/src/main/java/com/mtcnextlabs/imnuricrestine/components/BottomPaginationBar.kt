@@ -2,9 +2,12 @@ package com.mtcnextlabs.imnuricrestine.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -54,7 +57,9 @@ fun BottomPaginationBar(
             expanded = false,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(PaddingValues(bottom = 96.dp)),
+                .padding(PaddingValues(bottom = WindowInsets.navigationBars
+                    .asPaddingValues()
+                    .calculateBottomPadding() + 96.dp)),
             colors = FloatingToolbarColors(
                 MaterialTheme.colorScheme.primaryContainer,
                 MaterialTheme.colorScheme.onPrimary,
