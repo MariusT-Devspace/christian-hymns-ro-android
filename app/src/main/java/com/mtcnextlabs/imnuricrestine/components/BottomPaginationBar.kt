@@ -96,11 +96,23 @@ fun SegmentedButtons(
 ) {
     SingleChoiceSegmentedButtonRow(modifier = Modifier.padding(horizontal = 1.5.dp)) {
         val verticalPadding = 5.dp
-        val contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        val disabledContentColor = MaterialTheme.colorScheme.onPrimary
         val borderColor = MaterialTheme.colorScheme.primaryContainer
         val buttonShape = shapes.extraLarge
         val buttonHorizontalPadding = 10.dp
+        val segmentedButtonColors = SegmentedButtonColors(
+            activeContainerColor = SegmentedButtonDefaults.colors().activeContainerColor,
+            activeContentColor = SegmentedButtonDefaults.colors().activeContentColor,
+            activeBorderColor = borderColor,
+            inactiveContainerColor = SegmentedButtonDefaults.colors().inactiveContainerColor,
+            inactiveContentColor = SegmentedButtonDefaults.colors().inactiveContentColor,
+            inactiveBorderColor = borderColor,
+            disabledActiveContainerColor = SegmentedButtonDefaults.colors().disabledActiveContainerColor,
+            disabledActiveContentColor = SegmentedButtonDefaults.colors().disabledActiveContentColor,
+            disabledActiveBorderColor = borderColor,
+            disabledInactiveContainerColor = SegmentedButtonDefaults.colors().disabledInactiveContainerColor,
+            disabledInactiveContentColor = SegmentedButtonDefaults.colors().disabledInactiveContentColor,
+            disabledInactiveBorderColor = borderColor
+        )
 
         SegmentedButton(
             selected = false,
@@ -111,20 +123,7 @@ fun SegmentedButtons(
             shape = buttonShape,
             Modifier.width(110.dp).padding(horizontal = buttonHorizontalPadding),
             enabled = paginationAppBarUiState.value.isPreviousButtonEnabled,
-            colors = SegmentedButtonColors(
-                activeContainerColor = SegmentedButtonDefaults.colors().activeContainerColor,
-                activeContentColor = SegmentedButtonDefaults.colors().activeContentColor,
-                activeBorderColor = borderColor,
-                inactiveContainerColor = SegmentedButtonDefaults.colors().inactiveContainerColor,
-                inactiveContentColor = SegmentedButtonDefaults.colors().inactiveContentColor,
-                inactiveBorderColor = borderColor,
-                disabledActiveContainerColor = SegmentedButtonDefaults.colors().disabledActiveContainerColor,
-                disabledActiveContentColor = SegmentedButtonDefaults.colors().disabledActiveContentColor,
-                disabledActiveBorderColor = borderColor,
-                disabledInactiveContainerColor = SegmentedButtonDefaults.colors().disabledInactiveContainerColor,
-                disabledInactiveContentColor = SegmentedButtonDefaults.colors().disabledInactiveContentColor,
-                disabledInactiveBorderColor = borderColor
-            )
+            colors = segmentedButtonColors
         ) {
             Box(
             modifier = Modifier
@@ -132,11 +131,7 @@ fun SegmentedButtons(
                 .defaultMinSize(minHeight = 24.dp)
             ) {
                 Icon(
-                    Icons.AutoMirrored.Sharp.KeyboardArrowLeft, "",
-                    tint = if (paginationAppBarUiState.value.isPreviousButtonEnabled)
-                        contentColor
-                    else
-                        disabledContentColor
+                    Icons.AutoMirrored.Sharp.KeyboardArrowLeft, ""
                 )
             }
         }
@@ -184,20 +179,7 @@ fun SegmentedButtons(
             shape = buttonShape,
             modifier = Modifier.padding(horizontal = buttonHorizontalPadding),
             enabled = paginationAppBarUiState.value.isNextButtonEnabled,
-            colors = SegmentedButtonColors(
-                activeContainerColor = SegmentedButtonDefaults.colors().activeContainerColor,
-                activeContentColor = SegmentedButtonDefaults.colors().activeContentColor,
-                activeBorderColor = borderColor,
-                inactiveContainerColor = SegmentedButtonDefaults.colors().inactiveContainerColor,
-                inactiveContentColor = SegmentedButtonDefaults.colors().inactiveContentColor,
-                inactiveBorderColor = borderColor,
-                disabledActiveContainerColor = SegmentedButtonDefaults.colors().disabledActiveContainerColor,
-                disabledActiveContentColor = SegmentedButtonDefaults.colors().disabledActiveContentColor,
-                disabledActiveBorderColor = borderColor,
-                disabledInactiveContainerColor = SegmentedButtonDefaults.colors().disabledInactiveContainerColor,
-                disabledInactiveContentColor = SegmentedButtonDefaults.colors().disabledInactiveContentColor,
-                disabledInactiveBorderColor = borderColor
-            )
+            colors = segmentedButtonColors
         ) {
             Box(
                 modifier = Modifier
@@ -205,11 +187,7 @@ fun SegmentedButtons(
                     .defaultMinSize(minHeight = 24.dp)
             ) {
                 Icon(
-                    Icons.AutoMirrored.Sharp.KeyboardArrowRight, "",
-                    tint = if (paginationAppBarUiState.value.isNextButtonEnabled)
-                        contentColor
-                    else
-                        disabledContentColor
+                    Icons.AutoMirrored.Sharp.KeyboardArrowRight, ""
                 )
             }
         }

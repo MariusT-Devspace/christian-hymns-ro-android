@@ -44,13 +44,11 @@ fun BottomNavBar(
             destinations.forEach { route ->
                 NavigationBarItem(
                     icon = {
-                        when (currentDestination?.route == route.route) {
-                            true ->
-                                Icon(route.iconSelected!!, contentDescription = route.title)
+                        if (currentDestination?.route == route.route)
+                            Icon(route.iconSelected!!, contentDescription = route.title)
+                        else
+                            Icon(route.iconNotSelected!!, contentDescription = route.title)
 
-                            false ->
-                                Icon(route.iconNotSelected!!, contentDescription = route.title)
-                        }
                     },
                     label = { Text(route.title) },
                     selected = currentDestination?.route == route.route,
