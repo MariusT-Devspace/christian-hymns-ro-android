@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,9 +36,10 @@ import com.mtcnextlabs.imnuricrestine.components.BottomNavBar
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
-import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteSnackbarViewModel
+import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.addFavorite
 import com.mtcnextlabs.imnuricrestine.state.Page
 import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
         val hymnsViewModel by viewModels<HymnsViewModel>()
         val favoritesViewModel by viewModels<FavoritesViewModel>()
 
-        val favoriteActions = OnFavoriteActions(
+        val favoriteActions = FavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
             deleteFavorite = favoritesViewModel::deleteFavorite
         )
@@ -110,14 +112,19 @@ class MainActivity : ComponentActivity() {
             var snackbarJob by remember { mutableStateOf<Job?>(null) }
 
             LaunchedEffect(Unit) {
-                snackbarViewModel.snackBarEvent.collect { message ->
+                snackbarViewModel.snackBarEvent.collect { data ->
                     snackbarJob?.cancel()
                     snackbarJob = launch {
-                        snackbarHostState.showSnackbar(
-                            message,
-                            "Anulează",
+                        val snackbarResult = snackbarHostState.showSnackbar(
+                            data.message,
+                            if (data.undoAction) "Anulează" else null,
                             duration = SnackbarDuration.Short
                         )
+                        if (snackbarResult == SnackbarResult.ActionPerformed)
+                            addFavorite(
+                                data.favoritesListItem!!.hymnId,
+                                favoriteActions
+                            )
                     }
                 }
             }

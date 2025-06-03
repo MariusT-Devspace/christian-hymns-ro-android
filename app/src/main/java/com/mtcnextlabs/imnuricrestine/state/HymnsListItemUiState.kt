@@ -10,21 +10,9 @@ enum class FavoriteIcon(val icon: Icon) {
     NOT_SAVED(Icon(Icons.Outlined.FavoriteBorder, "Adauga la favorite"));
 }
 
-enum class FavoriteIconName(name: String) {
-    SAVED(Icons.Outlined.Favorite.name),
-    NOT_SAVED(Icons.Outlined.FavoriteBorder.name)
-}
-
-enum class FavoriteAction {
-    ADD_FAVORITE,
-    DELETE_FAVORITE
-}
-
 data class HymnsListItemUiState (
     val id: Int,
     val index: String,
     val title: String,
-    val isFavorite: Boolean,
-    val onFavoriteAction: FavoriteAction,
-    val icon: String
+    val isFavorite: Boolean
 )

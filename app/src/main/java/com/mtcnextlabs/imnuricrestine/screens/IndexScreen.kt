@@ -25,20 +25,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.MainActivity
 import com.mtcnextlabs.imnuricrestine.components.BottomPaginationBar
 import com.mtcnextlabs.imnuricrestine.components.HymnsIndex
+import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
+import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
 import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.getPages
+import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 import com.mtcnextlabs.imnuricrestine.state.indexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
@@ -49,8 +54,8 @@ fun IndexScreen(
     navController: NavHostController,
     hymns: State<List<Hymn>>,
     listState: LazyListState,
-    onFavoriteActions: OnFavoriteActions,
-    showSnackbar: (String) -> Unit,
+    favoriteActions: FavoriteActions,
+    showSnackbar: ShowSnackbar,
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
@@ -78,13 +83,13 @@ fun IndexScreen(
     val indexScreenUiState = rememberSaveable (
         saver = indexScreenUiStateSaver(
             hymns.value,
-            onFavoriteActions,
+            favoriteActions,
             showSnackbar
         )
     ) {
         IndexScreenUiState(
             hymns.value,
-            onFavoriteActions,
+            favoriteActions,
             showSnackbar
         )
     }
@@ -111,23 +116,24 @@ fun IndexScreen(
     }
 
     LaunchedEffect(scrolledToTop.value) {
-        if (scrolledToTop.value) {
+        if (scrolledToTop.value)
             topAppBarScrollBehavior.state.heightOffset = 0f
-        }
     }
 
-    if (hymns.value.isNotEmpty()) {
+    if (hymns.value.isNotEmpty())
         Box(modifier = Modifier.padding(vertical = 80.dp, horizontal = 16.dp),
             contentAlignment = Alignment.Center) {
             Text("List not empty")
         }
-
-    } else {
+     else
         Box(modifier = Modifier.padding(vertical = 80.dp, horizontal = 16.dp),
             contentAlignment = Alignment.Center) {
             Text("Empty list")
         }
-    }
+
+    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    val favorites: State<List<Favorite>> =
+        favoritesViewModel.favorites.observeAsState(emptyList())
 
     Scaffold(
         modifier = Modifier
@@ -168,9 +174,11 @@ fun IndexScreen(
             HymnsIndex(
                 padding,
                 navController,
-                pageItems,
+                pageItems.value,
+                favorites.value,
                 listState,
-                indexScreenUiState
+                favoriteActions,
+                showSnackbar
             )
         }
     }

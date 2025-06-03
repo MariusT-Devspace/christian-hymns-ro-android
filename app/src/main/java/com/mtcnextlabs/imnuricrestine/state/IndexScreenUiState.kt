@@ -6,15 +6,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.totalPages
+
 // State holder saver
 fun indexScreenUiStateSaver(
     hymns: List<Hymn>,
-    onFavoriteActions: OnFavoriteActions,
-    showSnackbar: (String) -> Unit
+    favoriteActions: FavoriteActions,
+    showSnackbar: ShowSnackbar
 ) = Saver<IndexScreenUiState, Map<String, Any>>(
     // Save the state
     save = { state ->
@@ -26,7 +26,7 @@ fun indexScreenUiStateSaver(
     restore = { restoredState ->
         IndexScreenUiState(
             hymns,
-            onFavoriteActions,
+            favoriteActions,
             showSnackbar
         ).apply {
             val pageIndex = restoredState["currentPageIndex"] as Int
@@ -38,8 +38,8 @@ fun indexScreenUiStateSaver(
 // State holder class
 class IndexScreenUiState(
     val hymns: List<Hymn>,
-    val onFavoriteActions: OnFavoriteActions,
-    val showSnackbar: (String) -> Unit
+    val favoriteActions: FavoriteActions,
+    val showSnackbar: ShowSnackbar
 ) {
     private val _hymns = mutableStateOf(hymns)
 
@@ -66,11 +66,7 @@ class IndexScreenUiState(
                     hymn.id,
                     hymn.index,
                     hymn.title,
-                    hymn.isFavorite,
-                    if (hymn.isFavorite) FavoriteAction.DELETE_FAVORITE
-                    else FavoriteAction.ADD_FAVORITE,
-                    if (hymn.isFavorite) FavoriteIconName.SAVED.name
-                    else FavoriteIconName.NOT_SAVED.name
+                    hymn.isFavorite
                 )
             }
     }
@@ -130,21 +126,5 @@ class IndexScreenUiState(
 
     fun updatePageItems(hymns: List<Hymn>){
         _hymns.value = hymns
-    }
-
-    fun addFavorite(favorite: Favorite) {
-        onFavoriteActions.addFavorite(favorite)
-            .thenRun{
-                showSnackbar(
-                    "Imnul \"${hymns[favorite.hymn_id - 1].index}. ${hymns[favorite.hymn_id - 1].title}\" salvat la favorite"
-                )
-            }
-    }
-
-    fun deleteFavorite(favorite: Favorite) {
-        onFavoriteActions.deleteFavorite(favorite)
-            .thenRun {
-                showSnackbar("Imnul \"${hymns[favorite.hymn_id].index}. ${hymns[favorite.hymn_id].title}\" șters de la favorite")
-            }
     }
 }

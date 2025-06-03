@@ -17,41 +17,38 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteIcon
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
-import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
-import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
+import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
+import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.toggleFavorite
+import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
 @Composable
 fun HymnsIndex(
     contentPadding: PaddingValues,
     navController: NavHostController?,
-    hymnsListItems: State<List<HymnsListItemUiState>>,
+    hymnsListItems: List<HymnsListItemUiState>,
+    favorites: List<Favorite>,
     listState: LazyListState,
-    indexScreenUiState: IndexScreenUiState
+    favoriteActions: FavoriteActions,
+    showSnackbar: ShowSnackbar
 ) {
-    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
-    val favorites: State<List<Favorite>> =
-        favoritesViewModel.favorites.observeAsState(emptyList())
-
     LazyColumn(
         state = listState,
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
         items(
-            items = hymnsListItems.value
+            items = hymnsListItems
         ) { item ->
             ListItem(
                 headlineContent = {
@@ -84,14 +81,12 @@ fun HymnsIndex(
                 trailingContent = {
                     IconButton(
                         onClick = {
-                            if(item.isFavorite)
-                                indexScreenUiState.deleteFavorite(
-                                    favorites.value.first { favorite ->
-                                        favorite.hymn_id == item.id
-                                    }
-                                )
-                            else
-                                indexScreenUiState.addFavorite(Favorite(item.id))
+                            toggleFavorite(
+                                HymnWithFavorite(item, favorites.firstOrNull { favorite -> favorite.hymn_id == item.id }),
+                                false,
+                                favoriteActions,
+                                showSnackbar
+                            )
                         }
                     ) {
                       if (item.isFavorite)

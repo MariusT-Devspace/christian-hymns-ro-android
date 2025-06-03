@@ -14,7 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -29,8 +28,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.components.Favorites
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
-import com.mtcnextlabs.imnuricrestine.models.OnFavoriteAction
+import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 
@@ -40,8 +40,8 @@ fun FavoritesScreen(
     navController: NavHostController,
     favoritesListItems: List<FavoritesListItem>,
     listState: LazyListState,
-    onDeleteFavorite: OnFavoriteAction,
-    snackbarHostState: SnackbarHostState
+    favoriteActions: FavoriteActions,
+    showSnackbar: ShowSnackbar
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
@@ -49,7 +49,7 @@ fun FavoritesScreen(
     )
 
     val actions : @Composable (RowScope.() -> Unit) = {
-        IconButton(onClick = { /* doSomething() */ }) {
+        IconButton(onClick = { }) {
             Icon(
                 imageVector = Icons.Filled.Settings,
                 contentDescription = "Localized description"
@@ -98,8 +98,8 @@ fun FavoritesScreen(
                 navController,
                 favoritesListItems,
                 listState,
-                onDeleteFavorite,
-                snackbarHostState
+                favoriteActions,
+                showSnackbar
             )
         }
     }

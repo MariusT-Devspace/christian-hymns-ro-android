@@ -16,10 +16,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.models.OnFavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.screens.HymnDetailsScreen
 import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
+import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
 object NavigationActions {
     lateinit var onGoBack : () -> Unit
@@ -34,8 +35,8 @@ fun Navigation(
     indexListState: LazyListState,
     favoritesListState: LazyListState,
     snackbarHostState: SnackbarHostState,
-    onFavoriteActions: OnFavoriteActions,
-    showSnackbar: (String) -> Unit,
+    favoriteActions: FavoriteActions,
+    showSnackbar: ShowSnackbar,
 ) {
     val activity = LocalActivity.current as? ComponentActivity
 
@@ -49,7 +50,7 @@ fun Navigation(
                 navController,
                 hymns,
                 indexListState,
-                onFavoriteActions,
+                favoriteActions,
                 showSnackbar
             )
         }
@@ -72,8 +73,8 @@ fun Navigation(
                 navController,
                 favoritesListItems,
                 favoritesListState,
-                onFavoriteActions.deleteFavorite,
-                snackbarHostState
+                favoriteActions,
+                showSnackbar
             )
         }
     }
