@@ -104,7 +104,7 @@ fun SegmentedButtons(
             activeContentColor = SegmentedButtonDefaults.colors().activeContentColor,
             activeBorderColor = borderColor,
             inactiveContainerColor = SegmentedButtonDefaults.colors().inactiveContainerColor,
-            inactiveContentColor = SegmentedButtonDefaults.colors().inactiveContentColor,
+            inactiveContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             inactiveBorderColor = borderColor,
             disabledActiveContainerColor = SegmentedButtonDefaults.colors().disabledActiveContainerColor,
             disabledActiveContentColor = SegmentedButtonDefaults.colors().disabledActiveContentColor,
