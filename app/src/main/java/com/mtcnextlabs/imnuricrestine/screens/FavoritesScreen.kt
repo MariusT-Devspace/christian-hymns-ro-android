@@ -28,8 +28,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.components.Favorites
+import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
+import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
@@ -38,7 +39,8 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 fun FavoritesScreen(
     contentPadding: PaddingValues,
     navController: NavHostController,
-    favoritesListItems: List<FavoritesListItem>,
+    hymns: () -> List<Hymn>,
+    favorites: () -> List<Favorite>,
     listState: LazyListState,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar
@@ -96,7 +98,8 @@ fun FavoritesScreen(
             Favorites(
                 padding,
                 navController,
-                favoritesListItems,
+                hymns,
+                favorites,
                 listState,
                 favoriteActions,
                 showSnackbar

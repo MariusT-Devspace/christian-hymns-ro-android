@@ -12,7 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
+import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
@@ -29,7 +29,7 @@ fun Navigation(
     padding: PaddingValues,
     navController: NavHostController,
     hymns: () -> List<Hymn>,
-    favoritesListItems: List<FavoritesListItem>,
+    favorites: () -> List<Favorite>,
     indexListState: LazyListState,
     favoritesListState: LazyListState,
     favoriteActions: FavoriteActions,
@@ -68,7 +68,8 @@ fun Navigation(
             FavoritesScreen(
                 padding,
                 navController,
-                favoritesListItems,
+                hymns,
+                favorites,
                 favoritesListState,
                 favoriteActions,
                 showSnackbar

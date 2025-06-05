@@ -35,13 +35,11 @@ import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logScreenView
 import com.mtcnextlabs.imnuricrestine.components.BottomNavBar
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteSnackbarViewModel
 import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.addFavorite
 import com.mtcnextlabs.imnuricrestine.state.Page
-import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -81,17 +79,6 @@ class MainActivity : ComponentActivity() {
             val favorites: State<List<Favorite>> = favoritesViewModel.favorites.observeAsState(emptyList())
 
             Log.d("RECOMPOSITION", "setContent")
-
-            val favoritesListItems: List<FavoritesListItem> =
-                favorites.value.map { favorite ->
-                    val hymnIndex = hymns.value.indexOf(hymns.value.find {
-                        it.id == favorite.hymn_id
-                    })
-                    favorite.asFavoritesListItem(
-                        hymns.value[hymnIndex].index,
-                        hymns.value[hymnIndex].title
-                    )
-                }
 
             val currentBackStack by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackStack?.destination?.route?.substringBefore("/")
@@ -154,7 +141,7 @@ class MainActivity : ComponentActivity() {
                             padding,
                             navController,
                             { hymns.value },
-                            favoritesListItems,
+                            { favorites.value },
                             indexListState,
                             favoritesListState,
                             favoriteActions,

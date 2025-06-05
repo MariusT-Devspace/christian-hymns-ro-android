@@ -41,15 +41,19 @@ import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontStyle
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
+import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
+import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 
 @Composable
 fun Favorites(
     contentPadding: PaddingValues,
     navController: NavHostController,
-    favoritesListItems: List<FavoritesListItem>,
+    hymns: () -> List<Hymn>,
+    favorites: () -> List<Favorite>,
     listState: LazyListState,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar
@@ -57,6 +61,17 @@ fun Favorites(
     LaunchedEffect(Unit) {
         listState.scrollToItem(0)
     }
+
+    val favoritesListItems: List<FavoritesListItem> =
+        favorites().map { favorite ->
+            val hymnIndex = hymns().indexOf(hymns().find {
+                it.id == favorite.hymn_id
+            })
+            favorite.asFavoritesListItem(
+                hymns()[hymnIndex].index,
+                hymns()[hymnIndex].title
+            )
+        }
 
     if (favoritesListItems.isNotEmpty()) {
         LazyColumn(
