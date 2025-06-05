@@ -6,9 +6,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -30,11 +28,10 @@ object NavigationActions {
 fun Navigation(
     padding: PaddingValues,
     navController: NavHostController,
-    hymns: State<List<Hymn>>,
+    hymns: () -> List<Hymn>,
     favoritesListItems: List<FavoritesListItem>,
     indexListState: LazyListState,
     favoritesListState: LazyListState,
-    snackbarHostState: SnackbarHostState,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar,
 ) {

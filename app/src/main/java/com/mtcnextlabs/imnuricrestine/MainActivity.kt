@@ -153,11 +153,10 @@ class MainActivity : ComponentActivity() {
                         Navigation(
                             padding,
                             navController,
-                            hymns,
+                            { hymns.value },
                             favoritesListItems,
                             indexListState,
                             favoritesListState,
-                            snackbarHostState,
                             favoriteActions,
                             snackbarViewModel::showSnackbar
                         )

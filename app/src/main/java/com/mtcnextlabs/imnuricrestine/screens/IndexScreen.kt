@@ -52,7 +52,7 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 @Composable
 fun IndexScreen(
     navController: NavHostController,
-    hymns: State<List<Hymn>>,
+    hymns: () -> List<Hymn>,
     listState: LazyListState,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar,
@@ -78,17 +78,17 @@ fun IndexScreen(
         }
     }
 
-    MainActivity.indexScreenPages = remember { hymns.value.getPages() }
+    MainActivity.indexScreenPages = remember { hymns().getPages() }
 
     val indexScreenUiState = rememberSaveable (
         saver = indexScreenUiStateSaver(
-            hymns.value,
+            hymns(),
             favoriteActions,
             showSnackbar
         )
     ) {
         IndexScreenUiState(
-            hymns.value,
+            hymns(),
             favoriteActions,
             showSnackbar
         )
@@ -102,13 +102,13 @@ fun IndexScreen(
         indexScreenUiState
 
     LaunchedEffect(currentPage.value) {
-        updatePageItems(hymns.value)
+        updatePageItems(hymns())
         listState.scrollToItem(0)
         topAppBarScrollBehavior.state.heightOffset = 0f
     }
 
-    LaunchedEffect(hymns.value) {
-        updatePageItems(hymns.value)
+    LaunchedEffect(hymns()) {
+        updatePageItems(hymns())
     }
 
     val scrolledToTop = remember {
@@ -120,7 +120,7 @@ fun IndexScreen(
             topAppBarScrollBehavior.state.heightOffset = 0f
     }
 
-    if (hymns.value.isNotEmpty())
+    if (hymns().isNotEmpty())
         Box(modifier = Modifier.padding(vertical = 80.dp, horizontal = 16.dp),
             contentAlignment = Alignment.Center) {
             Text("List not empty")
