@@ -28,8 +28,12 @@ public class FavoritesRepository {
         return _favoritesLocalDataSource.getFavorites();
     }
 
-    public CompletableFuture<Void> addFavorite(int id) throws ExecutionException, InterruptedException {
-        return _favoritesLocalDataSource.addFavorite(id);
+    public CompletableFuture<Void> addFavorite(int hymnId) throws ExecutionException, InterruptedException {
+        return _favoritesLocalDataSource.addFavorite(hymnId);
+    }
+
+    public CompletableFuture<Void> addFavorite(Favorite favorite) throws ExecutionException, InterruptedException {
+        return _favoritesLocalDataSource.addFavorite(favorite);
     }
 
     public CompletableFuture<Void> deleteFavorite(Favorite favorite) throws ExecutionException, InterruptedException {

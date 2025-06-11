@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface FavoritesDataSource {
-    //CompletableFuture<ArrayList<Favorite>> getFavorites();
     LiveData<List<Favorite>> getFavorites();
-    CompletableFuture<Void> addFavorite(int id);
+    CompletableFuture<Void> addFavorite(int hymnId);
+    CompletableFuture<Void> addFavorite(Favorite favorite);
     CompletableFuture<Void> deleteFavorite(Favorite favorite);
 }

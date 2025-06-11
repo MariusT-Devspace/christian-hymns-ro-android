@@ -13,11 +13,14 @@ import java.util.List;
 
 @Dao
 public interface FavoritesDao {
-    @Query("SELECT * FROM Favorites")
+    @Query("SELECT * FROM Favorites ORDER BY id ASC")
     LiveData<List<Favorite>> getFavorites();
 
     @Insert(entity = Favorite.class)
     void insertFavorite(FavoriteInsert favorite);
+
+    @Insert(entity = Favorite.class)
+    void insertFavoriteWithId(Favorite favorite);
 
     @Delete
     void deleteFavorite(Favorite favorite);

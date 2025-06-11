@@ -38,7 +38,7 @@ import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.navigation.Route
 import com.mtcnextlabs.imnuricrestine.state.FavoriteSnackbarViewModel
-import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.addFavorite
+import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.undoDelete
 import com.mtcnextlabs.imnuricrestine.state.Page
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -59,7 +59,8 @@ class MainActivity : ComponentActivity() {
 
         val favoriteActions = FavoriteActions(
             addFavorite = favoritesViewModel::addFavorite,
-            deleteFavorite = favoritesViewModel::deleteFavorite
+            deleteFavorite = favoritesViewModel::deleteFavorite,
+            undoDelete = favoritesViewModel::undoDelete
         )
 
         setContent {
@@ -108,8 +109,11 @@ class MainActivity : ComponentActivity() {
                             duration = SnackbarDuration.Short
                         )
                         if (snackbarResult == SnackbarResult.ActionPerformed)
-                            addFavorite(
-                                data.favoritesListItem!!.hymnId,
+                            undoDelete(
+                                Favorite(
+                                    data.favoritesListItem!!.id,
+                                    data.favoritesListItem.hymnId
+                                ),
                                 favoriteActions
                             )
                     }

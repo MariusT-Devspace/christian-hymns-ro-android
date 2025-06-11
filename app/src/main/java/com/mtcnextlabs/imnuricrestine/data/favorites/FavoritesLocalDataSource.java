@@ -26,13 +26,23 @@ public class FavoritesLocalDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public CompletableFuture<Void> addFavorite(int id) {
+    public CompletableFuture<Void> addFavorite(int hymnId) {
         return CompletableFuture.runAsync(() -> {
             _favoritesDao.insertFavorite(
-                    new FavoriteInsert(id)
+                    new FavoriteInsert(hymnId)
             );
         });
     }
+
+    @Override
+    public CompletableFuture<Void> addFavorite(Favorite favorite) {
+        return CompletableFuture.runAsync(() -> {
+            _favoritesDao.insertFavoriteWithId(
+                    favorite
+            );
+        });
+    }
+
 
     @Override
     public CompletableFuture<Void> deleteFavorite(Favorite favorite) {

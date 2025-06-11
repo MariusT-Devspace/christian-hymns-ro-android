@@ -7,5 +7,6 @@ typealias FavoriteAction = (Favorite?) -> CompletableFuture<Void>
 
 data class FavoriteActions(
     val addFavorite: FavoriteAction,
-    val deleteFavorite: FavoriteAction
+    val deleteFavorite: FavoriteAction,
+    val undoDelete: FavoriteAction
 )

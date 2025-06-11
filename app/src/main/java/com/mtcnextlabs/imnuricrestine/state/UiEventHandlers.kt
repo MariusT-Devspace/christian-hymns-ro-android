@@ -20,13 +20,6 @@ object FavoriteUiEventHandler {
         }
     }
 
-    fun addFavorite(
-        hymnId: Int,
-        favoriteActions: FavoriteActions,
-    ) {
-        favoriteActions.addFavorite(Favorite(hymnId))
-    }
-
     fun deleteFavorite(
         favoritesListItem: FavoritesListItem,
         undoAction: Boolean,
@@ -41,6 +34,13 @@ object FavoriteUiEventHandler {
                     "Imnul \"${favoritesListItem.index}. ${favoritesListItem.title}\" șters de la favorite"
                 ))
             }
+    }
+
+    fun undoDelete(
+        favorite: Favorite,
+        favoriteActions: FavoriteActions,
+    ) {
+        favoriteActions.undoDelete(favorite)
     }
 }
 

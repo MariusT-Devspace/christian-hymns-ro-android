@@ -50,4 +50,13 @@ public class FavoritesViewModel extends AndroidViewModel {
             throw new RuntimeException(e);
         }
     }
+
+    public CompletableFuture<Void> undoDelete(Favorite favorite) {
+        try {
+            return _favoritesRepository.addFavorite(favorite);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -17,14 +17,13 @@ public class FavoritesRemoteDataSource implements FavoritesDataSource {
 
 
     @Override
-    public LiveData<List<Favorite>> getFavorites() {
-        return null;
-    }
+    public LiveData<List<Favorite>> getFavorites() { return null; }
 
     @Override
-    public CompletableFuture<Void> addFavorite(int id) {
-        return null;
-    }
+    public CompletableFuture<Void> addFavorite(int id) { return null; }
+
+    @Override
+    public CompletableFuture<Void> addFavorite(Favorite favorite) { return null; }
 
     @Override
     public CompletableFuture<Void> deleteFavorite(Favorite favorite) { return null; }
