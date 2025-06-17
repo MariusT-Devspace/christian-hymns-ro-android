@@ -6,6 +6,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -18,6 +19,7 @@ import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.screens.HymnDetailScreen
 import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
+import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
 object NavigationActions {
@@ -32,6 +34,7 @@ fun Navigation(
     favorites: () -> List<Favorite>,
     indexListState: LazyListState,
     favoritesListState: LazyListState,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar,
 ) {
@@ -47,6 +50,7 @@ fun Navigation(
                 navController,
                 hymns,
                 indexListState,
+                topAppBarScrollBehavior,
                 favoriteActions,
                 showSnackbar
             )

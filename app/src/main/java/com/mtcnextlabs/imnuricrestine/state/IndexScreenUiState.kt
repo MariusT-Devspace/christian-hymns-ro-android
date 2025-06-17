@@ -7,44 +7,37 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.totalPages
 
 // State holder saver
 fun indexScreenUiStateSaver(
-    hymns: List<Hymn>,
-    favoriteActions: FavoriteActions,
-    showSnackbar: ShowSnackbar
+    hymns: List<Hymn>
 ) = Saver<IndexScreenUiState, Map<String, Any>>(
     // Save the state
     save = { state ->
         mapOf(
-            "currentPageIndex" to state.page.value.number
+            "currentPageNumber" to state.page.value.number
         )
     },
     // Restore the state
     restore = { restoredState ->
         IndexScreenUiState(
-            hymns,
-            favoriteActions,
-            showSnackbar
+            hymns
         ).apply {
-            val pageIndex = restoredState["currentPageIndex"] as Int
-            onChangePageAction(null, pageIndex)
+            val pageNumber = restoredState["currentPageNumber"] as Int
+            onChangePageAction(null, pageNumber)
         }
     }
 )
 
 // State holder class
 class IndexScreenUiState(
-    val hymns: List<Hymn>,
-    val favoriteActions: FavoriteActions,
-    val showSnackbar: ShowSnackbar
+    val hymns: List<Hymn>
 ) {
     private val _hymns = mutableStateOf(hymns)
 
     private val _page: MutableState<Page> = mutableStateOf(
-        indexScreenPages[0]
+        indexScreenPages.value[0]
     )
 
     private val _paginationAppBarUiState: MutableState<PaginationAppBarUiState> = mutableStateOf(
@@ -71,7 +64,7 @@ class IndexScreenUiState(
             }
     }
 
-    // Configure destructuring
+    // Destructuring
     operator fun component1() = page
     operator fun component2() = paginationAppBarUiState
     operator fun component3() = pageItems
@@ -107,18 +100,18 @@ class IndexScreenUiState(
         when (action) {
             PageChangeAction.NEXT -> {
                 val index = page.value.number + 1
-                _page.value = indexScreenPages[index-1]
+                _page.value = indexScreenPages.value[index-1]
                 updatePaginationAppBarUiState()
             }
 
             PageChangeAction.PREVIOUS -> {
                 val index = page.value.number - 1
-                _page.value = indexScreenPages[index-1]
+                _page.value = indexScreenPages.value[index-1]
                 updatePaginationAppBarUiState()
             }
             else -> {
                 val index = selectedPage ?: page.value.number
-                _page.value = indexScreenPages[index-1]
+                _page.value = indexScreenPages.value[index-1]
                 updatePaginationAppBarUiState()
             }
         }

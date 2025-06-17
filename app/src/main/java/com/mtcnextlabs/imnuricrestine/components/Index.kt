@@ -83,7 +83,9 @@ fun Index(
                     IconButton(
                         onClick = {
                             toggleFavorite(
-                                HymnWithFavorite(item, favorites.firstOrNull { favorite -> favorite.hymn_id == item.id }),
+                                HymnWithFavorite(item, favorites.firstOrNull {
+                                    favorite -> favorite.hymn_id == item.id
+                                }),
                                 false,
                                 favoriteActions,
                                 showSnackbar

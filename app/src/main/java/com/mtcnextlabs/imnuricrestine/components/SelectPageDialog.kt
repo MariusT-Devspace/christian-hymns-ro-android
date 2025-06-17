@@ -53,7 +53,7 @@ fun DialogContent(
     currentPageRange: String
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
-        indexScreenPages.forEach { selectionOption ->
+        indexScreenPages.value.forEach { selectionOption ->
             ListItem(
                 headlineContent = { Text(text = selectionOption.title) },
                 modifier = Modifier.clickable {

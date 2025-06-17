@@ -14,8 +14,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -47,7 +50,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        var indexScreenPages: List<Page> = emptyList()
+        var indexScreenPages: MutableState<List<Page>> = mutableStateOf(emptyList())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,6 +126,11 @@ class MainActivity : ComponentActivity() {
             val indexListState = rememberLazyListState()
             val favoritesListState = rememberLazyListState()
 
+            val indexScreenTopAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+                rememberTopAppBarState(),
+                { true }
+            )
+
             ChristianHymnsTheme {
                 Scaffold(
                     bottomBar = {
@@ -148,6 +156,7 @@ class MainActivity : ComponentActivity() {
                             { favorites.value },
                             indexListState,
                             favoritesListState,
+                            indexScreenTopAppBarScrollBehavior,
                             favoriteActions,
                             snackbarViewModel::showSnackbar
                         )

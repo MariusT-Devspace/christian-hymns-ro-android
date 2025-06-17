@@ -118,7 +118,7 @@ fun SegmentedButtons(
             selected = false,
             onClick = {
                 onChangePageAction(PageChangeAction.PREVIOUS, null)
-                logIndexNavigation("previous button", page.title, indexScreenPages[page.number-2].title)
+                logIndexNavigation("previous button", page.title, indexScreenPages.value!![page.number-2].title)
             },
             shape = buttonShape,
             Modifier.width(110.dp).padding(horizontal = buttonHorizontalPadding),
@@ -174,7 +174,7 @@ fun SegmentedButtons(
             selected = false,
             onClick = {
                 onChangePageAction(PageChangeAction.NEXT, null)
-                logIndexNavigation("next button", page.title, indexScreenPages[page.number].title)
+                logIndexNavigation("next button", page.title, indexScreenPages.value!![page.number].title)
             },
             shape = buttonShape,
             modifier = Modifier.padding(horizontal = buttonHorizontalPadding),
