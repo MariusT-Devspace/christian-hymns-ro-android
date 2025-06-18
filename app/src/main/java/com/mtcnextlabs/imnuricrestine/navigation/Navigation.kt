@@ -19,7 +19,6 @@ import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.screens.HymnDetailScreen
 import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
-import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
 import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 
 object NavigationActions {

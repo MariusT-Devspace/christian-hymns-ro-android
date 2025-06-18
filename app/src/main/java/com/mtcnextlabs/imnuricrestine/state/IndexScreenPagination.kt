@@ -4,17 +4,17 @@ import com.mtcnextlabs.imnuricrestine.models.Hymn
 import kotlin.math.ceil
 
 object PaginationConfig {
-    const val pageSize: Int = 99
-    val totalPages: Int = ceil((765.toDouble() / pageSize.toDouble())).toInt()
+    const val PAGE_SIZE: Int = 99
+    val totalPages: Int = ceil((765.toDouble() / PAGE_SIZE.toDouble())).toInt()
     fun List<Hymn>.getPages(): List<Page> =
         Array(totalPages) { index ->
             Page(
                 index + 1,
-                this.getPageStart(index + 1, pageSize),
-                this.getPageEnd(index + 1, this.getPageStart(index + 1, pageSize), pageSize, totalPages),
+                this.getPageStart(index + 1, PAGE_SIZE),
+                this.getPageEnd(index + 1, this.getPageStart(index + 1, PAGE_SIZE), PAGE_SIZE, totalPages),
                 this.getPageTitle(
-                    this.getPageStart(index + 1, pageSize),
-                    this.getPageEnd(index + 1, this.getPageStart(index + 1, pageSize), pageSize, totalPages)
+                    this.getPageStart(index + 1, PAGE_SIZE),
+                    this.getPageEnd(index + 1, this.getPageStart(index + 1, PAGE_SIZE), PAGE_SIZE, totalPages)
                 )
             )
         }.toList()

@@ -1,5 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +16,7 @@ import androidx.compose.material3.FloatingToolbarExitDirection.Companion.Bottom
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -29,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
@@ -87,11 +91,11 @@ fun IndexScreen(
             onChangePageAction,
             updatePageItems) = rememberSaveable(
                 saver = indexScreenUiStateSaver(
-                    hymns(),
+                    hymns()
                 )
             ) {
                 IndexScreenUiState(
-                    hymns(),
+                    hymns()
                 )
             }
 
@@ -171,6 +175,13 @@ fun IndexScreen(
                 )
             }
         }
-    }
+    } else
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LoadingIndicator(modifier = Modifier.size(126.dp))
+        }
 }
 
