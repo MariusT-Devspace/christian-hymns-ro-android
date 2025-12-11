@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.screens.index
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
-import com.mtcnextlabs.imnuricrestine.state.HymnsListItemUiState
-import com.mtcnextlabs.imnuricrestine.navigation.Route
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.HymnsListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler.toggleFavorite
-import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.toggleFavorite
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
 
 @Composable
 fun Index(

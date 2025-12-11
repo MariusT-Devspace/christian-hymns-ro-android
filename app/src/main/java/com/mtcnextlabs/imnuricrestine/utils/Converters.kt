@@ -2,7 +2,7 @@ package com.mtcnextlabs.imnuricrestine.utils
 
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.db.models.HymnWithFavoriteStatus
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.Verse
 

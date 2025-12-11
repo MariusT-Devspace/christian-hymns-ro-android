@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.screens
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,9 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mtcnextlabs.imnuricrestine.components.HymnDetail
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnsViewModel
-import com.mtcnextlabs.imnuricrestine.navigation.NavigationActions
+import com.mtcnextlabs.imnuricrestine.ui.navigation.NavigationActions
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 
 @Composable

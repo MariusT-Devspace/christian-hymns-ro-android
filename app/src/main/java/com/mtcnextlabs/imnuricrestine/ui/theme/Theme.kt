@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.theme
+package com.mtcnextlabs.imnuricrestine.ui.theme
 
 import android.app.Activity
 import android.os.Build

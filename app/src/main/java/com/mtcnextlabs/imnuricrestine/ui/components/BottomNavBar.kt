@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -15,7 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logBottomBarNavigation
-import com.mtcnextlabs.imnuricrestine.navigation.Route
+import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import kotlinx.coroutines.launch
 
 @Composable
@@ -55,7 +55,8 @@ fun BottomNavBar(
                     onClick = {
                         when (route.route) {
                             Route.Index.route ->
-                                if (currentDestination?.route == Route.Index.route)
+                                if (currentDestination?.route == Route.Index.route &&
+                                    indexListState.firstVisibleItemIndex > 0)
                                     coroutineScope.launch {
                                         indexListState.animateScrollToItem(0)
                                     }

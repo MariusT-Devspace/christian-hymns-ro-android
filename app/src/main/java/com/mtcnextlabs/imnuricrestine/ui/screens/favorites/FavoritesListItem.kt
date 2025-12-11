@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.models
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 data class FavoritesListItem(
     val id: Int,

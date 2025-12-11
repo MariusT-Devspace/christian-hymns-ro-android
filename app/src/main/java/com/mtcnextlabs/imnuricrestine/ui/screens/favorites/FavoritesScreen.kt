@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.screens
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -27,11 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.mtcnextlabs.imnuricrestine.components.Favorites
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 

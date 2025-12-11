@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.index.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -7,7 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.totalPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.PageChangeAction
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.PaginationConfig.totalPages
 
 // State holder saver
 fun indexScreenUiStateSaver(

@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

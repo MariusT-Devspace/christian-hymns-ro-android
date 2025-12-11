@@ -1,9 +1,8 @@
-package com.mtcnextlabs.imnuricrestine.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
 import com.mtcnextlabs.imnuricrestine.models.SnackbarData
 
 object FavoriteUiEventHandler {

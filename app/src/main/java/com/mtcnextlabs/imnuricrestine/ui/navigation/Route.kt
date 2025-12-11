@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.navigation
+package com.mtcnextlabs.imnuricrestine.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite

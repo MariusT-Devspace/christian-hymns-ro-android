@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.index
 
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import kotlin.math.ceil

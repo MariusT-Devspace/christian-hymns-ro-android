@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,8 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
-import com.mtcnextlabs.imnuricrestine.models.FavoritesListItem
-import com.mtcnextlabs.imnuricrestine.navigation.Route
+import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.InlineTextContent
@@ -44,8 +43,6 @@ import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavori
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.state.FavoriteUiEventHandler
-import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
 import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 
 @Composable

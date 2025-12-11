@@ -1,5 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.models
 
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesListItem
+
 data class SnackbarData(
     val hymnWithFavorite: HymnWithFavorite?,
     val favoritesListItem: FavoritesListItem?,

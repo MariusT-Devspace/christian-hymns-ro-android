@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.screens.index
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
-import com.mtcnextlabs.imnuricrestine.state.OnChangePageAction
-import com.mtcnextlabs.imnuricrestine.state.PageChangeAction
 
 @Composable
 fun SelectPageDialog(

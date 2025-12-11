@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.theme
+package com.mtcnextlabs.imnuricrestine.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import androidx.lifecycle.ViewModel
 import com.mtcnextlabs.imnuricrestine.models.SnackbarData

@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.navigation
+package com.mtcnextlabs.imnuricrestine.ui.navigation
 
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -16,10 +16,10 @@ import androidx.navigation.navArgument
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.screens.FavoritesScreen
-import com.mtcnextlabs.imnuricrestine.screens.HymnDetailScreen
-import com.mtcnextlabs.imnuricrestine.screens.IndexScreen
-import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesScreen
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail.HymnDetailScreen
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.IndexScreen
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
 
 object NavigationActions {
     lateinit var onGoBack : () -> Unit

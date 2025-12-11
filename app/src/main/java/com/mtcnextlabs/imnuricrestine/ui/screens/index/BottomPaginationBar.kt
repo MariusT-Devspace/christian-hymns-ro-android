@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.components
+package com.mtcnextlabs.imnuricrestine.ui.screens.index
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,10 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.sp
 import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
-import com.mtcnextlabs.imnuricrestine.state.OnChangePageAction
-import com.mtcnextlabs.imnuricrestine.state.Page
-import com.mtcnextlabs.imnuricrestine.state.PageChangeAction
-import com.mtcnextlabs.imnuricrestine.state.PaginationAppBarUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.PaginationAppBarUiState
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

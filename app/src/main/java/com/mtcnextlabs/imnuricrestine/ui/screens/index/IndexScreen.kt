@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.screens
+package com.mtcnextlabs.imnuricrestine.ui.screens.index
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,16 +39,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.MainActivity
-import com.mtcnextlabs.imnuricrestine.components.BottomPaginationBar
-import com.mtcnextlabs.imnuricrestine.components.Index
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.state.IndexScreenUiState
-import com.mtcnextlabs.imnuricrestine.state.PaginationConfig.getPages
-import com.mtcnextlabs.imnuricrestine.state.ShowSnackbar
-import com.mtcnextlabs.imnuricrestine.state.indexScreenUiStateSaver
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.IndexScreenUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.PaginationConfig.getPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.indexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.onFirstNonNull
