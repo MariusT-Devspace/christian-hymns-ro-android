@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index
+package com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,14 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 
 @Composable
 fun SelectPageDialog(
     openDialog: MutableState<Boolean>,
-    onChangePageAction: OnChangePageAction,
-    currentPageRange: String
+    indexScreenPages: List<Page>,
+    currentPageRange: String,
+    onChangePageAction: OnChangePageAction
 ) {
     BasicAlertDialog(
         onDismissRequest = { openDialog.value = false }
@@ -36,6 +36,7 @@ fun SelectPageDialog(
             ) {
                 DialogContent(
                     openDialog,
+                    indexScreenPages,
                     onChangePageAction,
                     currentPageRange
                 )
@@ -47,16 +48,17 @@ fun SelectPageDialog(
 @Composable
 fun DialogContent(
     openDialog: MutableState<Boolean>,
+    indexScreenPages: List<Page>,
     onChangePageAction: OnChangePageAction,
     currentPageRange: String
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
-        indexScreenPages.value.forEach { selectionOption ->
+        indexScreenPages.forEachIndexed { index, selectionOption ->
             ListItem(
                 headlineContent = { Text(text = selectionOption.title) },
                 modifier = Modifier.clickable {
                     openDialog.value = false
-                    onChangePageAction(PageChangeAction.SELECT, selectionOption.number)
+                    onChangePageAction(PaginationAction.JumpToPage(index), )
                     logIndexNavigation("range browser", currentPageRange, selectionOption.title)
                 }
             )

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -27,30 +27,23 @@ import com.example.imnuricrestine.R
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.HymnsListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
-import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
-import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.toggleFavorite
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
 
 @Composable
 fun Index(
     contentPadding: PaddingValues,
     navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
-    favorites: List<Favorite>,
     listState: LazyListState,
-    favoriteActions: FavoriteActions,
-    showSnackbar: ShowSnackbar
+    onToggleFavorite: (Int) -> Unit,
 ) {
     LazyColumn(
         state = listState,
         contentPadding = contentPadding,
         modifier = Modifier.padding(top = 30.dp),
     ) {
-        items(
+        itemsIndexed(
             items = hymnsListItems
-        ) { item ->
+        ) { index, item ->
             ListItem(
                 headlineContent = {
 
@@ -82,14 +75,7 @@ fun Index(
                 trailingContent = {
                     IconButton(
                         onClick = {
-                            toggleFavorite(
-                                HymnWithFavorite(item, favorites.firstOrNull {
-                                    favorite -> favorite.hymn_id == item.id
-                                }),
-                                false,
-                                favoriteActions,
-                                showSnackbar
-                            )
+                            onToggleFavorite(index)
                         }
                     ) {
                       if (item.isFavorite)
@@ -112,16 +98,3 @@ fun Index(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun HymnsIndexPreview() {
-//    val list = listOf(
-//        HymnsListItemUiState(id = 0, index = "7", title = "Ţi-nalţ, Iehova-n veci cântare!"),
-//        HymnsListItemUiState(id = 1, index = "13", title = "Domnul e bun"),
-//        HymnsListItemUiState(id = 2, index = "110", title = "O, ce veste minunată!"),
-//        HymnsListItemUiState(id = 3, index = "159A", title = "La mari biruinţe ne cheamă Scriptura")
-//    )
-//
-//    HymnsIndex(list, PaddingValues(20.dp),  null,  null, null)
-//}

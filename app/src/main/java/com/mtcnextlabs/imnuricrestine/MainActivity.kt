@@ -42,17 +42,13 @@ import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteSnackbarViewModel
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.undoDelete
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.Page
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    companion object {
-        var indexScreenPages: MutableState<List<Page>> = mutableStateOf(emptyList())
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

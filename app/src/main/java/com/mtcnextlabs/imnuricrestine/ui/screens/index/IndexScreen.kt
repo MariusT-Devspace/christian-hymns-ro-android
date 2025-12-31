@@ -3,7 +3,6 @@ package com.mtcnextlabs.imnuricrestine.ui.screens.index
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -38,18 +37,21 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.mtcnextlabs.imnuricrestine.MainActivity
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
+import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.toggleFavorite
 import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.IndexScreenUiState
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.PaginationConfig.getPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationConfig.getPages
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
+import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.BottomPaginationBar
 import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.indexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.onFirstNonNull
+import kotlin.collections.firstOrNull
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -69,62 +71,55 @@ fun IndexScreen(
         floatingAppBarScrollBehavior.state.offset = 0f
     }
 
-    val actions: @Composable (RowScope.() -> Unit) = {
-        IconButton(onClick = { }) {
-            Icon(
-                imageVector = Icons.Filled.Settings,
-                contentDescription = "Localized description"
+    val (currentPageIndex,
+        pages,
+        pageItems,
+        paginationAppBarUiState,
+        onChangePageAction,
+        updateIndexScreenPages,
+        updatePageItems) = rememberSaveable(
+            saver = indexScreenUiStateSaver(
+                hymns()
+            )
+        ) {
+            IndexScreenUiState(
+                hymns()
             )
         }
+
+    onFirstNonNull(hymns) {
+        updateIndexScreenPages(hymns().getPages())
     }
 
-    onFirstNonNull(hymns()) {
-        MainActivity.indexScreenPages.value = hymns().getPages()
+    var isFirstComposition by remember { mutableStateOf(true) }
+
+    LaunchedEffect(currentPageIndex) {
+        if (isFirstComposition)
+            isFirstComposition = false
+        else {
+            listState.scrollToItem(0)
+            topAppBarScrollBehavior.state.heightOffset = 0f
+        }
     }
 
-    if (MainActivity.indexScreenPages.value.isNotEmpty()) {
-        val (currentPage,
-            paginationAppBarUiState,
-            pageItems,
-            onChangePageAction,
-            updatePageItems) = rememberSaveable(
-                saver = indexScreenUiStateSaver(
-                    hymns()
-                )
-            ) {
-                IndexScreenUiState(
-                    hymns()
-                )
-            }
+    LaunchedEffect(hymns()) {
+        updatePageItems(hymns())
+    }
 
-        var isFirstComposition by remember { mutableStateOf(true) }
+    val scrolledToTop = remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
 
-        LaunchedEffect(currentPage.value) {
-            if (isFirstComposition)
-                isFirstComposition = false
-            else {
-                listState.scrollToItem(0)
-                topAppBarScrollBehavior.state.heightOffset = 0f
-            }
-        }
+    LaunchedEffect(scrolledToTop.value) {
+        if (scrolledToTop.value)
+            topAppBarScrollBehavior.state.heightOffset = 0f
+    }
 
-        LaunchedEffect(hymns()) {
-            updatePageItems(hymns())
-        }
+    val favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    val favorites: State<List<Favorite>> =
+        favoritesViewModel.favorites.observeAsState(emptyList())
 
-        val scrolledToTop = remember {
-            derivedStateOf { listState.firstVisibleItemIndex == 0 }
-        }
-
-        LaunchedEffect(scrolledToTop.value) {
-            if (scrolledToTop.value)
-                topAppBarScrollBehavior.state.heightOffset = 0f
-        }
-
-        val favoritesViewModel: FavoritesViewModel = hiltViewModel()
-        val favorites: State<List<Favorite>> =
-            favoritesViewModel.favorites.observeAsState(emptyList())
-
+    if (pages.value.isNotEmpty())
         Scaffold(
             modifier = Modifier
                 .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
@@ -146,16 +141,23 @@ fun IndexScreen(
                         }
 
                     },
-                    actions = actions
+                    actions = { IconButton(onClick = { }) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Localized description"
+                        )
+                    } }
                 )
             },
             bottomBar = {
                 BottomPaginationBar(
                     floatingAppBarScrollBehavior,
-                    currentPage.value,
-                    paginationAppBarUiState,
-                    onChangePageAction
-                )
+                    pages.value,
+                    currentPageIndex,
+                    paginationAppBarUiState
+                ) { action ->
+                    onChangePageAction(action)
+                }
             }
         ) { padding ->
             Surface(
@@ -166,14 +168,23 @@ fun IndexScreen(
                     padding,
                     navController,
                     pageItems.value,
-                    favorites.value,
-                    listState,
-                    favoriteActions,
-                    showSnackbar
-                )
-            }
+                    listState
+                ) { index ->
+                    toggleFavorite(
+                        HymnWithFavorite(
+                            pageItems.value[index],
+                            favorites.value.firstOrNull {
+                                    favorite -> favorite.hymn_id == pageItems.value[index].id
+                            }
+                        ),
+                        false,
+                        favoriteActions,
+                        showSnackbar
+                    )
+                }
         }
-    } else
+    }
+    else
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

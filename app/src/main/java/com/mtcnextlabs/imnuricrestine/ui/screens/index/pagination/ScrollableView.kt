@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index
+package com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination
 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT

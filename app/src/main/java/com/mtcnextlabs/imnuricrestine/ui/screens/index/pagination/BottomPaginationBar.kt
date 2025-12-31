@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index
+package com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,15 +35,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.sp
-import com.mtcnextlabs.imnuricrestine.MainActivity.Companion.indexScreenPages
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.PaginationAppBarUiState
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BottomPaginationBar(
     scrollBehavior: FloatingToolbarScrollBehavior,
-    page: Page,
+    indexScreenPages: List<Page>,
+    currentPageIndex: Int,
     paginationAppBarUiState: State<PaginationAppBarUiState>,
     onChangePageAction: OnChangePageAction,
 ) {
@@ -69,16 +68,17 @@ fun BottomPaginationBar(
         ) {
             SegmentedButtons(
                 openDialog,
-                onChangePageAction,
+                indexScreenPages[currentPageIndex],
                 paginationAppBarUiState,
-                page
+                onChangePageAction,
             )
 
             if (openDialog.value)
                 SelectPageDialog(
                     openDialog,
+                    indexScreenPages,
+                    indexScreenPages[currentPageIndex].title,
                     onChangePageAction,
-                    page.title
                 )
         }
     }
@@ -87,9 +87,9 @@ fun BottomPaginationBar(
 @Composable
 fun SegmentedButtons(
     openDialog: MutableState<Boolean>,
-    onChangePageAction: OnChangePageAction,
+    page: Page,
     paginationAppBarUiState: State<PaginationAppBarUiState>,
-    page: Page
+    onChangePageAction: OnChangePageAction
 ) {
     SingleChoiceSegmentedButtonRow(modifier = Modifier.padding(horizontal = 1.5.dp)) {
         val verticalPadding = 5.dp
@@ -114,8 +114,7 @@ fun SegmentedButtons(
         SegmentedButton(
             selected = false,
             onClick = {
-                onChangePageAction(PageChangeAction.PREVIOUS, null)
-                logIndexNavigation("previous button", page.title, indexScreenPages.value!![page.number-2].title)
+                onChangePageAction(PaginationAction.Previous)
             },
             shape = buttonShape,
             Modifier.width(110.dp).padding(horizontal = buttonHorizontalPadding),
@@ -170,8 +169,7 @@ fun SegmentedButtons(
         SegmentedButton(
             selected = false,
             onClick = {
-                onChangePageAction(PageChangeAction.NEXT, null)
-                logIndexNavigation("next button", page.title, indexScreenPages.value!![page.number].title)
+                onChangePageAction(PaginationAction.Next)
             },
             shape = buttonShape,
             modifier = Modifier.padding(horizontal = buttonHorizontalPadding),
