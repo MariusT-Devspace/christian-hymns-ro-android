@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +35,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.sp
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.PaginationAppBarUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.PaginationAppBarUiState
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

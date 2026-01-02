@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
@@ -10,14 +10,14 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.Page
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationAction
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationConfig.totalPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationConfig.totalPages
 
 // State holder saver
 fun indexScreenUiStateSaver(
     hymns: List<Hymn>
-) = Saver<IndexScreenUiState, Map<String, Any>>(
+) = Saver<HymnsScreenUiState, Map<String, Any>>(
     // Save the state
     save = { state ->
         mapOf(
@@ -26,7 +26,7 @@ fun indexScreenUiStateSaver(
     },
     // Restore the state
     restore = { restoredState ->
-        IndexScreenUiState(
+        HymnsScreenUiState(
             hymns
         ).apply {
             val pageIndex = restoredState["currentPageIndex"] as Int
@@ -36,7 +36,7 @@ fun indexScreenUiStateSaver(
 )
 
 // State holder class
-class IndexScreenUiState(
+class HymnsScreenUiState(
     val hymns: List<Hymn>
 ) {
     private val _hymns = mutableStateOf(hymns)
@@ -75,7 +75,7 @@ class IndexScreenUiState(
     operator fun component3() = pageItems
     operator fun component4() = paginationAppBarUiState
     operator fun component5() = ::onPaginationAction
-    operator fun component6() = ::updateIndexScreenPages
+    operator fun component6() = ::updatePages
     operator fun component7() = ::updatePageItems
 
     // Update page state
@@ -125,8 +125,8 @@ class IndexScreenUiState(
         }
     }
 
-    fun updateIndexScreenPages(indexScreenPages: List<Page>) {
-        _pages.value = indexScreenPages
+    fun updatePages(pages: List<Page>) {
+        _pages.value = pages
     }
 
     fun updatePageItems(hymns: List<Hymn>){

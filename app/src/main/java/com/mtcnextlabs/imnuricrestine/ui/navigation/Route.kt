@@ -9,13 +9,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Route(
     val route: String,
-    val title: String = "Item",
+    val title: String = "",
     val iconSelected: ImageVector? = null,
     val iconNotSelected: ImageVector? = null
 ) {
     data object Index : Route(
-        "index",
-        "Index",
+        "hymns",
+        "Imnuri",
         Icons.Filled.Home,
         Icons.Outlined.Home
     )

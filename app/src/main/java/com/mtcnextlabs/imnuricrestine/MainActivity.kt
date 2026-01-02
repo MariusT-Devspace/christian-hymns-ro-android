@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -42,7 +41,6 @@ import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteSnackbarViewModel
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.undoDelete
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.Page
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

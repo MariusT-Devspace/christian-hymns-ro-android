@@ -13,12 +13,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
+import com.mtcnextlabs.imnuricrestine.ui.navigation.NavigationActions.onGoBack
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail.HymnDetailScreen
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.IndexScreen
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.HymnsScreen
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
 
 object NavigationActions {
@@ -45,14 +47,16 @@ fun Navigation(
         startDestination = Route.Index.route,
     ) {
         composable(Route.Index.route) {
-            IndexScreen(
-                navController,
+            HymnsScreen(
                 hymns,
                 indexListState,
                 topAppBarScrollBehavior,
                 favoriteActions,
                 showSnackbar
-            )
+            ) { index ->
+                navController.navigate(Route.HymnDetails.route+"/$index")
+                logNavigateToHymnDetails(index, "index screen")
+            }
         }
         composable(
             Route.HymnDetails.route + "/{hymnId}",
@@ -65,23 +69,28 @@ fun Navigation(
             val argument = navBackStackEntry.arguments!!.getInt("hymnId")
                 HymnDetailScreen(
                     index = argument
-                )
+                ) {
+                    onGoBack()
+                }
         }
         composable(Route.Favorites.route) {
             FavoritesScreen(
                 padding,
-                navController,
                 hymns,
                 favorites,
                 favoritesListState,
                 favoriteActions,
                 showSnackbar
-            )
+            ) { hymnId ->
+                val index = hymnId - 1
+                navController.navigate(Route.HymnDetails.route+"/$index")
+                logNavigateToHymnDetails(index, "favorites screen")
+            }
         }
     }
 
     // Back handling
-    NavigationActions.onGoBack = {
+    onGoBack = {
         navController.popBackStack()
         Log.d("GO_BACK", "Index")
     }
@@ -93,6 +102,6 @@ fun Navigation(
         if (currentDestination == startDestination)
             activity?.finish()
         else
-            NavigationActions.onGoBack()
+            onGoBack()
     }
 }

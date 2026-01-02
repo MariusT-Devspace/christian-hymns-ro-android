@@ -26,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.models.Hymn
@@ -36,12 +35,12 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 @Composable
 fun FavoritesScreen(
     contentPadding: PaddingValues,
-    navController: NavHostController,
     hymns: () -> List<Hymn>,
     favorites: () -> List<Favorite>,
     listState: LazyListState,
     favoriteActions: FavoriteActions,
-    showSnackbar: ShowSnackbar
+    showSnackbar: ShowSnackbar,
+    onNavigate: (Int) -> Unit
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
@@ -93,15 +92,16 @@ fun FavoritesScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Favorites(
+            FavoritesList(
                 padding,
-                navController,
                 hymns,
                 favorites,
                 listState,
                 favoriteActions,
                 showSnackbar
-            )
+            ) { hymnId ->
+                onNavigate (hymnId)
+            }
         }
     }
 }

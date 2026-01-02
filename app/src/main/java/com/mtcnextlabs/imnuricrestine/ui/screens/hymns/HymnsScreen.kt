@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,17 +37,19 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesViewModel
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
 import com.mtcnextlabs.imnuricrestine.models.HymnWithFavorite
+import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoriteUiEventHandler.toggleFavorite
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.IndexScreenUiState
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationConfig.getPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsScreenUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationConfig.getPages
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.ShowSnackbar
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.BottomPaginationBar
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.indexScreenUiStateSaver
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.BottomPaginationBar
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.indexScreenUiStateSaver
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.onFirstNonNull
@@ -55,13 +57,13 @@ import kotlin.collections.firstOrNull
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun IndexScreen(
-    navController: NavHostController,
+fun HymnsScreen(
     hymns: () -> List<Hymn>,
     listState: LazyListState,
     topAppBarScrollBehavior: TopAppBarScrollBehavior,
     favoriteActions: FavoriteActions,
     showSnackbar: ShowSnackbar,
+    onNavigate: (Int) -> Unit
 ) {
     val floatingAppBarScrollBehavior = FloatingToolbarDefaults.exitAlwaysScrollBehavior(
         exitDirection = Bottom
@@ -82,7 +84,7 @@ fun IndexScreen(
                 hymns()
             )
         ) {
-            IndexScreenUiState(
+            HymnsScreenUiState(
                 hymns()
             )
         }
@@ -164,23 +166,25 @@ fun IndexScreen(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                Index(
+                HymnsList(
                     padding,
-                    navController,
                     pageItems.value,
-                    listState
+                    listState,
+                    onToggleFavorite = { index ->
+                        toggleFavorite(
+                            HymnWithFavorite(
+                                pageItems.value[index],
+                                favorites.value.firstOrNull { favorite ->
+                                    favorite.hymn_id == pageItems.value[index].id
+                                }
+                            ),
+                            false,
+                            favoriteActions,
+                            showSnackbar
+                        )
+                    }
                 ) { index ->
-                    toggleFavorite(
-                        HymnWithFavorite(
-                            pageItems.value[index],
-                            favorites.value.firstOrNull {
-                                    favorite -> favorite.hymn_id == pageItems.value[index].id
-                            }
-                        ),
-                        false,
-                        favoriteActions,
-                        showSnackbar
-                    )
+                    onNavigate(index)
                 }
         }
     }

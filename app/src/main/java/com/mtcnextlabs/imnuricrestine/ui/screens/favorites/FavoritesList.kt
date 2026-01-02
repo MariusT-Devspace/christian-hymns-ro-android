@@ -26,9 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
-import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.foundation.text.InlineTextContent
@@ -38,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.font.FontStyle
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFromFavorites
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.models.FavoriteActions
@@ -46,14 +43,14 @@ import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.utils.asFavoritesListItem
 
 @Composable
-fun Favorites(
+fun FavoritesList(
     contentPadding: PaddingValues,
-    navController: NavHostController,
     hymns: () -> List<Hymn>,
     favorites: () -> List<Favorite>,
     listState: LazyListState,
     favoriteActions: FavoriteActions,
-    showSnackbar: ShowSnackbar
+    showSnackbar: ShowSnackbar,
+    onNavigate: (Int) -> Unit
 ) {
     LaunchedEffect(Unit) {
         listState.scrollToItem(0)
@@ -78,20 +75,20 @@ fun Favorites(
         ) {
             items(
                 items = favoritesListItems
-            ) { item ->
+            ) { hymn ->
                 ListItem(
                     headlineContent = {
 
                     },
                     supportingContent = {
                         Text(
-                            item.title,
+                            hymn.title,
                             fontSize = 18.sp
                         )
                     },
                     leadingContent = {
                         Text(
-                            item.index,
+                            hymn.index,
                             modifier = Modifier
                                 .background(
                                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -107,12 +104,12 @@ fun Favorites(
                         IconButton(
                             onClick = {
                                 FavoriteUiEventHandler.deleteFavorite(
-                                    item,
+                                    hymn,
                                     true,
                                     favoriteActions,
                                     showSnackbar
                                 )
-                                logRemoveFromFavorites(item.id)
+                                logRemoveFromFavorites(hymn.id)
                             }
                         ) {
                             Icon(
@@ -122,9 +119,7 @@ fun Favorites(
                         }
                     },
                     modifier = Modifier.clickable {
-                        val hymnId = item.hymnId - 1
-                        navController.navigate(Route.HymnDetails.route+"/${hymnId}")
-                        logNavigateToHymnDetails(item.hymnId, "favorites screen")
+                        onNavigate(hymn.hymnId)
                     },
                 )
             }

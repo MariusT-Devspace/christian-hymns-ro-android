@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,19 +22,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.imnuricrestine.R
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDetails
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.state.HymnsListItemUiState
-import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsListItemUiState
 
 @Composable
-fun Index(
+fun HymnsList(
     contentPadding: PaddingValues,
-    navController: NavHostController?,
     hymnsListItems: List<HymnsListItemUiState>,
     listState: LazyListState,
     onToggleFavorite: (Int) -> Unit,
+    onNavigate: (Int) -> Unit
 ) {
     LazyColumn(
         state = listState,
@@ -91,8 +88,7 @@ fun Index(
                   }
                 },
                 modifier = Modifier.clickable {
-                    navController!!.navigate(Route.HymnDetails.route+"/${item.id - 1}")
-                    logNavigateToHymnDetails(item.id, "index screen")
+                    onNavigate(index)
                 }
             )
         }

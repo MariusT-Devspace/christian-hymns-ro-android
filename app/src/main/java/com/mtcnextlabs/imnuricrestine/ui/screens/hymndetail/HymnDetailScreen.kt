@@ -22,12 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnsViewModel
-import com.mtcnextlabs.imnuricrestine.ui.navigation.NavigationActions
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 
 @Composable
 fun HymnDetailScreen(
-    index: Int
+    index: Int,
+    onGoBack: () -> Unit
 ) {
     val hymnsViewModel: HymnsViewModel = hiltViewModel()
     val hymns = hymnsViewModel.hymnsAsync.observeAsState()
@@ -71,7 +71,7 @@ fun HymnDetailScreen(
                     colors = largeTopAppBarColors,
                     navigationIcon = {
                         IconButton(
-                            onClick = { NavigationActions.onGoBack() }
+                            onClick = { onGoBack() }
                         ) {
                             ICONS.backIcon()
                         }

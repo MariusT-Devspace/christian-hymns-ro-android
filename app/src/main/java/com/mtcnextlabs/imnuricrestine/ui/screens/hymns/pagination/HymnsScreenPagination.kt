@@ -1,8 +1,8 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination
 
 import com.mtcnextlabs.imnuricrestine.models.Hymn
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationConfig.PAGE_SIZE
-import com.mtcnextlabs.imnuricrestine.ui.screens.index.pagination.PaginationConfig.totalPages
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationConfig.PAGE_SIZE
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationConfig.totalPages
 import kotlin.collections.indexOf
 import kotlin.math.ceil
 
