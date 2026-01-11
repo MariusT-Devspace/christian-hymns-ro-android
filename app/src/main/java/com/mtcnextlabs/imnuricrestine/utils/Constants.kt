@@ -41,7 +41,7 @@ object ICONS {
     val backIcon: @Composable () -> Unit = {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Go back to previous screen"
+            contentDescription = "Înapoi la ecranul anterior"
         )
     }
 }

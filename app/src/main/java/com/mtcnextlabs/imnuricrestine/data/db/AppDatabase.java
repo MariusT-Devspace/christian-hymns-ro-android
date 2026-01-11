@@ -9,6 +9,6 @@ import com.mtcnextlabs.imnuricrestine.data.db.entities.Lyrics;
 @Database(entities = { Hymn.class, Lyrics.class, Favorite.class }, version = 8)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract HymnsDao hymnsDao();
-    public abstract FavoritesDao favoritesDao();
+    public abstract HymnDao hymnDao();
+    public abstract FavoriteDao favoriteDao();
 }

@@ -1,0 +1,91 @@
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
+import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.PaginationAction
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+@HiltViewModel
+class HymnListViewModel @Inject constructor(
+    hymnRepository: HymnRepository
+) : ViewModel() {
+
+    private val pageSize = 100
+    private val _currentPageIndex = MutableStateFlow(0)
+
+    val uiState: StateFlow<HymnsUiState> = combine(
+        hymnRepository.hymns.asFlow(),
+        _currentPageIndex
+    ) { hymns, pageIndex ->
+        val groupedHymns = hymns.groupBy { hymn ->
+            val numericValue = hymn.number.filter { it.isDigit() }.toIntOrNull() ?: 0
+            if (numericValue == 0) 0 else (numericValue / pageSize)
+        }
+        val sortedBuckets = groupedHymns.keys.sorted()
+
+        val pages = sortedBuckets.map { bucketIndex ->
+            val hymnsInBucket = groupedHymns[bucketIndex]!!
+            val start = hymnsInBucket.first().number.toInt()
+            val end = hymnsInBucket.last().number.toInt()
+
+            Page(
+                start = start,
+                end = end,
+                title = "$start - $end"
+            )
+        }
+
+        val currentBucketItems = if (pages.isNotEmpty()) {
+            val bucketKey = sortedBuckets[pageIndex]
+            groupedHymns[bucketKey] ?: emptyList()
+        } else {
+            emptyList()
+        }
+
+        val pageItems = currentBucketItems.map {
+                HymnListItemUiState(it.id, it.number, it.title, it.isFavorite)
+        }
+
+        HymnsUiState.Success(
+            pageItems = pageItems,
+            currentPage = pageIndex,
+            pages = pages,
+        )
+    }.flowOn(Dispatchers.Default)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = HymnsUiState.Loading
+        )
+
+    fun onPaginationAction(action: PaginationAction) {
+        val current = _currentPageIndex.value
+
+        when (action) {
+            is PaginationAction.Next -> {
+                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                _currentPageIndex.value = current + 1
+            }
+            is PaginationAction.Previous -> {
+                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                if (current > 0) _currentPageIndex.value = current - 1
+            }
+            is PaginationAction.JumpToPage -> {
+                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                _currentPageIndex.value = action.pageIndex
+            }
+        }
+    }
+}

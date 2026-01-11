@@ -7,8 +7,8 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.mtcnextlabs.imnuricrestine.data.db.AppDatabase;
-import com.mtcnextlabs.imnuricrestine.data.db.FavoritesDao;
-import com.mtcnextlabs.imnuricrestine.data.db.HymnsDao;
+import com.mtcnextlabs.imnuricrestine.data.db.FavoriteDao;
+import com.mtcnextlabs.imnuricrestine.data.db.HymnDao;
 
 import javax.inject.Singleton;
 
@@ -32,12 +32,12 @@ public class DatabaseModule {
     }
 
     @Provides
-    public static HymnsDao provideHymnsDao(AppDatabase db) {
-        return db.hymnsDao();
+    public static HymnDao provideHymnsDao(AppDatabase db) {
+        return db.hymnDao();
     }
 
     @Provides
-    public static FavoritesDao provideFavoritesDao(AppDatabase db) {
-        return db.favoritesDao();
+    public static FavoriteDao provideFavoritesDao(AppDatabase db) {
+        return db.favoriteDao();
     }
 }
