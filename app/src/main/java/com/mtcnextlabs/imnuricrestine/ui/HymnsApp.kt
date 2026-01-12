@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine
+package com.mtcnextlabs.imnuricrestine.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +27,7 @@ import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @Composable
-fun ImnuriCrestineApp() {
+fun HymnsApp() {
     val navController = rememberNavController()
     Log.d("RECOMPOSITION", "setContent")
 
@@ -86,8 +86,8 @@ fun ImnuriCrestineApp() {
     showSystemUi = true
 )
 @Composable
-fun ImnuriCrestineAppPreview() {
+fun HymnsAppPreview() {
     ChristianHymnsTheme {
-        ImnuriCrestineApp()
+        HymnsApp()
     }
 }

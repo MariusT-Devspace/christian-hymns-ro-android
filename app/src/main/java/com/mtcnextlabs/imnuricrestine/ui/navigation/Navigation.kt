@@ -53,9 +53,9 @@ fun Navigation(
             }
         }
         composable(
-            Route.HymnDetails.route + "/{hymnId}?title={title}",
+            Route.HymnDetails.route + "/{id}?title={title}",
             listOf(
-                navArgument("hymnId"){
+                navArgument("id"){
                     type = NavType.IntType
                 },
                 navArgument("title"){

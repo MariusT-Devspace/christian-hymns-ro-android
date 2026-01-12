@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.mtcnextlabs.imnuricrestine.ui.HymnsApp
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ChristianHymnsTheme {
-                ImnuriCrestineApp()
+                HymnsApp()
             }
         }
     }

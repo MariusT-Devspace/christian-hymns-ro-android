@@ -4,5 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class HymnsApplication : Application() {
-}
+class HymnsApplication : Application()

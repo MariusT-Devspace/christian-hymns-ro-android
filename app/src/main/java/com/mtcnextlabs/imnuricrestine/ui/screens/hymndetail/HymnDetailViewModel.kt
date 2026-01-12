@@ -17,9 +17,9 @@ class HymnDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     hymnRepository: HymnRepository
 ) : ViewModel() {
-    val hymnId: Int = checkNotNull(savedStateHandle["hymnId"])
+    val id: Int = checkNotNull(savedStateHandle["id"])
 
-    val uiState: StateFlow<HymnDetailUiState> = hymnRepository.getHymnById(hymnId)
+    val uiState: StateFlow<HymnDetailUiState> = hymnRepository.getHymnById(id)
         .asFlow()
         .map { hymnEntity ->
             if (hymnEntity != null) {
