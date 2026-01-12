@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.imnuricrestine.R
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItem
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
@@ -46,44 +47,7 @@ fun FavoritesContent(
         items(
             items = favorites
         ) { hymn ->
-            ListItem(
-                headlineContent = {
-
-                },
-                supportingContent = {
-                    Text(
-                        hymn.title,
-                        fontSize = 18.sp
-                    )
-                },
-                leadingContent = {
-                    Text(
-                        hymn.number,
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                                shape = MaterialTheme.shapes.extraLarge
-                            )
-                            .width(53.dp)
-                            .padding(horizontal = 5.dp, vertical = 10.dp),
-                        fontSize = 15.sp,
-                        textAlign = TextAlign.Center
-                    )
-                },
-                trailingContent = {
-                    IconButton(
-                        onClick = { onRemoveFavorite(hymn) }
-                    ) {
-                        Icon(
-                            Icons.Outlined.Favorite,
-                            contentDescription = stringResource(R.string.remove_from_favorites_description)
-                        )
-                    }
-                },
-                modifier = Modifier.clickable {
-                    onNavigate(hymn.id, getFullHymnTitle(hymn.number, hymn.title))
-                },
-            )
+            HymnListItem(hymn, onRemoveFavorite, onNavigate)
         }
     }
 
