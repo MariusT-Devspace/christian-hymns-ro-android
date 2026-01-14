@@ -1,7 +1,8 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.FloatingToolbarExitDirection.Companion.Bottom
@@ -9,7 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -19,26 +21,58 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mtcnextlabs.imnuricrestine.ui.HymnsScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesViewModel
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.BottomPaginationBar
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state.HymnsUiState
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state.HymnListViewModel
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.BottomPaginationBar
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListViewModel
+import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HymnsScreen(
     hymnListViewModel: HymnListViewModel = hiltViewModel(),
-    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
     listState: LazyListState,
-    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     snackbarHostState: SnackbarHostState,
     onNavigate: (Int, String) -> Unit
 ) {
     val hymnsUiState by hymnListViewModel.uiState.collectAsStateWithLifecycle()
+
+    ObserveFavoriteEvents(
+        hymnListViewModel.eventFlow,
+        snackbarHostState
+    ) {
+        hymnListViewModel.undoDelete()
+    }
+
+    HymnsLayout(
+        hymnsUiState,
+        listState,
+        hymnListViewModel::changePage,
+        hymnListViewModel::toggleFavorite,
+        onNavigate
+    )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+private fun HymnsLayout(
+    uiState: HymnsUiState,
+    listState: LazyListState,
+    onChangePage: (PaginationAction) -> Unit = {},
+    onToggleFavorite: (HymnListItemUiState) -> Unit = {},
+    onNavigate: (Int, String) -> Unit = {_, _ ->}
+) {
+    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        rememberTopAppBarState(),
+        { true }
+    )
 
     val floatingAppBarScrollBehavior = FloatingToolbarDefaults.exitAlwaysScrollBehavior(
         exitDirection = Bottom
@@ -50,7 +84,7 @@ fun HymnsScreen(
 
     var isFirstComposition by remember { mutableStateOf(true) }
 
-    LaunchedEffect(hymnsUiState) {
+    LaunchedEffect(uiState) {
         if (isFirstComposition)
             isFirstComposition = false
         else {
@@ -68,13 +102,6 @@ fun HymnsScreen(
             topAppBarScrollBehavior.state.heightOffset = 0f
     }
 
-    ObserveFavoriteEvents(
-        favoritesViewModel.eventFlow,
-        snackbarHostState
-    ) {
-        favoritesViewModel.undoDelete()
-    }
-
     Scaffold(
         modifier = Modifier
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
@@ -83,15 +110,14 @@ fun HymnsScreen(
             HymnListTopAppBar(topAppBarScrollBehavior)
         },
         bottomBar = {
-            if (hymnsUiState is HymnsUiState.Success) {
-                val successState = hymnsUiState as HymnsUiState.Success
+            if (uiState is HymnsUiState.Success) {
 
                 BottomPaginationBar(
                     floatingAppBarScrollBehavior,
-                    successState.pages,
-                    successState.currentPage
+                    uiState.pages,
+                    uiState.currentPage
                 ) { action ->
-                    hymnListViewModel.onPaginationAction(action)
+                    onChangePage(action)
                 }
             }
         }
@@ -100,16 +126,14 @@ fun HymnsScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            when (val uiState = hymnsUiState) {
+            when (uiState) {
                 is HymnsUiState.Loading -> ScreenLoadingIndicator()
                 is HymnsUiState.Success -> {
-                    HymnsListContent(
+                    HymnsContent(
                         padding,
                         uiState.pageItems,
                         listState,
-                        onToggleFavorite = { hymn ->
-                            favoritesViewModel.toggleFavorite(hymn)
-                        }
+                        onToggleFavorite
                     ) { id, title ->
                         onNavigate(id, title)
                     }
@@ -119,3 +143,13 @@ fun HymnsScreen(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun HymnsLayoutPreview() {
+    ChristianHymnsTheme {
+        HymnsLayout(
+            HymnsScreenPreviewData.hymnListStateSuccess,
+            rememberLazyListState()
+        )
+    }
+}

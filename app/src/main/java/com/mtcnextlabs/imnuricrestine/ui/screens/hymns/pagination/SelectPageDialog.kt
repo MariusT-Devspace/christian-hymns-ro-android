@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

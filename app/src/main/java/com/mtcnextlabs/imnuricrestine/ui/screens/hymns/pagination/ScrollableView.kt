@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination
 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT

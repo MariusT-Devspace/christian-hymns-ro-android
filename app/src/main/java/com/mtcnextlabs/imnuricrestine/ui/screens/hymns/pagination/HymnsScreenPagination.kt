@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination
 
 sealed interface PaginationAction {
     val currentRange: String

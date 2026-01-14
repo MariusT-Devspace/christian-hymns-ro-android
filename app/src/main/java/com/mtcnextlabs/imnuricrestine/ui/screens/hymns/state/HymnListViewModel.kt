@@ -1,26 +1,34 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.Page
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.PaginationAction
+import com.mtcnextlabs.imnuricrestine.ui.FavoritesActionHelper
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HymnListViewModel @Inject constructor(
-    hymnRepository: HymnRepository
+    hymnRepository: HymnRepository,
+    private val favoritesHelper: FavoritesActionHelper
 ) : ViewModel() {
+    private val _eventFlow = Channel<FavoritesEvent>()
+    val eventFlow = _eventFlow.receiveAsFlow()
 
     private val pageSize = 100
     private val _currentPageIndex = MutableStateFlow(0)
@@ -70,7 +78,7 @@ class HymnListViewModel @Inject constructor(
             initialValue = HymnsUiState.Loading
         )
 
-    fun onPaginationAction(action: PaginationAction) {
+    fun changePage(action: PaginationAction) {
         val current = _currentPageIndex.value
 
         when (action) {
@@ -86,6 +94,20 @@ class HymnListViewModel @Inject constructor(
                 logIndexNavigation(action.method, action.currentRange, action.targetRange)
                 _currentPageIndex.value = action.pageIndex
             }
+        }
+    }
+
+    fun toggleFavorite(hymn: HymnListItemUiState) {
+        viewModelScope.launch {
+            favoritesHelper.toggleFavorite(hymn) { event ->
+                _eventFlow.send(event)
+            }
+        }
+    }
+
+    fun undoDelete() {
+        viewModelScope.launch {
+            favoritesHelper.undoDelete()
         }
     }
 }

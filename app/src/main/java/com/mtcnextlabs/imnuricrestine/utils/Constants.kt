@@ -16,7 +16,7 @@ const val DATABASE_NAME = "Hymnsdb"
 const val CHORUS_TAG = "Ref"
 
 enum class TopAppBarTitle(val title: String) {
-    INDEX("920 Imnuri Crestine"),
+    HYMNS_LIST("920 Imnuri Crestine"),
     FAVORITES("Favorite")
 }
 

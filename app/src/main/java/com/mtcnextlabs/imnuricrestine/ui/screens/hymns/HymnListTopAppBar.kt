@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -20,7 +20,7 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 fun HymnListTopAppBar(topAppBarScrollBehavior: TopAppBarScrollBehavior) {
     LargeTopAppBar(
         title = {
-            Text(TopAppBarTitle.INDEX.title)
+            Text(TopAppBarTitle.HYMNS_LIST.title)
         },
         scrollBehavior = topAppBarScrollBehavior,
         navigationIcon = {

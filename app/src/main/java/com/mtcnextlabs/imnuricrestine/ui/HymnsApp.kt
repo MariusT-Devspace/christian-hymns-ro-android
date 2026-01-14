@@ -8,14 +8,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -33,12 +32,12 @@ fun HymnsApp() {
 
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination?.route?.substringBefore("/")
-    val showBottomNavBar = rememberSaveable { mutableStateOf(true) }
+    var showBottomNavBar by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(currentDestination) {
         when (currentDestination) {
-            Route.HymnDetails.route -> showBottomNavBar.value = false
-            else -> showBottomNavBar.value = true
+            Route.HymnDetails.route -> showBottomNavBar = false
+            else -> showBottomNavBar = true
         }
 
         logScreenView(currentDestination ?: "Unknown")
@@ -47,18 +46,13 @@ fun HymnsApp() {
     val indexListState = rememberLazyListState()
     val favoritesListState = rememberLazyListState()
 
-    val indexScreenTopAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        rememberTopAppBarState(),
-        { true }
-    )
-
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         bottomBar = {
             BottomNavBar(
                 navController,
-                showBottomNavBar.value,
+                showBottomNavBar,
                 indexListState,
                 favoritesListState
             )
@@ -75,7 +69,6 @@ fun HymnsApp() {
                 indexListState,
                 favoritesListState,
                 snackbarHostState,
-                indexScreenTopAppBarScrollBehavior
             )
         }
     }

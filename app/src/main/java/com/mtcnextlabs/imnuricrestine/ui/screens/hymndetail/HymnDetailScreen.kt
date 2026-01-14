@@ -13,8 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mtcnextlabs.imnuricrestine.ui.HymnDetailScreenPreviewData
+import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
+import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
 @Composable
 fun HymnDetailScreen(
@@ -24,6 +28,15 @@ fun HymnDetailScreen(
 ) {
     val hymnUiState by hymnDetailViewModel.uiState.collectAsStateWithLifecycle()
 
+    HymnDetailLayout(hymnUiState, initialTitle, onGoBack)
+}
+
+@Composable
+private fun HymnDetailLayout(
+    hymnUiState: HymnDetailUiState,
+    initialTitle: String,
+    onGoBack: () -> Unit = {}
+) {
     val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
         { true }
@@ -63,7 +76,6 @@ fun HymnDetailScreen(
     }
 }
 
-
 @Composable
 private fun HymnNotFoundError() {
     Box(
@@ -73,6 +85,24 @@ private fun HymnNotFoundError() {
         Text(
             text = "Imnul nu a fost găsit",
             modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HymnDetailLayoutPreview() {
+    ChristianHymnsTheme {
+        val index = 0
+
+        HymnDetailLayout(
+            HymnDetailUiState.Success(
+                hymn = HymnDetailScreenPreviewData.hymns[index]
+            ),
+            initialTitle = getFullHymnTitle(
+                HymnDetailScreenPreviewData.hymns[index].number,
+                HymnDetailScreenPreviewData.hymns[index].title
+            )
         )
     }
 }

@@ -18,7 +18,7 @@ import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logNavigateToHymnDe
 import com.mtcnextlabs.imnuricrestine.ui.navigation.NavigationActions.onGoBack
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesScreen
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail.HymnDetailScreen
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.HymnsScreen
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.HymnsScreen
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -32,8 +32,7 @@ fun Navigation(
     navController: NavHostController,
     indexListState: LazyListState,
     favoritesListState: LazyListState,
-    snackbarHostState: SnackbarHostState,
-    topAppBarScrollBehavior: TopAppBarScrollBehavior
+    snackbarHostState: SnackbarHostState
 ) {
     val activity = LocalActivity.current as? ComponentActivity
 
@@ -44,7 +43,6 @@ fun Navigation(
         composable(Route.Index.route) {
             HymnsScreen(
                 listState = indexListState,
-                topAppBarScrollBehavior = topAppBarScrollBehavior,
                 snackbarHostState = snackbarHostState
             ) { id, title ->
                 val encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString())

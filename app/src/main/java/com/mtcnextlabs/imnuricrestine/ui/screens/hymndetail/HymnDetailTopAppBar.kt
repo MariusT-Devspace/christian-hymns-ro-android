@@ -13,10 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.imnuricrestine.R
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
+import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
 @Composable
@@ -47,7 +46,7 @@ fun HymnDetailTopAppBar(
                     )
 
                 initialTitle.isNotEmpty() -> initialTitle
-                else -> stringResource(R.string.top_bar_title)
+                else -> TopAppBarTitle.HYMNS_LIST.title
             }
             Text(
                 text = title,

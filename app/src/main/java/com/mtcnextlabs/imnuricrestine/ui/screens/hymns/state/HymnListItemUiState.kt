@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state
 
 data class HymnListItemUiState (
     val id: Int,

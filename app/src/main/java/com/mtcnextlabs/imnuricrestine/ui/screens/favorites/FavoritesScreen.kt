@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -18,11 +19,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesUiState
+import com.mtcnextlabs.imnuricrestine.ui.FavoritesScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @Composable
 fun FavoritesScreen(
@@ -34,6 +40,31 @@ fun FavoritesScreen(
 ) {
     val favoritesUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    ObserveFavoriteEvents(
+        viewModel.eventFlow,
+        snackbarHostState
+    ) {
+        viewModel.undoDelete()
+    }
+
+    FavoritesLayout(
+        favoritesUiState,
+        listState,
+        contentPadding,
+        viewModel::toggleFavorite
+    ) { hymnId,  title ->
+        onNavigate(hymnId, title)
+    }
+}
+
+@Composable
+private fun FavoritesLayout(
+    favoritesUiState: FavoritesUiState,
+    listState: LazyListState,
+    contentPadding: PaddingValues,
+    onRemoveFavorite: (HymnListItemUiState) -> Unit = {},
+    onNavigate: (Int, String) -> Unit = {_, _ ->}
+) {
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
         rememberTopAppBarState(),
         { true }
@@ -47,13 +78,6 @@ fun FavoritesScreen(
         if (scrolledToTop.value) {
             topAppBarScrollBehavior.state.contentOffset = 0f
         }
-    }
-
-    ObserveFavoriteEvents(
-        viewModel.eventFlow,
-        snackbarHostState
-    ) {
-        viewModel.undoDelete()
     }
 
     Scaffold(
@@ -77,19 +101,29 @@ fun FavoritesScreen(
 
                 FavoritesUiState.Empty -> EmptyFavorites()
                 is FavoritesUiState.Success -> {
-
                     FavoritesContent(
                         padding,
                         uiState.items,
                         listState,
-                        onNavigate = { hymnId, title ->
-                            onNavigate(hymnId, title)
-                        }
-                    ) { hymn ->
-                        viewModel.toggleFavorite(hymn)
+                        onRemoveFavorite
+                    ) {
+                        hymnId, title ->
+                        onNavigate(hymnId, title)
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FavoritesLayoutPreview() {
+    ChristianHymnsTheme {
+        FavoritesLayout(
+            FavoritesScreenPreviewData.favoritesStateSuccess,
+            rememberLazyListState(),
+            PaddingValues(0.dp)
+        )
     }
 }

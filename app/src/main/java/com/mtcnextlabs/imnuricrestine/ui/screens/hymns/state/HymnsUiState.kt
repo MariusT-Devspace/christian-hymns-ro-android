@@ -1,6 +1,6 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.state
+package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state
 
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymnlist.pagination.Page
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
 
 sealed interface HymnsUiState {
     data object Loading : HymnsUiState
