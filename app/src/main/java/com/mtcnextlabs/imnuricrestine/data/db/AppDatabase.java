@@ -6,7 +6,7 @@ import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite;
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Hymn;
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Lyrics;
 
-@Database(entities = { Hymn.class, Lyrics.class, Favorite.class }, version = 8)
+@Database(entities = { Hymn.class, Lyrics.class, Favorite.class }, version = 9)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract HymnDao hymnDao();

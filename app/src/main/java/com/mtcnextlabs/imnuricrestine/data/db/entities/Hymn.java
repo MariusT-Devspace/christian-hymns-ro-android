@@ -12,7 +12,7 @@ public class Hymn {
     public int id;
 
     @NonNull
-    public String hymn_index;
+    public String hymn_number;
 
     @NonNull
     public String title;

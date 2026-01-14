@@ -16,7 +16,7 @@ fun HymnWithFavoriteStatus.asHymn(): Hymn {
 
     return Hymn(
         this.hymnWithLyrics.hymn.id,
-        this.hymnWithLyrics.hymn.hymn_index,
+        this.hymnWithLyrics.hymn.hymn_number,
         this.hymnWithLyrics.hymn.title, verses,
         this.isFavorite
     )
@@ -33,7 +33,7 @@ fun HymnWithLyrics.asHymn(): Hymn {
 
     return Hymn(
         this.hymn.id,
-        this.hymn.hymn_index,
+        this.hymn.hymn_number,
         this.hymn.title, verses,
         true
     )
