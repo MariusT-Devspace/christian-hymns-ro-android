@@ -28,4 +28,4 @@ sealed interface PaginationAction {
     }
 }
 
-typealias OnChangePageAction = (PaginationAction) -> Unit
+typealias OnChangePage = (PaginationAction) -> Unit

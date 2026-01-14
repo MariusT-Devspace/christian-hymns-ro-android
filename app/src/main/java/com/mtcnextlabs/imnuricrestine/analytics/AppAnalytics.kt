@@ -13,7 +13,7 @@ object AppAnalytics {
 
     /**
      * Logs a screen view event.
-     * @param screenName The name of the screen (e.g., "Index", "HymnDetails").
+     * @param screenName The name of the screen (e.g., "Hymns", "HymnDetails").
      */
     fun logScreenView(screenName: String) {
         val params = Bundle().apply {
@@ -23,23 +23,23 @@ object AppAnalytics {
     }
 
     /**
-     * Logs any form of navigation within the index pagination.
+     * Logs any form of navigation within the hymns pagination.
      * @param method The method used ("range browser", "previous button", "next button").
      * @param currentRange The range the user was in before navigating.
      * @param targetRange The range the user navigated to.
      */
-    fun logIndexNavigation(method: String, currentRange: String, targetRange: String) {
+    fun logHymnsPagination(method: String, currentRange: String, targetRange: String) {
         val params = Bundle().apply {
             putString("method", method)
             putString("current_range", currentRange)
             putString("target_range", targetRange)
         }
-        firebaseAnalytics.logEvent("navigate_index", params)
+        firebaseAnalytics.logEvent("navigate_hymns_pagination", params)
     }
 
     /**
      * Logs when a user taps on a bottom navigation bar item.
-     * @param destination The destination route/name (e.g., "Index", "Favorite").
+     * @param destination The destination route/name (e.g., "Hymns", "Favorite").
      */
     fun logBottomBarNavigation(destination: String) {
         val params = Bundle().apply {
@@ -84,7 +84,7 @@ object AppAnalytics {
     /**
      * Logs when a user accesses hymn content, indicating the source.
      * @param hymnId The id of the hymn being viewed.
-     * @param source The origin of the access ("index_screen" or "favorites_screen").
+     * @param source The origin of the access ("hymns_screen" or "favorites_screen").
      */
     fun logNavigateToHymnDetails(hymnId: Int, source: String) {
         val params = Bundle().apply {

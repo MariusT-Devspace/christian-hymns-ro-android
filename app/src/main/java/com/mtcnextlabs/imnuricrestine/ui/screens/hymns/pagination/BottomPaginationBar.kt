@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BottomPaginationBar(
     scrollBehavior: FloatingToolbarScrollBehavior,
-    indexScreenPages: List<Page>,
+    pages: List<Page>,
     currentPageIndex: Int,
-    onChangePageAction: OnChangePageAction,
+    onChangePage: OnChangePage,
 ) {
     val openDialog = remember { mutableStateOf(false) }
 
@@ -66,16 +66,16 @@ fun BottomPaginationBar(
             SegmentedButtons(
                 openDialog,
                 currentPageIndex,
-                indexScreenPages,
-                onChangePageAction,
+                pages,
+                onChangePage,
             )
 
             if (openDialog.value)
                 SelectPageDialog(
                     openDialog,
-                    indexScreenPages,
-                    indexScreenPages[currentPageIndex].title,
-                    onChangePageAction,
+                    pages,
+                    pages[currentPageIndex].title,
+                    onChangePage,
                 )
         }
     }
@@ -86,7 +86,7 @@ fun SegmentedButtons(
     openDialog: MutableState<Boolean>,
     currentPageIndex: Int,
     pages: List<Page>,
-    onChangePageAction: OnChangePageAction
+    onChangePage: OnChangePage
 ) {
     SingleChoiceSegmentedButtonRow(modifier = Modifier.padding(horizontal = 1.5.dp)) {
         val verticalPadding = 5.dp
@@ -111,7 +111,7 @@ fun SegmentedButtons(
         SegmentedButton(
             selected = false,
             onClick = {
-                onChangePageAction(PaginationAction.Previous(
+                onChangePage(PaginationAction.Previous(
                     pages[currentPageIndex].title,
                     pages[currentPageIndex - 1].title
                 ))
@@ -169,7 +169,7 @@ fun SegmentedButtons(
         SegmentedButton(
             selected = false,
             onClick = {
-                onChangePageAction(PaginationAction.Next(
+                onChangePage(PaginationAction.Next(
                     pages[currentPageIndex].title,
                     pages[currentPageIndex + 1].title
                 ))

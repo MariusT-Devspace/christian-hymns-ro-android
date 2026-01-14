@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 fun BottomNavBar(
     navController: NavHostController,
     showBottomNavBar: Boolean,
-    indexListState: LazyListState,
+    hymnListState: LazyListState,
     favoritesListState: LazyListState
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -33,7 +33,7 @@ fun BottomNavBar(
     ) {
         NavigationBar {
             val destinations = listOf(
-                Route.Index,
+                Route.Hymns,
                 Route.Favorites
             )
 
@@ -53,11 +53,11 @@ fun BottomNavBar(
                     selected = currentDestination?.route == route.route,
                     onClick = {
                         when (route.route) {
-                            Route.Index.route ->
-                                if (currentDestination?.route == Route.Index.route &&
-                                    indexListState.firstVisibleItemIndex > 0)
+                            Route.Hymns.route ->
+                                if (currentDestination?.route == Route.Hymns.route &&
+                                    hymnListState.firstVisibleItemIndex > 0)
                                     coroutineScope.launch {
-                                        indexListState.animateScrollToItem(0)
+                                        hymnListState.animateScrollToItem(0)
                                     }
                                 else
                                     navController.navigate(route.route)

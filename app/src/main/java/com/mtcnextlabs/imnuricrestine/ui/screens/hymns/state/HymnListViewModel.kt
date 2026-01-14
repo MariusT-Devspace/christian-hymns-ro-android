@@ -3,7 +3,7 @@ package com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
+import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logHymnsPagination
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesActionHelper
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
@@ -84,15 +84,15 @@ class HymnListViewModel @Inject constructor(
 
         when (action) {
             is PaginationAction.Next -> {
-                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                logHymnsPagination(action.method, action.currentRange, action.targetRange)
                 _currentPageIndex.value = current + 1
             }
             is PaginationAction.Previous -> {
-                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                logHymnsPagination(action.method, action.currentRange, action.targetRange)
                 if (current > 0) _currentPageIndex.value = current - 1
             }
             is PaginationAction.JumpToPage -> {
-                logIndexNavigation(action.method, action.currentRange, action.targetRange)
+                logHymnsPagination(action.method, action.currentRange, action.targetRange)
                 _currentPageIndex.value = action.pageIndex
             }
         }

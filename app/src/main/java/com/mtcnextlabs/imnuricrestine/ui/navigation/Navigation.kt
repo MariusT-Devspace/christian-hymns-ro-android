@@ -7,7 +7,6 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -38,16 +37,16 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = Route.Index.route,
+        startDestination = Route.Hymns.route,
     ) {
-        composable(Route.Index.route) {
+        composable(Route.Hymns.route) {
             HymnsScreen(
                 listState = indexListState,
                 snackbarHostState = snackbarHostState
             ) { id, title ->
                 val encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString())
                 navController.navigate("${Route.HymnDetails.route}/$id?title=$encodedTitle")
-                logNavigateToHymnDetails(id, "index screen")
+                logNavigateToHymnDetails(id, "hymns screen")
             }
         }
         composable(
@@ -84,7 +83,6 @@ fun Navigation(
     // Back handling
     onGoBack = {
         navController.popBackStack()
-        Log.d("GO_BACK", "Index")
     }
 
     BackHandler {

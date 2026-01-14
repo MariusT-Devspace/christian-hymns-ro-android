@@ -13,7 +13,7 @@ sealed class Route(
     val iconSelected: ImageVector? = null,
     val iconNotSelected: ImageVector? = null
 ) {
-    data object Index : Route(
+    data object Hymns : Route(
         "hymns",
         "Imnuri",
         Icons.Filled.Home,

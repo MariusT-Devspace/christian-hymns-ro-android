@@ -43,7 +43,7 @@ fun HymnsApp() {
         logScreenView(currentDestination ?: "Unknown")
     }
 
-    val indexListState = rememberLazyListState()
+    val hymnListState = rememberLazyListState()
     val favoritesListState = rememberLazyListState()
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -53,7 +53,7 @@ fun HymnsApp() {
             BottomNavBar(
                 navController,
                 showBottomNavBar,
-                indexListState,
+                hymnListState,
                 favoritesListState
             )
         },
@@ -66,7 +66,7 @@ fun HymnsApp() {
             Navigation(
                 padding,
                 navController,
-                indexListState,
+                hymnListState,
                 favoritesListState,
                 snackbarHostState,
             )

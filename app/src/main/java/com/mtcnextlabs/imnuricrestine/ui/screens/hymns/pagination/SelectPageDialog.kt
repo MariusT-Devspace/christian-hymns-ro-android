@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SelectPageDialog(
     openDialog: MutableState<Boolean>,
-    indexScreenPages: List<Page>,
+    pages: List<Page>,
     currentPageRange: String,
-    onChangePageAction: OnChangePageAction
+    onChangePage: OnChangePage
 ) {
     BasicAlertDialog(
         onDismissRequest = { openDialog.value = false }
@@ -35,9 +35,9 @@ fun SelectPageDialog(
             ) {
                 DialogContent(
                     openDialog,
-                    indexScreenPages,
+                    pages,
                     currentPageRange,
-                    onChangePageAction
+                    onChangePage
                 )
             }
         }
@@ -47,17 +47,17 @@ fun SelectPageDialog(
 @Composable
 fun DialogContent(
     openDialog: MutableState<Boolean>,
-    indexScreenPages: List<Page>,
+    pages: List<Page>,
     currentPageRange: String,
-    onChangePageAction: OnChangePageAction,
+    onChangePage: OnChangePage,
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
-        indexScreenPages.forEachIndexed { index, selectionOption ->
+        pages.forEachIndexed { index, selectionOption ->
             ListItem(
                 headlineContent = { Text(text = selectionOption.title) },
                 modifier = Modifier.clickable {
                     openDialog.value = false
-                    onChangePageAction(PaginationAction.JumpToPage(
+                    onChangePage(PaginationAction.JumpToPage(
                         index,
                         currentPageRange,
                         selectionOption.title
