@@ -4,7 +4,7 @@ import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.Verse
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
 
 object HymnsScreenPreviewData {

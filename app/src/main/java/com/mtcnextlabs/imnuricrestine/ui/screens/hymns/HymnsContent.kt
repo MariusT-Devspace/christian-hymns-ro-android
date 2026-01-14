@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItem
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 
 @Composable
 fun HymnsContent(

@@ -27,7 +27,7 @@ import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @Composable

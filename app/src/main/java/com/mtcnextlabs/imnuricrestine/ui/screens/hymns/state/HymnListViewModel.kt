@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logIndexNavigation
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesActionHelper
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
@@ -63,7 +64,7 @@ class HymnListViewModel @Inject constructor(
         }
 
         val pageItems = currentBucketItems.map {
-                HymnListItemUiState(it.id, it.number, it.title, it.isFavorite)
+            HymnListItemUiState(it.id, it.number, it.title, it.isFavorite)
         }
 
         HymnsUiState.Success(

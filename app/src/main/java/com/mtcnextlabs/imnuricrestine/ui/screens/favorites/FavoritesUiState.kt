@@ -1,6 +1,6 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 
 sealed interface FavoritesUiState {
     data object Loading : FavoritesUiState

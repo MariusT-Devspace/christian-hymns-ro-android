@@ -29,7 +29,7 @@ import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.BottomPaginationBar
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListViewModel
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme

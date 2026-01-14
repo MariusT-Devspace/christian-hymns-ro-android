@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesActionHelper
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted

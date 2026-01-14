@@ -6,7 +6,7 @@ import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logUndoDeleteFavori
 import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
+import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 import kotlinx.coroutines.future.await
 import javax.inject.Inject
