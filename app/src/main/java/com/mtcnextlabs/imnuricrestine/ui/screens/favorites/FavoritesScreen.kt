@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator

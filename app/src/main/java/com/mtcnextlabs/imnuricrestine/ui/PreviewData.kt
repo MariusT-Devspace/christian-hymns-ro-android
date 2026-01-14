@@ -1,6 +1,6 @@
 package com.mtcnextlabs.imnuricrestine.ui
 
-import com.mtcnextlabs.imnuricrestine.data.favorites.FavoritesUiState
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.models.Hymn
 import com.mtcnextlabs.imnuricrestine.models.Verse
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page

@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.data.favorites
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListItemUiState
 
