@@ -1,6 +1,5 @@
 package com.mtcnextlabs.imnuricrestine.ui.navigation
 
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
@@ -37,20 +36,20 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = Route.Hymns.route,
+        startDestination = Screen.Hymns.route,
     ) {
-        composable(Route.Hymns.route) {
+        composable(Screen.Hymns.route) {
             HymnsScreen(
                 listState = indexListState,
                 snackbarHostState = snackbarHostState
             ) { id, title ->
                 val encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString())
-                navController.navigate("${Route.HymnDetails.route}/$id?title=$encodedTitle")
+                navController.navigate("${Screen.HymnDetails.route}/$id?title=$encodedTitle")
                 logNavigateToHymnDetails(id, "hymns screen")
             }
         }
         composable(
-            Route.HymnDetails.route + "/{id}?title={title}",
+            Screen.HymnDetails.route + "/{id}?title={title}",
             listOf(
                 navArgument("id"){
                     type = NavType.IntType
@@ -67,14 +66,14 @@ fun Navigation(
                     onGoBack()
                 }
         }
-        composable(Route.Favorites.route) {
+        composable(Screen.Favorites.route) {
             FavoritesScreen(
                 contentPadding = padding,
                 listState = favoritesListState,
                 snackbarHostState = snackbarHostState
             ) { hymnId, title ->
                 val encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString())
-                navController.navigate("${Route.HymnDetails.route}/$hymnId?title=$encodedTitle")
+                navController.navigate("${Screen.HymnDetails.route}/$hymnId?title=$encodedTitle")
                 logNavigateToHymnDetails(id, "favorites screen")
             }
         }

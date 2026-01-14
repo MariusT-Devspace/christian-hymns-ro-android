@@ -7,20 +7,20 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Route(
+sealed class Screen(
     val route: String,
     val title: String = "",
     val iconSelected: ImageVector? = null,
     val iconNotSelected: ImageVector? = null
 ) {
-    data object Hymns : Route(
+    data object Hymns : Screen(
         "hymns",
         "Imnuri",
         Icons.Filled.Home,
         Icons.Outlined.Home
     )
-    data object HymnDetails : Route("hymn-details")
-    data object Favorites : Route(
+    data object HymnDetails : Screen("hymn-details")
+    data object Favorites : Screen(
         "favorites",
         "Favorite",
         Icons.Filled.Favorite,

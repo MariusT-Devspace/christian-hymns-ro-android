@@ -33,8 +33,8 @@ fun BottomNavBar(
     ) {
         NavigationBar {
             val destinations = listOf(
-                Route.Hymns,
-                Route.Favorites
+                Screen.Hymns,
+                Screen.Favorites
             )
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -53,8 +53,8 @@ fun BottomNavBar(
                     selected = currentDestination?.route == route.route,
                     onClick = {
                         when (route.route) {
-                            Route.Hymns.route ->
-                                if (currentDestination?.route == Route.Hymns.route &&
+                            Screen.Hymns.route ->
+                                if (currentDestination?.route == Screen.Hymns.route &&
                                     hymnListState.firstVisibleItemIndex > 0)
                                     coroutineScope.launch {
                                         hymnListState.animateScrollToItem(0)
@@ -62,8 +62,8 @@ fun BottomNavBar(
                                 else
                                     navController.navigate(route.route)
 
-                            Route.Favorites.route ->
-                                if (currentDestination?.route == Route.Favorites.route)
+                            Screen.Favorites.route ->
+                                if (currentDestination?.route == Screen.Favorites.route)
                                     coroutineScope.launch {
                                         favoritesListState.animateScrollToItem(0)
                                     }

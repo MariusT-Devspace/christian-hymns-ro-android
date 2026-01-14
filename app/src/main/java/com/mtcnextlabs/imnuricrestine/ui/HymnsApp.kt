@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logScreenView
 import com.mtcnextlabs.imnuricrestine.ui.navigation.BottomNavBar
 import com.mtcnextlabs.imnuricrestine.ui.navigation.Navigation
-import com.mtcnextlabs.imnuricrestine.ui.navigation.Route
+import com.mtcnextlabs.imnuricrestine.ui.navigation.Screen
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @Composable
@@ -36,7 +36,7 @@ fun HymnsApp() {
 
     LaunchedEffect(currentDestination) {
         when (currentDestination) {
-            Route.HymnDetails.route -> showBottomNavBar = false
+            Screen.HymnDetails.route -> showBottomNavBar = false
             else -> showBottomNavBar = true
         }
 
