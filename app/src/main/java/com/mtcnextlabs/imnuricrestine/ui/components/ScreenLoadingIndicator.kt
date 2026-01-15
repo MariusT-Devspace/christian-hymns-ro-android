@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@Composable
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
 fun ScreenLoadingIndicator() {
     Box(
         modifier = Modifier.fillMaxSize(),
