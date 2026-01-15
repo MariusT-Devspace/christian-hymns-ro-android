@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mtcnextlabs.imnuricrestine.ui.HymnDetailScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
@@ -23,7 +23,11 @@ import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
 @Composable
 fun HymnDetailScreen(
-    hymnDetailViewModel: HymnDetailViewModel = hiltViewModel(),
+    id: Int,
+    hymnDetailViewModel: HymnDetailViewModel =
+        hiltViewModel<HymnDetailViewModel, HymnDetailViewModel.Factory> { factory ->
+            factory.create(id)
+        },
     initialTitle: String = "",
     onGoBack: () -> Unit
 ) {

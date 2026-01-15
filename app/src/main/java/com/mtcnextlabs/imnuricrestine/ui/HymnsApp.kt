@@ -17,8 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.rememberNavBackStack
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logScreenView
 import com.mtcnextlabs.imnuricrestine.ui.navigation.BottomNavBar
 import com.mtcnextlabs.imnuricrestine.ui.navigation.Navigation
@@ -27,20 +26,22 @@ import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @Composable
 fun HymnsApp() {
-    val navController = rememberNavController()
     Log.d("RECOMPOSITION", "setContent")
 
-    val currentBackStack by navController.currentBackStackEntryAsState()
-    val currentDestination = currentBackStack?.destination?.route?.substringBefore("/")
+    val backStack = rememberNavBackStack(Screen.Hymns)
+    val currentDestination = backStack.lastOrNull()
     var showBottomNavBar by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(currentDestination) {
-        when (currentDestination) {
-            Screen.HymnDetails.route -> showBottomNavBar = false
-            else -> showBottomNavBar = true
+        showBottomNavBar = when (currentDestination) {
+            is Screen.HymnDetail -> false
+            else -> true
         }
 
-        logScreenView(currentDestination ?: "Unknown")
+        currentDestination?.let {
+            logScreenView(it.toString())
+            Log.d("SCREEN", it.toString())
+        }
     }
 
     val hymnListState = rememberLazyListState()
@@ -51,7 +52,7 @@ fun HymnsApp() {
     Scaffold(
         bottomBar = {
             BottomNavBar(
-                navController,
+                backStack,
                 showBottomNavBar,
                 hymnListState,
                 favoritesListState
@@ -64,8 +65,8 @@ fun HymnsApp() {
             color = MaterialTheme.colorScheme.background
         ) {
             Navigation(
+                backStack,
                 padding,
-                navController,
                 hymnListState,
                 favoritesListState,
                 snackbarHostState,

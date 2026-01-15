@@ -10,16 +10,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logBottomBarNavigation
 import kotlinx.coroutines.launch
 
 @Composable
 fun BottomNavBar(
-    navController: NavHostController,
+    backStack: NavBackStack<NavKey>,
     showBottomNavBar: Boolean,
     hymnListState: LazyListState,
     favoritesListState: LazyListState
@@ -37,38 +36,38 @@ fun BottomNavBar(
                 Screen.Favorites
             )
 
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+            val currentDestination = backStack.lastOrNull()
 
             destinations.forEach { route ->
                 NavigationBarItem(
                     icon = {
-                        if (currentDestination?.route == route.route)
+                        if (currentDestination == route)
                             Icon(route.iconSelected!!, contentDescription = route.title)
                         else
                             Icon(route.iconNotSelected!!, contentDescription = route.title)
 
                     },
                     label = { Text(route.title) },
-                    selected = currentDestination?.route == route.route,
+                    selected = currentDestination == route,
                     onClick = {
                         when (route.route) {
                             Screen.Hymns.route ->
-                                if (currentDestination?.route == Screen.Hymns.route &&
+                                if (currentDestination == route &&
                                     hymnListState.firstVisibleItemIndex > 0)
                                     coroutineScope.launch {
                                         hymnListState.animateScrollToItem(0)
                                     }
                                 else
-                                    navController.navigate(route.route)
+                                    backStack.add(route)
 
                             Screen.Favorites.route ->
-                                if (currentDestination?.route == Screen.Favorites.route)
+                                if (currentDestination == route &&
+                                    favoritesListState.firstVisibleItemIndex > 0)
                                     coroutineScope.launch {
                                         favoritesListState.animateScrollToItem(0)
                                     }
                                 else
-                                    navController.navigate(route.route)
+                                    backStack.add(route)
                         }
 
                         logBottomBarNavigation(route.title)

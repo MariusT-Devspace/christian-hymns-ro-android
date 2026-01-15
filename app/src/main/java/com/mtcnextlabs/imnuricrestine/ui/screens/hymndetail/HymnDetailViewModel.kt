@@ -1,23 +1,28 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import javax.inject.Inject
 
-@HiltViewModel
-class HymnDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    hymnRepository: HymnRepository
+@HiltViewModel(assistedFactory = HymnDetailViewModel.Factory::class)
+class HymnDetailViewModel @AssistedInject constructor(
+    hymnRepository: HymnRepository,
+    @Assisted id: Int
 ) : ViewModel() {
-    val id: Int = checkNotNull(savedStateHandle["id"])
+
+    @AssistedFactory
+    interface Factory {
+        fun create(id: Int): HymnDetailViewModel
+    }
 
     val uiState: StateFlow<HymnDetailUiState> = hymnRepository.getHymnById(id)
         .asFlow()
