@@ -47,7 +47,7 @@ fun FavoritesScreen(
         viewModel.undoDelete()
     }
 
-    FavoritesLayout(
+    FavoritesScreen(
         favoritesUiState,
         listState,
         contentPadding,
@@ -59,7 +59,7 @@ fun FavoritesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavoritesLayout(
+private fun FavoritesScreen(
     favoritesUiState: FavoritesUiState,
     listState: LazyListState,
     contentPadding: PaddingValues,
@@ -119,9 +119,9 @@ private fun FavoritesLayout(
 
 @Preview(showBackground = true)
 @Composable
-fun FavoritesLayoutPreview() {
+fun FavoritesScreenPreview() {
     ChristianHymnsTheme {
-        FavoritesLayout(
+        FavoritesScreen(
             FavoritesScreenPreviewData.favoritesStateSuccess,
             rememberLazyListState(),
             PaddingValues(0.dp)

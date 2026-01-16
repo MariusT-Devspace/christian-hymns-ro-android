@@ -33,12 +33,12 @@ fun HymnDetailScreen(
 ) {
     val hymnUiState by hymnDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    HymnDetailLayout(hymnUiState, initialTitle, onGoBack)
+    HymnDetailScreen(hymnUiState, initialTitle, onGoBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HymnDetailLayout(
+private fun HymnDetailScreen(
     hymnUiState: HymnDetailUiState,
     initialTitle: String,
     onGoBack: () -> Unit = {}
@@ -97,11 +97,11 @@ private fun HymnNotFoundError() {
 
 @Preview(showBackground = true)
 @Composable
-fun HymnDetailLayoutPreview() {
+fun HymnDetailScreenPreview() {
     ChristianHymnsTheme {
         val index = 0
 
-        HymnDetailLayout(
+        HymnDetailScreen(
             HymnDetailUiState.Success(
                 hymn = HymnDetailScreenPreviewData.hymns[index]
             ),

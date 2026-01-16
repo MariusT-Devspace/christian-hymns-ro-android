@@ -19,7 +19,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +51,7 @@ fun HymnsScreen(
         hymnListViewModel.undoDelete()
     }
 
-    HymnsLayout(
+    HymnsScreen(
         hymnsUiState,
         listState,
         hymnListViewModel::changePage,
@@ -63,7 +62,7 @@ fun HymnsScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
-private fun HymnsLayout(
+private fun HymnsScreen(
     uiState: HymnsUiState,
     listState: LazyListState,
     onChangePage: (PaginationAction) -> Unit = {},
@@ -81,17 +80,6 @@ private fun HymnsLayout(
 
     LaunchedEffect(Unit) {
         floatingAppBarScrollBehavior.state.offset = 0f
-    }
-
-    var isFirstComposition by remember { mutableStateOf(true) }
-
-    LaunchedEffect(uiState) {
-        if (isFirstComposition)
-            isFirstComposition = false
-        else {
-            listState.scrollToItem(0)
-            topAppBarScrollBehavior.state.heightOffset = 0f
-        }
     }
 
     val scrolledToTop = remember {
@@ -130,6 +118,17 @@ private fun HymnsLayout(
             when (uiState) {
                 is HymnsUiState.Loading -> ScreenLoadingIndicator()
                 is HymnsUiState.Success -> {
+                    val isFirstComposition = remember { mutableStateOf(true) }
+
+                    LaunchedEffect(uiState.currentPage) {
+                        if (isFirstComposition.value)
+                            isFirstComposition.value = false
+                        else {
+                            listState.scrollToItem(0)
+                            topAppBarScrollBehavior.state.heightOffset = 0f
+                        }
+                    }
+
                     HymnsContent(
                         padding,
                         uiState.pageItems,
@@ -146,9 +145,9 @@ private fun HymnsLayout(
 
 @Preview(showBackground = true)
 @Composable
-fun HymnsLayoutPreview() {
+fun HymnsScreenPreview() {
     ChristianHymnsTheme {
-        HymnsLayout(
+        HymnsScreen(
             HymnsScreenPreviewData.hymnListStateSuccess,
             rememberLazyListState()
         )
