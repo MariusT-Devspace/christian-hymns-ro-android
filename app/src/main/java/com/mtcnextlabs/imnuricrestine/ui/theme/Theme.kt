@@ -106,15 +106,6 @@ fun ChristianHymnsTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        val window = (view.context as Activity).window
-        SideEffect {
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-
-        }
-    }
 
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
