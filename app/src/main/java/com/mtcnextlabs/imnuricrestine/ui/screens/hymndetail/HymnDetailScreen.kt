@@ -1,7 +1,6 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mtcnextlabs.imnuricrestine.ui.HymnDetailScreenPreviewData
+import com.mtcnextlabs.imnuricrestine.ui.components.GradientNavbarOverlay
+import com.mtcnextlabs.imnuricrestine.ui.isNavBarOverlayVisible
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
@@ -67,9 +68,9 @@ private fun HymnDetailScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Column(
+            Box(
                 modifier = Modifier.fillMaxSize()
-                    .padding(padding)
+                    .padding(top = padding.calculateTopPadding())
             ) {
                 when (hymnUiState) {
                     is HymnDetailUiState.Loading -> {}
@@ -83,6 +84,9 @@ private fun HymnDetailScreen(
                         )
                     }
                 }
+
+                if (isNavBarOverlayVisible())
+                    GradientNavbarOverlay()
             }
         }
     }
