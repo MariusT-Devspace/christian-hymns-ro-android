@@ -4,20 +4,20 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite;
+import com.mtcnextlabs.imnuricrestine.data.db.entities.FavoriteEntity;
 import com.mtcnextlabs.imnuricrestine.data.db.models.FavoriteInsert;
 
 @Dao
 public interface FavoriteDao {
-    @Query("SELECT * FROM favorites WHERE hymn_id = :hymnId")
-    Favorite getFavoriteByHymnId(int hymnId);
+    @Query("SELECT * FROM Favorites WHERE hymn_id = :hymnId")
+    FavoriteEntity getFavoriteByHymnId(int hymnId);
 
-    @Insert(entity = Favorite.class)
+    @Insert(entity = FavoriteEntity.class)
     void insertFavorite(FavoriteInsert favorite);
 
-    @Insert(entity = Favorite.class)
-    void insertFavoriteWithId(Favorite favorite);
+    @Insert(entity = FavoriteEntity.class)
+    void insertFavoriteWithId(FavoriteEntity favoriteEntity);
 
-    @Query("DELETE FROM favorites WHERE hymn_id = :hymnId")
+    @Query("DELETE FROM Favorites WHERE hymn_id = :hymnId")
     void deleteFavorite(int hymnId);
 }

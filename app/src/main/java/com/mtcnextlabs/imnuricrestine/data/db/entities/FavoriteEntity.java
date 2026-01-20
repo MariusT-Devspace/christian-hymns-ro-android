@@ -7,23 +7,19 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Favorites",
         foreignKeys = @ForeignKey(
-        entity = Hymn.class,
+        entity = HymnEntity.class,
         parentColumns = "id",
         childColumns = "hymn_id")
 )
-public class Favorite {
+public class FavoriteEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
     @NonNull
     public int hymn_id;
 
-    public Favorite(int hymn_id) {
-        this.hymn_id = hymn_id;
-    }
-
-    public Favorite(int id, int hymnId) {
+    public FavoriteEntity(int id, int hymn_id) {
         this.id = id;
-        this.hymn_id = hymnId;
+        this.hymn_id = hymn_id;
     }
 }

@@ -3,9 +3,9 @@ package com.mtcnextlabs.imnuricrestine.ui
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logAddFavorite
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logRemoveFavorite
 import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logUndoDeleteFavorite
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite
+import com.mtcnextlabs.imnuricrestine.data.db.entities.FavoriteEntity
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state.FavoritesEvent
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 import kotlinx.coroutines.future.await
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class FavoritesActionHelper @Inject constructor(
     private val hymnRepository: HymnRepository,
 ) {
-    private var recentlyDeleted: Favorite? = null
+    private var recentlyDeleted: FavoriteEntity? = null
 
     suspend fun toggleFavorite(
         hymn: HymnListItemUiState,

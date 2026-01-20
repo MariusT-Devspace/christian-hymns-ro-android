@@ -6,13 +6,13 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Hymns")
-public class Hymn {
+public class HymnEntity {
     @PrimaryKey
     @ColumnInfo(index = true)
     public int id;
 
     @NonNull
-    public String hymn_number;
+    public String number;
 
     @NonNull
     public String title;
@@ -24,7 +24,7 @@ public class Hymn {
 
     @Override
     public boolean equals(Object obj){
-        Hymn h = (Hymn) obj;
+        HymnEntity h = (HymnEntity) obj;
         if(this.id == h.id){
             return true;
         }else{

@@ -5,7 +5,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state.FavoritesEvent
 import kotlinx.coroutines.flow.Flow
 
 @Composable

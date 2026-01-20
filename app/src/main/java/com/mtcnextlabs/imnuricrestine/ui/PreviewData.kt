@@ -1,7 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.ui
 
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesUiState
-import com.mtcnextlabs.imnuricrestine.models.Hymn
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state.FavoritesUiState
+import com.mtcnextlabs.imnuricrestine.models.HymnDetail
 import com.mtcnextlabs.imnuricrestine.models.Verse
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
@@ -48,8 +48,8 @@ object HymnsScreenPreviewData {
 }
 
 object HymnDetailScreenPreviewData {
-    val hymns = arrayListOf(
-        Hymn(
+    val hymnDetails = arrayListOf(
+        HymnDetail(
             14,
             "14",
             "Binecuvântă pe Domnul!",
@@ -89,7 +89,7 @@ object HymnDetailScreenPreviewData {
             ),
             false
         ),
-        Hymn(
+        HymnDetail(
             129,
             "129",
             "Pe o cruce răstignit",
@@ -103,10 +103,10 @@ object HymnDetailScreenPreviewData {
                     false,
                 ),
 
-            ),
+                ),
             false
         ),
-        Hymn(
+        HymnDetail(
             664,
             "664A",
             "Ţi-aducem, Doamne-acest copil!",

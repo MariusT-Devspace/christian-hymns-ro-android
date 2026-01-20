@@ -1,7 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.data.favorites;
 
 import com.mtcnextlabs.imnuricrestine.data.db.FavoriteDao;
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite;
+import com.mtcnextlabs.imnuricrestine.data.db.entities.FavoriteEntity;
 import com.mtcnextlabs.imnuricrestine.data.db.models.FavoriteInsert;
 
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ public class FavoriteLocalDataSource implements FavoriteDataSource {
     }
 
     @Override
-    public Favorite getFavoriteByHymnId(int hymnId) {
+    public FavoriteEntity getFavoriteByHymnId(int hymnId) {
         return _favoriteDao.getFavoriteByHymnId(hymnId);
     }
 
@@ -27,9 +27,9 @@ public class FavoriteLocalDataSource implements FavoriteDataSource {
     }
 
     @Override
-    public void insertFavorite(Favorite favorite) {
+    public void insertFavorite(FavoriteEntity favoriteEntity) {
         _favoriteDao.insertFavoriteWithId(
-                favorite
+                favoriteEntity
         );
     }
 

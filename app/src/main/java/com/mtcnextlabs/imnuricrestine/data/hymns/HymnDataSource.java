@@ -1,14 +1,15 @@
 package com.mtcnextlabs.imnuricrestine.data.hymns;
 
-import static com.mtcnextlabs.imnuricrestine.utils.ConvertersKt.asHymn;
+
+import static com.mtcnextlabs.imnuricrestine.data.MappersKt.asHymn;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import com.mtcnextlabs.imnuricrestine.data.db.HymnDao;
-import com.mtcnextlabs.imnuricrestine.data.db.models.HymnWithFavoriteStatus;
-import com.mtcnextlabs.imnuricrestine.data.db.models.HymnWithLyrics;
-import com.mtcnextlabs.imnuricrestine.models.Hymn;
+import com.mtcnextlabs.imnuricrestine.data.db.models.HymnDetailWithFavorite;
+import com.mtcnextlabs.imnuricrestine.data.db.models.HymnWithFavorite;
+import com.mtcnextlabs.imnuricrestine.models.HymnDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +24,15 @@ public class HymnDataSource {
         _hymnDao = hymnDao;
     }
 
-    public LiveData<List<HymnWithFavoriteStatus>> getHymns(){
+    public LiveData<List<HymnWithFavorite>> getHymns(){
         return _hymnDao.getHymns();
     }
 
-    public LiveData<HymnWithFavoriteStatus> getHymnById(int hymnId) {
+    public LiveData<HymnDetailWithFavorite> getHymnById(int hymnId) {
         return _hymnDao.getHymnById(hymnId);
     }
 
-    public LiveData<List<Hymn>> getFavoriteHymns(){
-        return Transformations.map(_hymnDao.getFavoriteHymns(), list -> {
-            List<Hymn> hymns = new ArrayList<>();
-            for (HymnWithLyrics item : list) {
-                hymns.add(asHymn(item));
-            }
-            return hymns;
-        });
+    public LiveData<List<HymnWithFavorite>> getFavoriteHymns(){
+        return _hymnDao.getFavoriteHymns();
     }
 }

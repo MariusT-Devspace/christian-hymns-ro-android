@@ -7,7 +7,7 @@ import com.mtcnextlabs.imnuricrestine.analytics.AppAnalytics.logHymnsPagination
 import com.mtcnextlabs.imnuricrestine.data.hymns.HymnRepository
 import com.mtcnextlabs.imnuricrestine.ui.FavoritesActionHelper
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
-import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.FavoritesEvent
+import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state.FavoritesEvent
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,8 +63,13 @@ class HymnListViewModel @Inject constructor(
             emptyList()
         }
 
-        val pageItems = currentBucketItems.map {
-            HymnListItemUiState(it.id, it.number, it.title, it.isFavorite)
+        val pageItems = currentBucketItems.map { hymn ->
+            HymnListItemUiState(
+                hymn.id,
+                hymn.number,
+                hymn.title,
+                hymn.isFavorite
+            )
         }
 
         HymnsUiState.Success(

@@ -43,8 +43,8 @@ fun HymnDetailTopAppBar(
             val title = when {
                 hymnUiState is HymnDetailUiState.Success ->
                     getFullHymnTitle(
-                        (hymnUiState as HymnDetailUiState.Success).hymn.number,
-                        (hymnUiState as HymnDetailUiState.Success).hymn.title
+                        hymnUiState.hymnDetail.number,
+                        hymnUiState.hymnDetail.title
                     )
 
                 initialTitle.isNotEmpty() -> initialTitle

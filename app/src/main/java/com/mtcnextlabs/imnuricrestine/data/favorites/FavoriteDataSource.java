@@ -1,10 +1,10 @@
 package com.mtcnextlabs.imnuricrestine.data.favorites;
 
-import com.mtcnextlabs.imnuricrestine.data.db.entities.Favorite;
+import com.mtcnextlabs.imnuricrestine.data.db.entities.FavoriteEntity;
 
 public interface FavoriteDataSource {
-    Favorite getFavoriteByHymnId(int hymnId);
+    FavoriteEntity getFavoriteByHymnId(int hymnId);
     void insertFavorite(int hymnId);
-    void insertFavorite(Favorite favorite);
+    void insertFavorite(FavoriteEntity favoriteEntity);
     void deleteFavorite(int hymnId);
 }

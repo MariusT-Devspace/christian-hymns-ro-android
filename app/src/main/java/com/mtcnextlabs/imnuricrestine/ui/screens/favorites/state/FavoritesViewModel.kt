@@ -1,4 +1,4 @@
-package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
+package com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow

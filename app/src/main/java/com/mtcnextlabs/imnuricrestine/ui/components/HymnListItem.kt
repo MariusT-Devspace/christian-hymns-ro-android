@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.imnuricrestine.R
-import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
 @Composable
@@ -59,12 +58,12 @@ fun HymnListItem(
                 if (state.isFavorite)
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
-                        contentDescription = stringResource(R.string.remove_from_favorites_description)
+                        contentDescription = stringResource(R.string.delete_favorite_description)
                     )
                 else
                     Icon(
                         imageVector = Icons.Outlined.FavoriteBorder,
-                        contentDescription = stringResource(R.string.add_to_favorites_description)
+                        contentDescription = stringResource(R.string.add_favorite_description)
                     )
             }
         },

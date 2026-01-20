@@ -1,3 +1,8 @@
 package com.mtcnextlabs.imnuricrestine.data.db.models
 
-data class FavoriteInsert( val hymn_id: Int )
+import androidx.room.ColumnInfo
+
+data class FavoriteInsert(
+    @ColumnInfo(name = "hymn_id")
+    val hymnId: Int
+)
