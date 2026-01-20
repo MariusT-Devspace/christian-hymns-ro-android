@@ -1,7 +1,9 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -65,17 +67,21 @@ private fun HymnDetailScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            when (val uiState = hymnUiState) {
-                is HymnDetailUiState.Loading -> {}
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(padding)
+            ) {
+                when (hymnUiState) {
+                    is HymnDetailUiState.Loading -> {}
 
-                is HymnDetailUiState.Error ->
-                    HymnNotFoundError()
+                    is HymnDetailUiState.Error ->
+                        HymnNotFoundError()
 
-                is HymnDetailUiState.Success -> {
-                    HymnDetailContent(
-                        uiState.hymn,
-                        padding
-                    )
+                    is HymnDetailUiState.Success -> {
+                        HymnDetailContent(
+                            hymnUiState.hymnDetail
+                        )
+                    }
                 }
             }
         }
@@ -103,11 +109,11 @@ fun HymnDetailScreenPreview() {
 
         HymnDetailScreen(
             HymnDetailUiState.Success(
-                hymn = HymnDetailScreenPreviewData.hymns[index]
+                hymnDetail = HymnDetailScreenPreviewData.hymnDetails[index]
             ),
             initialTitle = getFullHymnTitle(
-                HymnDetailScreenPreviewData.hymns[index].number,
-                HymnDetailScreenPreviewData.hymns[index].title
+                HymnDetailScreenPreviewData.hymnDetails[index].number,
+                HymnDetailScreenPreviewData.hymnDetails[index].title
             )
         )
     }
