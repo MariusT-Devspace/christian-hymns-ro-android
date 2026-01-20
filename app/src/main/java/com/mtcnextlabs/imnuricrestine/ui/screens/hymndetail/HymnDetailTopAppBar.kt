@@ -3,10 +3,11 @@ package com.mtcnextlabs.imnuricrestine.ui.screens.hymndetail
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -20,6 +21,7 @@ import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
 @OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3ExpressiveApi
 @Composable
 fun HymnDetailTopAppBar(
     hymnUiState: HymnDetailUiState,
@@ -38,7 +40,7 @@ fun HymnDetailTopAppBar(
             MaterialTheme.colorScheme.surface,
     )
 
-    LargeTopAppBar(
+    MediumFlexibleTopAppBar(
         title = {
             val title = when {
                 hymnUiState is HymnDetailUiState.Success ->
@@ -52,7 +54,7 @@ fun HymnDetailTopAppBar(
             }
             Text(
                 text = title,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         },
@@ -72,6 +74,7 @@ fun HymnDetailTopAppBar(
                     contentDescription = "Localized description"
                 )
             }
-        }
+        },
+        expandedHeight = TopAppBarDefaults.MediumFlexibleAppBarWithoutSubtitleExpandedHeight
     )
 }

@@ -46,7 +46,7 @@ private fun HymnDetailScreen(
     initialTitle: String,
     onGoBack: () -> Unit = {}
 ) {
-    val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(
+    val pinnedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         rememberTopAppBarState(),
         { true }
     )

@@ -96,7 +96,7 @@ private fun HymnsScreen(
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
             .nestedScroll(floatingAppBarScrollBehavior),
         topBar = {
-            HymnListTopAppBar(topAppBarScrollBehavior)
+            HymnsTopAppBar(topAppBarScrollBehavior)
         },
         bottomBar = {
             if (uiState is HymnsUiState.Success) {
