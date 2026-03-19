@@ -2,6 +2,7 @@ package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,8 +16,7 @@ import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItem
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 
 @Composable
-fun FavoritesContent(
-    contentPadding: PaddingValues,
+fun FavoritesList(
     favorites: List<HymnListItemUiState>,
     listState: LazyListState,
     onRemoveFavorite: (HymnListItemUiState) -> Unit,
@@ -27,10 +27,12 @@ fun FavoritesContent(
     }
 
     LazyColumn(
-        state = listState,
-        contentPadding = contentPadding,
-        modifier = Modifier.padding(top = 30.dp),
+        state = listState
     ) {
+        item {
+            Spacer(modifier = Modifier.height(30.dp))
+        }
+
         items(
             items = favorites
         ) { hymn ->

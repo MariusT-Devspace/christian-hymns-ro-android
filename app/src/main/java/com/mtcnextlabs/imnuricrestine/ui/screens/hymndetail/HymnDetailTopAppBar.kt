@@ -20,8 +20,7 @@ import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 
-@OptIn(ExperimentalMaterial3Api::class)
-@ExperimentalMaterial3ExpressiveApi
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HymnDetailTopAppBar(
     hymnUiState: HymnDetailUiState,

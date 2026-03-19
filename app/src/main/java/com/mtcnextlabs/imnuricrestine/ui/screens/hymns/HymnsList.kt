@@ -1,7 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -12,22 +12,27 @@ import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItem
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 
 @Composable
-fun HymnsContent(
-    contentPadding: PaddingValues,
+fun HymnsList(
     hymnsListItems: List<HymnListItemUiState>,
     listState: LazyListState,
     onToggleFavorite: (HymnListItemUiState) -> Unit,
     onNavigate: (Int, String) -> Unit
 ) {
     LazyColumn(
-        state = listState,
-        contentPadding = contentPadding,
-        modifier = Modifier.padding(top = 30.dp),
+        state = listState
     ) {
+        item {
+            Spacer(modifier = Modifier.size(30.dp))
+        }
+
         items(
             items = hymnsListItems
         ) { hymn ->
             HymnListItem(hymn, onToggleFavorite, onNavigate)
+        }
+
+        item {
+            Spacer(modifier = Modifier.size(120.dp))
         }
     }
 }

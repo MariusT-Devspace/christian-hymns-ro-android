@@ -1,7 +1,6 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -85,28 +84,24 @@ private fun FavoritesScreen(
 
     Scaffold(
         modifier = Modifier
-            .nestedScroll(
-                topAppBarScrollBehavior.nestedScrollConnection
-            )
-            .padding(contentPadding)
-            .consumeWindowInsets(contentPadding),
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             FavoritesTopAppBar(topAppBarScrollBehavior)
         }
-    ) { padding ->
+    ) { innerPadding ->
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding),
             color = MaterialTheme.colorScheme.background
         ) {
-            when (val uiState = favoritesUiState) {
+            when (favoritesUiState) {
                 is FavoritesUiState.Loading ->
                     ScreenLoadingIndicator()
 
                 FavoritesUiState.Empty -> EmptyFavorites()
                 is FavoritesUiState.Success -> {
-                    FavoritesContent(
-                        padding,
-                        uiState.items,
+                    FavoritesList(
+                        favoritesUiState.items,
                         listState,
                         onRemoveFavorite
                     ) {

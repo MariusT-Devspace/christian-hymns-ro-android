@@ -1,6 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -99,8 +100,7 @@ private fun HymnsScreen(
             HymnsTopAppBar(topAppBarScrollBehavior)
         },
         bottomBar = {
-            if (uiState is HymnsUiState.Success) {
-
+            if (uiState is HymnsUiState.Success)
                 BottomPaginationBar(
                     floatingAppBarScrollBehavior,
                     uiState.pages,
@@ -108,11 +108,11 @@ private fun HymnsScreen(
                 ) { action ->
                     onChangePage(action)
                 }
-            }
         }
-    ) { padding ->
+    ) { innerPadding ->
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .padding(top = innerPadding.calculateTopPadding()),
             color = MaterialTheme.colorScheme.background
         ) {
             when (uiState) {
@@ -129,8 +129,7 @@ private fun HymnsScreen(
                         }
                     }
 
-                    HymnsContent(
-                        padding,
+                    HymnsList(
                         uiState.pageItems,
                         listState,
                         onToggleFavorite

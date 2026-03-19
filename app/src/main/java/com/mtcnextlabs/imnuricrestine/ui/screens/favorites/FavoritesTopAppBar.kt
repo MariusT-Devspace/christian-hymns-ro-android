@@ -18,8 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.mtcnextlabs.imnuricrestine.utils.ICONS
 import com.mtcnextlabs.imnuricrestine.utils.TopAppBarTitle
 
-@OptIn(ExperimentalMaterial3Api::class)
-@ExperimentalMaterial3ExpressiveApi
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FavoritesTopAppBar(topAppBarScrollBehavior: TopAppBarScrollBehavior) {
     TopAppBar(
