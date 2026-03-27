@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -28,35 +27,32 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mtcnextlabs.imnuricrestine.ui.HymnsScreenPreviewData
 import com.mtcnextlabs.imnuricrestine.ui.components.ObserveFavoriteEvents
 import com.mtcnextlabs.imnuricrestine.ui.components.ScreenLoadingIndicator
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.BottomPaginationBar
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.PaginationAction
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnListViewModel
+import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsViewModel
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HymnsScreen(
-    hymnListViewModel: HymnListViewModel = hiltViewModel(),
+    hymnsViewModel: HymnsViewModel = hiltViewModel(),
     listState: LazyListState,
     snackbarHostState: SnackbarHostState,
     onNavigate: (Int, String) -> Unit
 ) {
-    val hymnsUiState by hymnListViewModel.uiState.collectAsStateWithLifecycle()
+    val hymnsUiState by hymnsViewModel.uiState.collectAsStateWithLifecycle()
 
     ObserveFavoriteEvents(
-        hymnListViewModel.eventFlow,
+        hymnsViewModel.eventFlow,
         snackbarHostState
     ) {
-        hymnListViewModel.undoDelete()
+        hymnsViewModel.undoDelete()
     }
 
     HymnsScreen(
         hymnsUiState,
         listState,
-        hymnListViewModel::changePage,
-        hymnListViewModel::toggleFavorite,
+        hymnsViewModel::toggleFavorite,
         onNavigate
     )
 }
@@ -66,7 +62,6 @@ fun HymnsScreen(
 private fun HymnsScreen(
     uiState: HymnsUiState,
     listState: LazyListState,
-    onChangePage: (PaginationAction) -> Unit = {},
     onToggleFavorite: (HymnListItemUiState) -> Unit = {},
     onNavigate: (Int, String) -> Unit = {_, _ ->}
 ) {
@@ -98,16 +93,6 @@ private fun HymnsScreen(
             .nestedScroll(floatingAppBarScrollBehavior),
         topBar = {
             HymnsTopAppBar(topAppBarScrollBehavior)
-        },
-        bottomBar = {
-            if (uiState is HymnsUiState.Success)
-                BottomPaginationBar(
-                    floatingAppBarScrollBehavior,
-                    uiState.pages,
-                    uiState.currentPage
-                ) { action ->
-                    onChangePage(action)
-                }
         }
     ) { innerPadding ->
         Surface(
@@ -118,19 +103,8 @@ private fun HymnsScreen(
             when (uiState) {
                 is HymnsUiState.Loading -> ScreenLoadingIndicator()
                 is HymnsUiState.Success -> {
-                    val isFirstComposition = remember { mutableStateOf(true) }
-
-                    LaunchedEffect(uiState.currentPage) {
-                        if (isFirstComposition.value)
-                            isFirstComposition.value = false
-                        else {
-                            listState.scrollToItem(0)
-                            topAppBarScrollBehavior.state.heightOffset = 0f
-                        }
-                    }
-
-                    HymnsList(
-                        uiState.pageItems,
+                    HymnList(
+                        uiState.hymnsByRange,
                         listState,
                         onToggleFavorite
                     ) { id, title ->

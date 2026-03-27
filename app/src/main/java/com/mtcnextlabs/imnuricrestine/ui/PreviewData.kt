@@ -3,7 +3,6 @@ package com.mtcnextlabs.imnuricrestine.ui
 import com.mtcnextlabs.imnuricrestine.ui.screens.favorites.state.FavoritesUiState
 import com.mtcnextlabs.imnuricrestine.models.HymnDetail
 import com.mtcnextlabs.imnuricrestine.models.Verse
-import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.pagination.Page
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
 
@@ -43,7 +42,7 @@ object HymnsScreenPreviewData {
 
     // Pre-built states
     val hymnListStateSuccess = HymnsUiState.Success(
-        hymnListItems, 0, listOf(Page(1, 99, "1 - 99"))
+        mapOf(Pair("1 - 99", hymnListItems))
     ) as HymnsUiState
 }
 
