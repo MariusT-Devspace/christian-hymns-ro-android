@@ -1,10 +1,7 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.favorites
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -36,7 +33,11 @@ fun FavoritesList(
         items(
             items = favorites
         ) { hymn ->
-            HymnListItem(hymn, onRemoveFavorite, onNavigate)
+            HymnListItem(
+                hymn,
+                onToggleFavorite = onRemoveFavorite,
+                onNavigate = onNavigate
+            )
         }
 
         item {

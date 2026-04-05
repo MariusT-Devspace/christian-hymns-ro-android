@@ -24,6 +24,7 @@ import com.mtcnextlabs.imnuricrestine.utils.getFullHymnTitle
 @Composable
 fun HymnListItem(
     state: HymnListItemUiState,
+    modifier: Modifier = Modifier,
     onToggleFavorite: (HymnListItemUiState) -> Unit,
     onNavigate: (Int, String) -> Unit
 ) {
@@ -46,7 +47,8 @@ fun HymnListItem(
                     .width(53.dp)
                     .padding(horizontal = 5.dp, vertical = 10.dp),
                 fontSize = 15.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
         trailingContent = {
@@ -67,7 +69,7 @@ fun HymnListItem(
                     )
             }
         },
-        modifier = Modifier.clickable {
+        modifier = modifier.clickable {
             onNavigate(state.id, getFullHymnTitle(state.number, state.title))
         }
     )

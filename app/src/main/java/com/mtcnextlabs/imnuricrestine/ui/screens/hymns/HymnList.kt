@@ -1,24 +1,17 @@
 package com.mtcnextlabs.imnuricrestine.ui.screens.hymns
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -29,9 +22,7 @@ import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItem
 import com.mtcnextlabs.imnuricrestine.ui.components.HymnListItemUiState
 import com.mtcnextlabs.imnuricrestine.ui.screens.hymns.state.HymnsUiState
 import com.mtcnextlabs.imnuricrestine.ui.theme.ChristianHymnsTheme
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HymnList(
     hymnsByRange:  Map<String, List<HymnListItemUiState>>,
@@ -41,8 +32,8 @@ fun HymnList(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val sectionIndices = remember {
-        var currentIndex = 0
+    val sectionIndices = remember(hymnsByRange) {
+        var currentIndex = 1
         val indices = mutableMapOf<String, Int>()
         hymnsByRange.forEach { (range, items) ->
             indices[range] = currentIndex
@@ -51,68 +42,71 @@ fun HymnList(
         indices
     }
 
-    var isActive: Boolean = false
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState
+        ) {
+            item(key = "top_spacer", contentType = "spacer") {
+                Spacer(modifier = Modifier.size(30.dp))
+            }
 
-//    hymnsByRange.keys.forEach { range ->
-//        isActive = listState.firstVisibleItemIndex >= indexToJumpTo &&
-//                listState.firstVisibleItemIndex < (sectionIndices.values.firstOrNull { it > indexToJumpTo } ?: Int.MAX_VALUE)
-//    }
+            hymnsByRange.forEach { (range, hymnsInRange) ->
+                val headerIndex = sectionIndices[range] ?: 0
 
-    LazyColumn(
-        state = listState,
-    ) {
-        item {
-            Spacer(modifier = Modifier.size(30.dp))
-        }
-
-        hymnsByRange.forEach { (range, hymnsInRange) ->
-            val indexToJumpTo = sectionIndices[range] ?: 0
-
-            // Range header
-            stickyHeader {
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(end = 10.dp)
+                // Range header
+                stickyHeader(
                 ) {
-                    val size = ButtonDefaults.ExtraSmallContainerHeight
+                    Header(
+                        range,
+                        headerIndex,
+                        listState,
+                        isPinned = false
+                    )
+                }
 
-                    ElevatedButton(
-                        onClick = {
-                            coroutineScope.launch {
-                                listState.animateScrollToItem(indexToJumpTo + 1)
-                            }
-                        },
-                        contentPadding =
-                            ButtonDefaults.contentPaddingFor(size, hasEndIcon = true),
-                        colors = ButtonDefaults.elevatedButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                        )
-                    ) {
-                        Text(
-                            range,
-                            style = ButtonDefaults.textStyleFor(size)
-                        )
-                        Spacer(Modifier.size(ButtonDefaults.iconSpacingFor(size)))
-                        Icon(
-                            Icons.Filled.ArrowDropDown,
-                            "Show ranges",
-                            modifier = Modifier.size(ButtonDefaults.iconSizeFor(size))
-                        )
-                    }
+                // Hymns in range
+                itemsIndexed(
+                    items = hymnsInRange,
+                    key = {_, hymn -> "hymn_${hymn.number}"},
+                    contentType = { _, _ -> "hymn_item" }
+                ) { index, hymn ->
+                    val isLastInRange = index == hymnsInRange.size - 1
+
+                    HymnListItem(
+                        hymn,
+                        modifier = Modifier.padding(bottom = if(isLastInRange) 24.dp else 0.dp),
+                        onToggleFavorite = onToggleFavorite,
+                        onNavigate = onNavigate
+                    )
                 }
             }
 
-            // Hymns in range
-            items(
-                items = hymnsInRange
-            ) { hymn ->
-                HymnListItem(hymn, onToggleFavorite, onNavigate)
+            item(key = "bottom_spacer", contentType = "spacer") {
+                Spacer(modifier = Modifier.size(120.dp))
             }
         }
 
-        item {
-            Spacer(modifier = Modifier.size(120.dp))
+        // Pinned header overlay
+        val currentPinnedRange by remember(hymnsByRange) {
+            derivedStateOf {
+                val visibleIndex = listState.firstVisibleItemIndex
+                // Find the header index that is closest to, but not greater than, the visible index
+                val activeSection = sectionIndices.entries
+                    .filter { it.value <= visibleIndex }
+                    .maxByOrNull { it.value }
+
+                activeSection?.key
+            }
+        }
+
+        // Only show the overlay if we've scrolled past the very top padding
+        if (currentPinnedRange != null && listState.firstVisibleItemIndex > 0) {
+            Header(
+                title = currentPinnedRange!!,
+                headerIndex = 0,
+                listState = listState,
+                isPinned = true
+            )
         }
     }
 }
